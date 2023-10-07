@@ -12,7 +12,7 @@ const ReactUIWalletModalProviderDynamic = dynamic(
   { ssr: false }
 );
 
-export const SolanaContext: FC<{ children: ReactNode }> = ({ children }) => {
+export const SolanaProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const endpoint = process.env.NEXT_PUBLIC_RPC_URL;
 
   const wallets = useMemo(() => [], []);

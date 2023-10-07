@@ -2,21 +2,27 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
-import { SolanaContext } from "@/contexts/SolanaContext";
+import { SolanaProvider } from "@/contexts/SolanaProvider";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { Toaster } from "react-hot-toast";
+import theme from "@/styles/theme";
+import MagicProvider from "@/contexts/MagicProvider";
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SolanaContext>
+    <SolanaProvider>
       <WalletModalProvider>
-        <ChakraProvider>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </ChakraProvider>
+        <MagicProvider>
+          <ChakraProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>
+              <Component {...pageProps} />
+              <Toaster />
+            </QueryClientProvider>
+          </ChakraProvider>
+        </MagicProvider>
       </WalletModalProvider>
-    </SolanaContext>
+    </SolanaProvider>
   );
 }
