@@ -37,7 +37,6 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_MAGIC_API_KEY) {
       const pk = process.env.NEXT_PUBLIC_MAGIC_API_KEY;
-      console.log("magic pk: ", pk);
       const magic = new MagicBase(pk, {
         extensions: [
           new AuthExtension(),

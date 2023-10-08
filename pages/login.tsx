@@ -8,7 +8,7 @@ import {
   Spinner,
   Input,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 import { RPCError, RPCErrorCode } from "magic-sdk";
 import { useMagic } from "@/contexts/MagicProvider";
@@ -16,6 +16,7 @@ import theme from "@/styles/theme";
 import userStore from "@/stores/userStore";
 import toast from "react-hot-toast";
 import { WalletMultiButton } from "@/components/WalletMultiButton";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 function LoginPage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -25,7 +26,25 @@ function LoginPage() {
   const [emailError, setEmailError] = useState(false);
   const [isLoginInProgress, setLoginInProgress] = useState(false);
 
+  const { connection } = useConnection();
+  const { publicKey, signTransaction, signAllTransactions } = useWallet();
+
   const { username } = userStore();
+
+  useEffect(() => {
+    if (connection && publicKey) {
+      console.log("public key: ", publicKey);
+      console.log("signTransaction: ", signTransaction);
+      console.log("signAllTransactions: ", signAllTransactions);
+
+      userStore.setState({
+        loggedIn: true,
+        loginType: "EMAIL",
+        username: publicKey.toString(),
+        solana_wallet_address: publicKey.toString(),
+      });
+    }
+  }, [connection, publicKey, signAllTransactions, signTransaction]);
 
   const handleLogin = async () => {
     if (isLoginModalOpen) {

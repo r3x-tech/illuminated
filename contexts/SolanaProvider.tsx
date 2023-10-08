@@ -18,11 +18,7 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 export const SolanaProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const endpoint = process.env.NEXT_PUBLIC_RPC_URL;
 
-  console.log("endpoint: ", endpoint);
-
   const wallets = useMemo(() => [], []);
-
-  console.log("wallets: ", wallets);
 
   const onError = useCallback((error: WalletError) => {
     console.error("Wallet error: " + error);
