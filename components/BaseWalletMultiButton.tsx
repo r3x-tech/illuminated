@@ -11,6 +11,7 @@ import React, {
 
 import { useWalletMultiButton } from "@solana/wallet-adapter-base-ui";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import theme from "@/styles/theme";
 
 export type ButtonProps = PropsWithChildren<{
   className?: string;
@@ -38,21 +39,25 @@ const baseButtonStyle: CSSProperties = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  border: "2px solid white",
+  borderColor: `${theme.colors.lightBlue}`,
+  borderWidth: "2px",
   borderRadius: "2px",
-  color: "white",
+  color: `${theme.colors.lightBlue}`,
   width: "100%",
   padding: "0.5rem",
   fontSize: "0.75rem",
-  fontWeight: 700,
+  fontWeight: 600,
   cursor: "pointer",
-  background: "transparent",
+  backgroundColor: "transparent",
 };
 
 const hoverButtonStyle: CSSProperties = {
   ...baseButtonStyle,
-  backgroundColor: "white",
-  color: "black",
+  backgroundColor: `${theme.colors.lightBlue}`,
+  borderColor: `${theme.colors.lightBlue}`,
+  borderWidth: "2px",
+  borderRadius: "2px",
+  color: `${theme.colors.background}`,
 };
 
 export default function BaseWalletMultiButton({

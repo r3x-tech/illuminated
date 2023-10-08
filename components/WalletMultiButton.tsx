@@ -23,8 +23,8 @@ const LABELS = {
   "copy-address": "COPY ADDRESS",
   copied: "COPIED",
   disconnect: "DISCONNECT",
-  "has-wallet": "SOLANA",
-  "no-wallet": "SOLANA",
+  "has-wallet": "LOGIN W/ SOLANA",
+  "no-wallet": "LOGIN W/ SOLANA",
 } as const;
 
 export function WalletMultiButton(props: ButtonProps) {

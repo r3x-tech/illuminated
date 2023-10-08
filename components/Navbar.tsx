@@ -10,6 +10,7 @@ import {
   Image,
   Box,
   Tooltip,
+  Heading,
 } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
@@ -77,16 +78,13 @@ export const Navbar: React.FC = () => {
       alignItems="center"
       padding="1rem"
       outline="none"
+      bg={theme.colors.background}
+      color={theme.colors.lightBlue}
+      h="8vh"
     >
-      <Text
-        fontSize="1.5rem"
-        fontFamily="Montserrat"
-        fontWeight="900"
-        // fontStyle="italic"
-        letterSpacing="4px"
-      >
+      <Heading fontSize="1.5rem" fontWeight="600" letterSpacing="4px">
         LIBERTÉ
-      </Text>
+      </Heading>
       {loggedIn ? (
         <Popover placement="bottom-start">
           <PopoverTrigger>
