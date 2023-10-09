@@ -218,32 +218,40 @@ function LoginPage() {
                       </Flex> */}
 
               <Flex flexDirection="column">
-                <Input
-                  bg={theme.colors.input}
-                  w="100%"
-                  mb="1rem"
-                  borderRadius="2px"
-                  border={theme.colors.input}
-                  fontWeight="500"
-                  fontSize="0.7rem"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.lightBlue}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  isDisabled={isLoginInProgress || username.length > 0}
-                  onChange={(e) => {
-                    if (emailError) setEmailError(false);
-                    setEmail(e.target.value);
-                  }}
-                  placeholder={"EMAIL ADDRESS"}
-                  value={email}
-                  isInvalid={emailError}
-                  errorBorderColor="red.300"
-                />
+                <Flex flexDirection="column" mb="1rem">
+                  <Input
+                    bg={theme.colors.input}
+                    w="100%"
+                    borderRadius="2px"
+                    border={theme.colors.input}
+                    fontWeight="500"
+                    fontSize="0.7rem"
+                    letterSpacing="1px"
+                    color={theme.colors.lightBlue}
+                    focusBorderColor={theme.colors.lightBlue}
+                    _placeholder={{ color: theme.colors.evenLighterBlue }}
+                    isDisabled={isLoginInProgress || username.length > 0}
+                    onChange={(e) => {
+                      if (emailError) setEmailError(false);
+                      setEmail(e.target.value);
+                    }}
+                    placeholder={"EMAIL ADDRESS"}
+                    value={email}
+                    isInvalid={emailError}
+                    errorBorderColor={theme.red[700]}
+                    // _focus={{ boxShadow: "none" }}
+                  />
 
-                {emailError && (
-                  <span className="error">Enter a valid email</span>
-                )}
+                  {emailError && (
+                    <Text
+                      className="error"
+                      color={theme.red[700]}
+                      fontSize="0.75rem"
+                    >
+                      Please enter a valid email
+                    </Text>
+                  )}
+                </Flex>
 
                 <Button
                   bg={theme.colors.lightBlue}
