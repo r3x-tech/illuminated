@@ -40,12 +40,14 @@ function LoginPage() {
 
   useEffect(() => {
     if (connection && publicKey && !loggedIn) {
+      setLoginInProgress(true);
       userStore.setState({
         loggedIn: true,
         loginType: "SOLANA",
         username: publicKey.toString(),
         solana_wallet_address: publicKey.toString(),
       });
+      setLoginInProgress(false);
     }
   }, [
     connection,
@@ -57,6 +59,7 @@ function LoginPage() {
   ]);
 
   const handleLogin = async () => {
+    setLoginInProgress(true);
     if (!loggedIn) {
       if (
         !email.match(
@@ -67,7 +70,6 @@ function LoginPage() {
         setEmailError(true);
       } else {
         try {
-          setLoginInProgress(true);
           setEmailError(false);
           console.log("magic: ", magic);
 
@@ -239,7 +241,7 @@ function LoginPage() {
                     value={email}
                     isInvalid={emailError}
                     errorBorderColor={theme.red[700]}
-                    // _focus={{ boxShadow: "none" }}
+                    _focus={{ boxShadow: "none" }}
                   />
 
                   {emailError && (
