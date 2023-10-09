@@ -1,3 +1,5 @@
+import { CreateGameModal } from "@/components/CreateGameModal";
+import { CreateModuleModal } from "@/components/CreateModuleModal";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
@@ -75,46 +77,8 @@ function CreatePage() {
                 mb="2rem"
                 gap="1rem"
               >
-                <Button
-                  onClick={() => {}}
-                  variant="outline"
-                  borderColor={theme.colors.lightBlue}
-                  border="2px solid"
-                  borderRadius="2px"
-                  color={theme.colors.lightBlue}
-                  w="100%"
-                  h="3rem"
-                  fontSize="1rem"
-                  fontWeight="700"
-                  fontFamily={theme.fonts.heading}
-                  _hover={{
-                    color: theme.colors.background,
-                    backgroundColor: theme.colors.lightBlue,
-                    borderColor: theme.colors.lightBlue,
-                  }}
-                >
-                  NEW GAME +
-                </Button>
-                <Button
-                  onClick={() => {}}
-                  variant="outline"
-                  borderColor={theme.colors.lightBlue}
-                  border="2px solid"
-                  borderRadius="2px"
-                  color={theme.colors.lightBlue}
-                  w="100%"
-                  h="3rem"
-                  fontSize="1rem"
-                  fontWeight="700"
-                  fontFamily={theme.fonts.heading}
-                  _hover={{
-                    color: theme.colors.background,
-                    backgroundColor: theme.colors.lightBlue,
-                    borderColor: theme.colors.lightBlue,
-                  }}
-                >
-                  NEW MODULE +
-                </Button>
+                <CreateGameModal />
+                <CreateModuleModal />
               </Flex>
               <Flex direction="column">
                 <Text

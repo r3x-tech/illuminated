@@ -135,7 +135,7 @@ export const Navbar: React.FC = () => {
               <Button
                 bg={theme.colors.background}
                 py="0.5rem"
-                h="2rem"
+                h="2.5rem"
                 px="2rem"
                 cursor="pointer"
                 borderColor={theme.colors.ligherBlue}
@@ -226,7 +226,7 @@ export const Navbar: React.FC = () => {
                     fontSize="0.75rem"
                     w="100%"
                     mb="0.5rem"
-                    h="2rem"
+                    h="2.5rem"
                     isDisabled={isLogoutInProgress}
                     isLoading={isLogoutInProgress}
                     spinner={
