@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
       color={theme.colors.lightBlue}
       h="8vh"
       borderBottomWidth="2px"
-      borderTopWidth="2px"
+      // borderTopWidth="2px"
     >
       <Flex
         borderRightWidth="2px"
