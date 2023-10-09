@@ -1,3 +1,4 @@
+import theme from "@/styles/theme";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -12,7 +13,7 @@ export default function Document() {
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400&display=swap"
         rel="stylesheet"
       />
-      <body>
+      <body style={{ backgroundColor: theme.colors.background }}>
         <Main />
         <NextScript />
       </body>
