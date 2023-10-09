@@ -24,7 +24,7 @@ function PlayPage() {
               direction="column"
               p="1rem"
               h="100%"
-              w="16.99%"
+              w="17%"
               borderRightWidth="2px"
             >
               <Flex justifyContent="space-between">
@@ -46,13 +46,7 @@ function PlayPage() {
                 {/* Add sort dropdown or button here */}
               </Flex>
             </Flex>
-            <Flex
-              direction="column"
-              p="2rem"
-              h="100%"
-              w="83.01%"
-              overflowY="auto"
-            >
+            <Flex direction="column" p="2rem" h="100%" w="83%" overflowY="auto">
               <Flex direction="column">
                 <Text
                   fontSize="1rem"

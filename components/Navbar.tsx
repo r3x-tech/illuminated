@@ -27,10 +27,18 @@ import { useState } from "react";
 export const Navbar: React.FC = () => {
   const { loggedIn, loginType, solana_wallet_address } = userStore();
   const router = useRouter();
+  const { pathname } = useRouter();
   const theme = useTheme();
   const { magic } = useMagic();
   const { publicKey, disconnect } = useWallet();
   const [isLogoutInProgress, setLogoutInProgress] = useState(false);
+
+  const getTextColor = (route: string) => {
+    if (pathname.includes(route)) {
+      return theme.colors.lighterBlue;
+    }
+    return theme.colors.evenLighterBlue;
+  };
 
   const handleCopyClick = async () => {
     try {
@@ -61,7 +69,7 @@ export const Navbar: React.FC = () => {
     >
       <Flex
         borderRightWidth="2px"
-        w="20%"
+        w="17%"
         h="100%"
         justifyContent="center"
         align="center"
@@ -73,7 +81,49 @@ export const Navbar: React.FC = () => {
       </Flex>
 
       <Flex
-        w="100%"
+        w="70%"
+        h="100%"
+        justifyContent="start"
+        align="center"
+        py="1rem"
+        px="2rem"
+        gap="3rem"
+      >
+        <Text
+          cursor="pointer"
+          fontSize="1rem"
+          fontWeight="600"
+          fontFamily={theme.fonts.heading}
+          color={getTextColor("/play")}
+          onClick={() => router.push("/play")}
+        >
+          PLAY
+        </Text>
+        <Text
+          cursor="pointer"
+          fontSize="1rem"
+          fontWeight="600"
+          fontFamily={theme.fonts.heading}
+          color={getTextColor("/create")}
+          onClick={() => router.push("/create")}
+        >
+          CREATE
+        </Text>
+        {/* <Text
+          cursor="pointer"
+          fontSize="1rem"
+          fontWeight="600"
+          fontFamily={theme.fonts.heading}
+          color={getTextColor("/network")}
+          onClick={() => {}}
+
+        >
+          THE NETWORK
+        </Text> */}
+      </Flex>
+
+      <Flex
+        w="13%"
         h="100%"
         justifyContent="flex-end"
         align="center"
@@ -181,7 +231,7 @@ export const Navbar: React.FC = () => {
                     isLoading={isLogoutInProgress}
                     spinner={
                       <Flex flexDirection="row" align="center">
-                        <Spinner color={theme.colors.background} size="sm" />
+                        <Spinner color={theme.colors.lightBlue} size="sm" />
                       </Flex>
                     }
                     onClick={async () => {

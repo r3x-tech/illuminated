@@ -142,7 +142,7 @@ function LoginPage() {
           // borderRadius="2px"
         >
           {!isLoginInProgress && !connecting ? (
-            <Stack spacing={4} w="100%">
+            <Stack spacing={5} w="100%">
               {/* <Flex
                     flexDirection="row"
                     w="100%"
@@ -217,7 +217,7 @@ function LoginPage() {
                         </Button>
                       </Flex> */}
 
-              <Flex flexDirection="column" mt="1rem">
+              <Flex flexDirection="column">
                 <Input
                   bg={theme.colors.input}
                   w="100%"
@@ -288,7 +288,7 @@ function LoginPage() {
               align="center"
               justifyContent="center"
               color={theme.colors.lightBlue}
-              my="4.4rem"
+              my="4.58rem"
             >
               <Spinner size="sm" />
               <Text mt={3} fontSize="0.75rem" fontWeight="500">
