@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     if (loggedIn && solana_wallet_address.trim() != "") {
       router.push("/play");
-      toast.success("Logged in!");
+      toast.success("Logged in");
     }
   }, [loggedIn, router, solana_wallet_address]);
 

@@ -141,7 +141,7 @@ function LoginPage() {
           // border="2px solid white"
           // borderRadius="2px"
         >
-          {!isLoginInProgress || !connecting ? (
+          {!isLoginInProgress && !connecting ? (
             <Stack spacing={4} w="100%">
               {/* <Flex
                     flexDirection="row"
@@ -227,9 +227,9 @@ function LoginPage() {
                   fontWeight="500"
                   fontSize="0.7rem"
                   letterSpacing="1px"
-                  color={theme.colors.white}
+                  color={theme.colors.lightBlue}
                   focusBorderColor={theme.colors.lightBlue}
-                  _placeholder={{ color: theme.colors.darkerGray }}
+                  _placeholder={{ color: theme.colors.evenLighterBlue }}
                   isDisabled={isLoginInProgress || username.length > 0}
                   onChange={(e) => {
                     if (emailError) setEmailError(false);
@@ -290,9 +290,10 @@ function LoginPage() {
               color={theme.colors.lightBlue}
               my="4.4rem"
             >
-              <Spinner />
-
-              <Text mt={3}>LOGGING IN</Text>
+              <Spinner size="sm" />
+              <Text mt={3} fontSize="0.75rem" fontWeight="500">
+                LOGGING IN
+              </Text>
             </Flex>
           )}
         </Flex>

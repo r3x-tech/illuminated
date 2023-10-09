@@ -1,4 +1,3 @@
-import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
@@ -13,7 +12,7 @@ function PlayPage() {
         <Box minHeight="100vh">
           <Navbar />
           <Flex
-            h="85vh"
+            h="92vh"
             w="100vw"
             bg={theme.colors.background}
             color={theme.colors.lightBlue}
@@ -23,13 +22,12 @@ function PlayPage() {
           >
             <Text>PLAY PAGE</Text>
           </Flex>
-          <Footer />
         </Box>
       ) : (
         <Box minHeight="100vh">
           <Navbar />
           <Flex
-            h="85vh"
+            h="92vh"
             w="100vw"
             bg={theme.colors.background}
             color={theme.colors.lightBlue}
@@ -41,7 +39,6 @@ function PlayPage() {
               <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
             </Grid>
           </Flex>
-          <Footer />
         </Box>
       )}
     </>

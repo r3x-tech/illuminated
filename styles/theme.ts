@@ -15,6 +15,7 @@ const theme = extendTheme({
     // input: "#1B1B1F",
     background: "#14151F",
     lightBlue: "#BCD7EF",
+    evenLighterBlue: "#414763",
   },
   fonts: {
     body: "Montserrat, sans-serif",
