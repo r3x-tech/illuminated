@@ -11,36 +11,26 @@ import {
   Box,
   Tooltip,
   Heading,
+  Spinner,
 } from "@chakra-ui/react";
-
+// import { useConnection } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
+// import { useEffect } from "react";
 import userStore from "@/stores/userStore";
 import toast from "react-hot-toast";
 import { useMagic } from "../contexts/MagicProvider";
 // import { useState } from "react";
 import { FaCopy } from "react-icons/fa";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
 
 export const Navbar: React.FC = () => {
-  const {
-    loggedIn,
-    // username,
-    loginType,
-    solana_wallet_address,
-    userProfilePic,
-  } = userStore();
+  const { loggedIn, loginType, solana_wallet_address } = userStore();
   const router = useRouter();
   const theme = useTheme();
   const { magic } = useMagic();
-
-  //   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const handleWalletLogout = async () => {
-    try {
-      return;
-    } catch (err) {
-      console.error("Failed to logout: ", err);
-    }
-  };
+  const { publicKey, disconnect } = useWallet();
+  const [isLogoutInProgress, setLogoutInProgress] = useState(false);
 
   const handleCopyClick = async () => {
     try {
@@ -59,174 +49,207 @@ export const Navbar: React.FC = () => {
     return `${name.substring(0, 2)}...${name.substring(name.length - 4)}`;
   };
 
-  //   useEffect(() => {
-  //     if (isAuthenticated && user && !loggedIn && username.trim() == "") {
-  //       userStore.setState({
-  //         loggedIn: true,
-  //         loginType: "WALLET",
-  //         username: user.verifiedCredentials[0].address,
-  //         solana_wallet_address: user.verifiedCredentials[0].address,
-  //       });
-  //       setIsLoginModalOpen(false);
-  //       toast.success("Logged in");
-  //     }
-  //   }, [isAuthenticated, loggedIn, user, username]);
-
   return (
     <Flex
       justifyContent="space-between"
       alignItems="center"
-      padding="1rem"
-      outline="none"
       bg={theme.colors.background}
       color={theme.colors.lightBlue}
       h="8vh"
+      borderBottomWidth="2px"
     >
-      <Heading fontSize="1.5rem" fontWeight="600" letterSpacing="4px">
-        LIBERTÉ
-      </Heading>
-      {loggedIn ? (
-        <Popover placement="bottom-start">
-          <PopoverTrigger>
-            <Box></Box>
-          </PopoverTrigger>
+      <Flex
+        borderRightWidth="2px"
+        w="14rem"
+        h="100%"
+        justifyContent="center"
+        align="center"
+        p="1rem"
+      >
+        <Heading fontSize="1.5rem" fontWeight="600" letterSpacing="4px">
+          LIBERTÉ
+        </Heading>
+      </Flex>
 
-          <PopoverContent
-            bg={theme.colors.black}
-            color={theme.colors.white}
-            borderColor={theme.colors.white}
-            borderRadius="0px"
-            borderWidth="2px"
-            minW="10rem"
-            w="15rem"
-            outline="none"
-            zIndex={100}
-            boxShadow="1px 1px 20px black"
-          >
-            <VStack spacing={4} padding="1rem" align="flex-start">
-              <Flex direction="column" align="flex-start">
-                <Flex m="0.75rem" align="center">
-                  <Box>
-                    <Image
-                      src={userProfilePic}
-                      alt="User Profile Pic"
-                      boxSize="3rem"
-                      mr="1rem"
-                      cursor="pointer"
-                      onClick={() => {
-                        router.push("/account");
-                      }}
-                    />
-                  </Box>
-                  <Tooltip
-                    label="Address"
-                    aria-label="Address"
-                    bg="black"
-                    border="1px solid white"
-                  >
-                    <Text color="white">
-                      {formatUsername(solana_wallet_address)}
-                    </Text>
-                  </Tooltip>
+      <Flex
+        w="100%"
+        h="100%"
+        justifyContent="flex-end"
+        align="center"
+        pr="0.75rem"
+      >
+        {loggedIn ? (
+          <Popover placement="bottom-end">
+            <PopoverTrigger>
+              <Button
+                bg={theme.colors.background}
+                py="0.5rem"
+                h="2rem"
+                px="2rem"
+                cursor="pointer"
+                borderColor={theme.colors.ligherBlue}
+                borderWidth="2px"
+                borderRadius="2px"
+                color={theme.colors.ligherBlue}
+                fontSize="0.75rem"
+                letterSpacing="1px"
+                fontWeight="600"
+                _hover={{
+                  color: theme.colors.background,
+                  borderColor: theme.colors.lightBlue,
+                  bg: theme.colors.lightBlue,
+                }}
+              >
+                {formatUsername(solana_wallet_address)}
+              </Button>
+            </PopoverTrigger>
 
-                  <Tooltip
-                    label="Copy"
-                    aria-label="Copy"
-                    bg="black"
-                    border="1px solid white"
-                  >
-                    <Flex
-                      color="white"
-                      _hover={{ color: "rgba(255, 255, 255, 0.8)" }}
+            <PopoverContent
+              bg={theme.colors.background}
+              color={theme.colors.lightBlue}
+              borderColor={theme.colors.lightBlue}
+              borderRadius="2px"
+              borderWidth="2px"
+              minW="10rem"
+              w="15rem"
+              outline="none"
+              zIndex={100}
+              boxShadow="1px 1px 20px black"
+            >
+              <VStack spacing={4} p="1rem">
+                <Flex direction="column">
+                  <Flex align="center" justifyContent="flex-start" pb="1.25rem">
+                    <Box>
+                      <Tooltip
+                        label="Account"
+                        aria-label="Account"
+                        bg={theme.colors.black}
+                      >
+                        <Image
+                          src="/profilePic.png"
+                          alt="User Profile Pic"
+                          boxSize="3rem"
+                          ml="-0.25rem"
+                          mr="1rem"
+                          cursor="pointer"
+                          onClick={() => {
+                            // router.push("/account");
+                          }}
+                        />
+                      </Tooltip>
+                    </Box>
+                    <Tooltip
+                      label="Address"
+                      aria-label="Address"
+                      bg={theme.colors.black}
                     >
-                      <FaCopy
-                        style={{ marginLeft: "10px", cursor: "pointer" }}
-                        onClick={handleCopyClick}
-                      />
-                    </Flex>
-                  </Tooltip>
-                </Flex>
+                      <Text color={theme.colors.lightBlue}>
+                        {formatUsername(solana_wallet_address)}
+                      </Text>
+                    </Tooltip>
 
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    router.push("/mymachines");
-                  }}
-                  _hover={{ color: "rgba(255, 255, 255, 0.8)" }}
-                >
-                  My Racks
-                </Button>
-                {/* <Button
-                                  variant="ghost"
-                                  onClick={() => {
-                                    router.push("/settings");
-                                  }}
-                                  _hover={{ color: "rgba(255, 255, 255, 0.8)" }}
-                                >
-                                  Settings
-                                </Button> */}
-                <Button
-                  as="a"
-                  href="https://www.r3x.tech/contact"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="ghost"
-                  _hover={{ color: "rgba(255, 255, 255, 0.8)" }}
-                >
-                  Need Help?
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={async () => {
-                    try {
-                      if (loggedIn && loginType == "SOLANA") {
-                        await handleWalletLogout();
-                      }
-                      if ((await magic?.user.isLoggedIn()) && magic) {
-                        await magic?.user.logout();
-                      }
-                      userStore.setState({
-                        loggedIn: false,
-                        loginType: "",
-                        username: "",
-                        solana_wallet_address: "",
-                      });
-                      router.push("/");
-                      toast.success("Logged out");
-                    } catch (e) {
-                      toast.error("Failed to logout");
+                    <Tooltip
+                      label="Copy"
+                      aria-label="Copy"
+                      bg={theme.colors.black}
+                    >
+                      <Flex color={theme.colors.lightBlue}>
+                        <FaCopy
+                          style={{
+                            marginLeft: "10px",
+                            cursor: "pointer",
+                            color: theme,
+                          }}
+                          onClick={handleCopyClick}
+                        />
+                      </Flex>
+                    </Tooltip>
+                  </Flex>
+                  <Button
+                    variant="outline"
+                    borderWidth="2px"
+                    borderColor={theme.colors.lightBlue}
+                    bg={theme.colors.background}
+                    borderRadius="2px"
+                    fontWeight="600"
+                    fontSize="0.75rem"
+                    w="100%"
+                    mb="0.5rem"
+                    h="2rem"
+                    isDisabled={isLogoutInProgress}
+                    isLoading={isLogoutInProgress}
+                    spinner={
+                      <Flex flexDirection="row" align="center">
+                        <Spinner color={theme.colors.background} size="sm" />
+                      </Flex>
                     }
-                  }}
-                  _hover={{ color: "rgba(255, 255, 255, 0.8)" }}
-                >
-                  Logout
-                </Button>
-              </Flex>
-            </VStack>
-          </PopoverContent>
-        </Popover>
-      ) : (
-        <>
-          <Button
-            onClick={() => {}}
-            variant="outline"
-            borderColor={theme.colors.white}
-            border="2px solid white"
-            borderRadius="2px"
-            color={theme.colors.white}
-            fontSize="0.75rem"
-            letterSpacing="1px"
-            fontWeight="700"
-            _hover={{
-              color: theme.colors.black,
-              backgroundColor: theme.colors.white,
-              borderColor: theme.colors.white,
-            }}
-          >
-            LOGIN
-          </Button>
-        </>
-      )}
+                    onClick={async () => {
+                      setLogoutInProgress(true);
+                      try {
+                        if (loggedIn && loginType == "SOLANA" && publicKey) {
+                          await disconnect();
+                          new Promise((resolve) => setTimeout(resolve, 1500));
+                        }
+                        if (
+                          loggedIn &&
+                          loginType == "EMAIL" &&
+                          (await magic?.user.isLoggedIn()) &&
+                          magic
+                        ) {
+                          await magic?.user.logout();
+                        }
+                        userStore.setState({
+                          loggedIn: false,
+                          loginType: "",
+                          username: "",
+                          solana_wallet_address: "",
+                        });
+                        router.push("/");
+                        toast.success("Logged out");
+                      } catch (e) {
+                        toast.error("Failed to logout");
+                      }
+                      setLogoutInProgress(false);
+                    }}
+                    _hover={{
+                      color: theme.colors.background,
+                      borderColor: theme.colors.lightBlue,
+                      bg: theme.colors.lightBlue,
+                    }}
+                  >
+                    LOGOUT
+                  </Button>
+                </Flex>
+              </VStack>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <>
+            <Button
+              onClick={() => router.push("/")}
+              bg={theme.colors.background}
+              py="0.5rem"
+              h="2rem"
+              px="2rem"
+              cursor="pointer"
+              borderColor={theme.colors.ligherBlue}
+              borderWidth="2px"
+              borderRadius="2px"
+              color={theme.colors.ligherBlue}
+              fontSize="0.75rem"
+              letterSpacing="1px"
+              fontWeight="600"
+              _hover={{
+                color: theme.colors.background,
+                borderColor: theme.colors.lightBlue,
+                bg: theme.colors.lightBlue,
+              }}
+            >
+              LOGIN
+            </Button>
+          </>
+        )}
+      </Flex>
     </Flex>
   );
 };

@@ -11,15 +11,15 @@ const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MagicProvider>
-      <SolanaProvider>
+    <SolanaProvider>
+      <MagicProvider>
         <ChakraProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
             <Toaster />
           </QueryClientProvider>
         </ChakraProvider>
-      </SolanaProvider>
-    </MagicProvider>
+      </MagicProvider>
+    </SolanaProvider>
   );
 }

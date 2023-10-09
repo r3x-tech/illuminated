@@ -1,37 +1,50 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
-import { Box, Text, Grid } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import theme from "@/styles/theme";
+import { Box, Text, Grid, Flex } from "@chakra-ui/react";
 
 function CreatePage() {
-  const router = useRouter();
-  const { loggedIn, solana_wallet_address } = userStore();
+  const { loggedIn } = userStore();
 
-  useEffect(() => {
-    if (!loggedIn || solana_wallet_address.trim() == "") {
-      router.push("/");
-    }
-  }, [loggedIn, router, solana_wallet_address]);
   return (
-    <Box minHeight="100vh" bg="black" color="white" fontFamily="Montserrat">
-      <Navbar />
-      <Box
-        h="85vh"
-        w="100vw"
-        bg="black"
-        color="white"
-        fontFamily="Montserrat"
-        justifyContent="center"
-      >
-        <Grid>
-          <Text>Create Page</Text>
-          {/* Add other components based on the image reference */}
-        </Grid>
-      </Box>
-      <Footer />
-    </Box>
+    <>
+      {loggedIn ? (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="85vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Text>CREATE PAGE</Text>
+          </Flex>
+          <Footer />
+        </Box>
+      ) : (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="85vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Grid>
+              <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
+            </Grid>
+          </Flex>
+          <Footer />
+        </Box>
+      )}
+    </>
   );
 }
 

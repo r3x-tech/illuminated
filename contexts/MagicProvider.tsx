@@ -30,9 +30,7 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
   const [magic, setMagic] = useState<Magic | null>(null);
   const [connection, setConnection] = useState<Connection | null>(null);
 
-  const rpcURL = process.env.NEXT_PUBLIC_RPC_URL
-    ? process.env.NEXT_PUBLIC_RPC_URL
-    : "https://solana-mainnet.g.alchemy.com/v2/9nCoa06gjvDwYyTdV5ruBp2Qe4_wZnaO";
+  const rpcURL = process.env.NEXT_PUBLIC_RPC_URL;
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_MAGIC_API_KEY) {
@@ -42,11 +40,11 @@ const MagicProvider = ({ children }: { children: ReactNode }) => {
           new AuthExtension(),
           new OAuthExtension(),
           new SolanaExtension({
-            rpcUrl: rpcURL,
+            rpcUrl: rpcURL!,
           }),
         ],
       });
-      const connection = new Connection(rpcURL);
+      const connection = new Connection(rpcURL!);
       setMagic(magic);
       setConnection(connection);
     }

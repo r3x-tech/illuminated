@@ -2,39 +2,49 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
-import { Box, Grid, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { Box, Flex, Grid, Text } from "@chakra-ui/react";
 
 function PlayPage() {
-  const router = useRouter();
-  const { loggedIn, solana_wallet_address } = userStore();
-
-  useEffect(() => {
-    if (!loggedIn || solana_wallet_address.trim() == "") {
-      router.push("/");
-    }
-  }, [loggedIn, router, solana_wallet_address]);
+  const { loggedIn } = userStore();
 
   return (
-    <Box minHeight="100vh" bg="black" color="white" fontFamily="Montserrat">
-      <Navbar />
-      <Box
-        h="85vh"
-        w="100vw"
-        bg={theme.colors.background}
-        color={theme.colors.lightBlue}
-        fontFamily="Montserrat"
-        justifyContent="center"
-      >
-        <Grid>
-          <Text>Play Page</Text>
-
-          {/* Add other components based on the image reference */}
-        </Grid>
-      </Box>
-      <Footer />
-    </Box>
+    <>
+      {loggedIn ? (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="85vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Text>PLAY PAGE</Text>
+          </Flex>
+          <Footer />
+        </Box>
+      ) : (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="85vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Grid>
+              <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
+            </Grid>
+          </Flex>
+          <Footer />
+        </Box>
+      )}
+    </>
   );
 }
 
