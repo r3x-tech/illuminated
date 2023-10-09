@@ -39,14 +39,17 @@ function CreatePage() {
                   h="2rem"
                   fontSize="0.75rem"
                   bg={theme.colors.input}
+                  borderWidth="2px"
                   borderRadius="2px"
-                  border={theme.colors.input}
+                  borderColor={theme.colors.input}
                   fontWeight="500"
                   letterSpacing="1px"
                   color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.lightBlue}
+                  focusBorderColor={theme.colors.input}
                   _placeholder={{ color: theme.colors.evenLighterBlue }}
+                  _focus={{ boxShadow: "none" }}
                 />
+
                 {/* <Flex justifyContent="space-between" mt="1rem">
                   <Text fontSize="0.75rem" cursor="pointer">
                     FILTER
@@ -73,14 +76,17 @@ function CreatePage() {
                 gap="1rem"
               >
                 <Button
+                  onClick={() => {}}
                   variant="outline"
                   borderColor={theme.colors.lightBlue}
                   border="2px solid"
                   borderRadius="2px"
                   color={theme.colors.lightBlue}
-                  width="100%"
-                  fontSize="0.75rem"
+                  w="100%"
+                  h="3rem"
+                  fontSize="1rem"
                   fontWeight="700"
+                  fontFamily={theme.fonts.heading}
                   _hover={{
                     color: theme.colors.background,
                     backgroundColor: theme.colors.lightBlue,
@@ -90,14 +96,17 @@ function CreatePage() {
                   NEW GAME +
                 </Button>
                 <Button
+                  onClick={() => {}}
                   variant="outline"
                   borderColor={theme.colors.lightBlue}
                   border="2px solid"
                   borderRadius="2px"
                   color={theme.colors.lightBlue}
-                  width="100%"
-                  fontSize="0.75rem"
+                  w="100%"
+                  h="3rem"
+                  fontSize="1rem"
                   fontWeight="700"
+                  fontFamily={theme.fonts.heading}
                   _hover={{
                     color: theme.colors.background,
                     backgroundColor: theme.colors.lightBlue,
