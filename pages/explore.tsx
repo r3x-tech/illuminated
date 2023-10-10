@@ -3,7 +3,7 @@ import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
 import { Box, Image, Flex, Grid, Input, Text, Button } from "@chakra-ui/react";
 
-function PlayPage() {
+function ExplorePage() {
   const { loggedIn } = userStore();
 
   return (
@@ -33,7 +33,7 @@ function PlayPage() {
                 mt="0.75rem"
               >
                 <Input
-                  placeholder="SEARCH MY GAMES"
+                  placeholder="SEARCH GAMES"
                   w="100%"
                   h="2rem"
                   fontSize="0.75rem"
@@ -74,7 +74,7 @@ function PlayPage() {
                   fontFamily={theme.fonts.heading}
                   color={theme.colors.lightBlue}
                 >
-                  MY GAMES
+                  EXPLORE
                 </Text>
                 <Grid templateColumns="repeat(6, 1fr)" gap={8} mt="1rem">
                   <Box w="10rem" h="100%">
@@ -98,8 +98,56 @@ function PlayPage() {
                       PLAY
                     </Button>
                   </Box>
+                  <Box w="10rem" h="100%">
+                    <Image
+                      src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
+                      alt="Game"
+                      borderRadius="2px"
+                      h="10rem"
+                      w="10rem"
+                    />
+                    <Button
+                      w="100%"
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      mt="1rem"
+                      fontFamily={theme.fonts.heading}
+                    >
+                      PURCHASE
+                    </Button>
+                  </Box>
                 </Grid>
               </Flex>
+              {/* <Flex direction="column" mt="3rem">
+                <Text
+                  fontSize="1rem"
+                  fontWeight="600"
+                  fontFamily={theme.fonts.heading}
+                  color={theme.colors.lightBlue}
+                >
+                  TRENDING
+                </Text>
+                <Grid templateColumns="repeat(6, 1fr)" gap="1rem" mt="1rem">
+                  <Box w="10rem" h="100%">
+                    <Image
+                      src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
+                      alt="Game"
+                      borderRadius="2px"
+                                            h="10rem"
+                      w="10rem"
+                    />
+                    <Button
+                      w="100%"
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      mt="1rem"
+                      fontFamily={theme.fonts.heading}
+                    >
+                      PURCHASE
+                    </Button>
+                  </Box>
+                </Grid>
+              </Flex> */}
             </Flex>
           </Flex>
         </Box>
@@ -125,4 +173,4 @@ function PlayPage() {
   );
 }
 
-export default PlayPage;
+export default ExplorePage;

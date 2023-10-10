@@ -104,11 +104,22 @@ export const Navbar: React.FC = () => {
           fontSize="1rem"
           fontWeight="600"
           fontFamily={theme.fonts.heading}
+          color={getTextColor("/explore")}
+          onClick={() => router.push("/explore")}
+        >
+          EXPLORE
+        </Text>
+        <Text
+          cursor="pointer"
+          fontSize="1rem"
+          fontWeight="600"
+          fontFamily={theme.fonts.heading}
           color={getTextColor("/create")}
           onClick={() => router.push("/create")}
         >
           CREATE
         </Text>
+
         {/* <Text
           cursor="pointer"
           fontSize="1rem"

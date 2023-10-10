@@ -95,6 +95,8 @@ function CreatePage() {
                       src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
                       alt="Game"
                       borderRadius="2px"
+                      h="10rem"
+                      w="10rem"
                     />
                     <Button
                       w="100%"
