@@ -14,7 +14,7 @@ import { useMagic } from "@/contexts/MagicProvider";
 import theme from "@/styles/theme";
 import userStore from "@/stores/userStore";
 import toast from "react-hot-toast";
-import { WalletMultiButton } from "@/components/WalletMultiButton";
+import { WalletMultiButton } from "@/components/auth/WalletMultiButton";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
 

@@ -94,6 +94,10 @@ function PlayPage() {
                       borderColor={theme.colors.lightBlue}
                       color={theme.colors.background}
                       fontFamily={theme.fonts.heading}
+                      onClick={() => {
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                     >
                       PLAY
                     </Button>

@@ -2,9 +2,11 @@ import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
 import { Box, Image, Flex, Grid, Input, Text, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 function ExplorePage() {
   const { loggedIn } = userStore();
+  const router = useRouter();
 
   return (
     <>
@@ -94,6 +96,10 @@ function ExplorePage() {
                       borderColor={theme.colors.lightBlue}
                       color={theme.colors.background}
                       fontFamily={theme.fonts.heading}
+                      onClick={() => {
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                     >
                       PLAY
                     </Button>
@@ -107,6 +113,13 @@ function ExplorePage() {
                       w="10rem"
                     />
                     <Button
+                      onClick={() => {
+                        // const link =
+                        //   "https://magiceden.io/marketplace/solana_monkey_business";
+                        // window.open(link, "_blank");
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                       w="100%"
                       borderWidth="2px"
                       borderRadius="2px"

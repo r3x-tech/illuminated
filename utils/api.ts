@@ -10,7 +10,7 @@ export const createGame = async (game: []) => {
 
   if (!response.ok) {
     const errorMessage = await response.text();
-    throw new Error(`Failed to create game. Error: ${errorMessage}`);
+    console.error(`Failed to create game. Error: ${errorMessage}`);
   }
 
   return await response.json();
@@ -28,7 +28,7 @@ export const createModule = async (module: []) => {
 
   if (!response.ok) {
     const errorMessage = await response.text();
-    throw new Error(`Failed to create module. Error: ${errorMessage}`);
+    console.error(`Failed to create module. Error: ${errorMessage}`);
   }
 
   return await response.json();

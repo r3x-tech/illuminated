@@ -5,9 +5,11 @@ import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
 import { Box, Image, Text, Grid, Flex, Button, Input } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 function CreatePage() {
   const { loggedIn } = userStore();
+  const router = useRouter();
 
   return (
     <>
@@ -107,6 +109,10 @@ function CreatePage() {
                       borderColor={theme.colors.lightBlue}
                       color={theme.colors.background}
                       fontFamily={theme.fonts.heading}
+                      onClick={() => {
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                     >
                       PLAY
                     </Button>
