@@ -4,8 +4,8 @@ import userStore from "@/stores/userStore";
 import { Box } from "@chakra-ui/react";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
-import LoginPage from "./login";
 import toast from "react-hot-toast";
+import ExplorePage from "./explore";
 
 export default function Home() {
   const { loggedIn, solana_wallet_address } = userStore();
@@ -32,7 +32,7 @@ export default function Home() {
         color="white"
         fontFamily="Montserrat"
       >
-        <LoginPage />
+        <ExplorePage />
       </Box>
     </Box>
   );

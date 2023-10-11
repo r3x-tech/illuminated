@@ -6,7 +6,6 @@ import {
   Flex,
   Image,
   Text,
-  Grid,
   Icon,
   Card,
   Button,
@@ -92,283 +91,257 @@ const GamePage = () => {
 
   // Render the game data on the page
   return (
-    <>
-      {loggedIn ? (
-        <Box minHeight="100vh">
-          <Navbar />
-          <Flex
-            h="92vh"
-            w="100vw"
-            bg={theme.colors.background}
-            color={theme.colors.lightBlue}
-            fontFamily="Montserrat"
-            justifyContent="spacebetween"
-            align="center"
-          >
-            <Flex
-              direction="column"
-              p="2rem"
-              h="100%"
-              w="100%"
-              overflowY="auto"
-            >
-              <Flex flexDirection="row" w="100%" pt="1rem">
-                <Flex direction="column" w="5%" justifyContent="start">
-                  <Icon
-                    as={MdArrowBack}
-                    w="1.5rem"
-                    h="1.5rem"
-                    cursor="pointer"
-                    color="lightBlue"
-                    onClick={() => router.back()}
+    <Box minHeight="100vh">
+      <Navbar />
+      <Flex
+        h="92vh"
+        w="100vw"
+        bg={theme.colors.background}
+        color={theme.colors.lightBlue}
+        fontFamily="Montserrat"
+        justifyContent="spacebetween"
+        align="center"
+      >
+        <Flex direction="column" p="2rem" h="100%" w="100%" overflowY="auto">
+          <Flex flexDirection="row" w="100%" pt="1rem">
+            <Flex direction="column" w="5%" justifyContent="start">
+              <Icon
+                as={MdArrowBack}
+                w="1.5rem"
+                h="1.5rem"
+                cursor="pointer"
+                color="lightBlue"
+                onClick={() => router.back()}
+              />
+            </Flex>
+            <Flex direction="column" w="95%" justifyContent="start">
+              <Flex>
+                <Flex direction="column" w="50%">
+                  <Image
+                    src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
+                    alt="Game"
+                    h="40vh"
+                    borderRadius="2px"
                   />
                 </Flex>
-                <Flex direction="column" w="95%" justifyContent="start">
-                  <Flex>
-                    <Flex direction="column" w="50%">
-                      <Image
-                        src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
-                        alt="Game"
-                        h="40vh"
+                <Flex direction="column" w="50%" pl="3rem">
+                  <Flex
+                    flexDirection="row"
+                    w="100%"
+                    mb="1.5rem"
+                    justifyContent="space-between"
+                  >
+                    <Flex
+                      w="70%"
+                      h="100%"
+                      justifyContent="start"
+                      align="center"
+                      gap="1rem"
+                    >
+                      <Card
                         borderRadius="2px"
+                        borderWidth="2px"
+                        px="0.75rem"
+                        py="0.25rem"
+                        fontSize="0.75rem"
+                        fontWeight="800"
+                        color={theme.colors.background}
+                        borderColor={theme.colors.lightBlue}
+                        bg={theme.colors.lightBlue}
+                      >
+                        {gameData.tags[0]}
+                      </Card>
+                      <Card
+                        borderRadius="2px"
+                        borderWidth="2px"
+                        px="0.75rem"
+                        py="0.25rem"
+                        fontSize="0.75rem"
+                        fontWeight="800"
+                        color={theme.colors.background}
+                        borderColor={theme.colors.lightBlue}
+                        bg={theme.colors.lightBlue}
+                      >
+                        {gameData.tags[1]}
+                      </Card>
+                    </Flex>
+                  </Flex>
+                  <Flex w="100%" justifyContent="space-between">
+                    <Text
+                      w="70%"
+                      fontSize="1.75rem"
+                      fontWeight="600"
+                      fontFamily={theme.fonts.heading}
+                    >
+                      {gameData.title}
+                    </Text>
+                    <Flex
+                      w="30%"
+                      h="100%"
+                      justifyContent="space-between"
+                      align="center"
+                    >
+                      <Icon
+                        as={MdLanguage}
+                        color={theme.colors.lightBlue}
+                        fontSize="1.25rem"
+                        fontWeight="800"
+                        cursor="pointer"
+                        onClick={() => router.back()}
+                      />
+                      <Icon
+                        as={FaTwitter}
+                        color={theme.colors.lightBlue}
+                        fontSize="1.25rem"
+                        fontWeight="800"
+                        cursor="pointer"
+                        onClick={() => router.back()}
+                      />
+                      <Icon
+                        as={FaDiscord}
+                        color={theme.colors.lightBlue}
+                        fontSize="1.25rem"
+                        fontWeight="800"
+                        cursor="pointer"
+                        onClick={() => router.back()}
+                      />
+                      <Icon
+                        as={MdShare}
+                        color={theme.colors.lightBlue}
+                        fontSize="1.25rem"
+                        fontWeight="800"
+                        cursor="pointer"
+                        onClick={() => router.back()}
                       />
                     </Flex>
-                    <Flex direction="column" w="50%" pl="3rem">
+                  </Flex>
+
+                  <Flex w="100%" justifyContent="space-between">
+                    <Text
+                      fontWeight="400"
+                      fontFamily={theme.fonts.heading}
+                      fontSize="1rem"
+                      w="70%"
+                      my="0.5rem"
+                      ml="0.1rem"
+                    >
+                      By: {gameData.creator}
+                    </Text>
+                  </Flex>
+
+                  {/* <Flex my="1rem">
+              <Button
+                onClick={() => {}}
+                variant="outline"
+                backgroundColor={theme.colors.lightBlue}
+                borderColor={theme.colors.lightBlue}
+                border="2px solid"
+                borderRadius="2px"
+                color={theme.colors.background}
+                w="100%"
+                h="3rem"
+                fontSize="0.75rem"
+                fontWeight="700"
+              >
+                PURCHASE
+              </Button>
+            </Flex> */}
+
+                  <Text
+                    my="1rem"
+                    fontSize="0.85rem"
+                    fontFamily={theme.fonts.heading}
+                  >
+                    {gameData.description}
+                  </Text>
+                </Flex>
+              </Flex>
+              <Flex direction="row" w="100%" mt="3rem">
+                <VStack w="100%" gap="1.5rem">
+                  {gameModules.map((module) => (
+                    <Flex
+                      key={module.moduleId}
+                      w="100%"
+                      backgroundColor={theme.colors.background}
+                      borderColor={theme.colors.lightBlue}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      justifyContent="space-between"
+                      align="center"
+                      p="1rem"
+                    >
                       <Flex
-                        flexDirection="row"
+                        flexDirection="column"
+                        h="100%"
                         w="100%"
-                        mb="1.5rem"
-                        justifyContent="space-between"
+                        justifyContent="start"
+                        align="start"
                       >
-                        <Flex
-                          w="70%"
-                          h="100%"
-                          justifyContent="start"
-                          align="center"
-                          gap="1rem"
-                        >
-                          <Card
-                            borderRadius="2px"
-                            borderWidth="2px"
-                            px="0.75rem"
-                            py="0.25rem"
-                            fontSize="0.75rem"
-                            fontWeight="800"
-                            color={theme.colors.background}
-                            borderColor={theme.colors.lightBlue}
-                            bg={theme.colors.lightBlue}
-                          >
-                            {gameData.tags[0]}
-                          </Card>
-                          <Card
-                            borderRadius="2px"
-                            borderWidth="2px"
-                            px="0.75rem"
-                            py="0.25rem"
-                            fontSize="0.75rem"
-                            fontWeight="800"
-                            color={theme.colors.background}
-                            borderColor={theme.colors.lightBlue}
-                            bg={theme.colors.lightBlue}
-                          >
-                            {gameData.tags[1]}
-                          </Card>
-                        </Flex>
-                      </Flex>
-                      <Flex w="100%" justifyContent="space-between">
                         <Text
-                          w="70%"
-                          fontSize="1.75rem"
+                          fontSize="1rem"
                           fontWeight="600"
                           fontFamily={theme.fonts.heading}
+                          pb="0.25rem"
                         >
-                          {gameData.title}
+                          {module.name}
                         </Text>
-                        <Flex
-                          w="30%"
-                          h="100%"
-                          justifyContent="space-between"
-                          align="center"
-                        >
-                          <Icon
-                            as={MdLanguage}
-                            color={theme.colors.lightBlue}
-                            fontSize="1.25rem"
-                            fontWeight="800"
-                            cursor="pointer"
-                            onClick={() => router.back()}
-                          />
-                          <Icon
-                            as={FaTwitter}
-                            color={theme.colors.lightBlue}
-                            fontSize="1.25rem"
-                            fontWeight="800"
-                            cursor="pointer"
-                            onClick={() => router.back()}
-                          />
-                          <Icon
-                            as={FaDiscord}
-                            color={theme.colors.lightBlue}
-                            fontSize="1.25rem"
-                            fontWeight="800"
-                            cursor="pointer"
-                            onClick={() => router.back()}
-                          />
-                          <Icon
-                            as={MdShare}
-                            color={theme.colors.lightBlue}
-                            fontSize="1.25rem"
-                            fontWeight="800"
-                            cursor="pointer"
-                            onClick={() => router.back()}
-                          />
-                        </Flex>
-                      </Flex>
-
-                      <Flex w="100%" justifyContent="space-between">
                         <Text
-                          fontWeight="400"
+                          fontSize="0.75rem"
+                          fontWeight="600"
                           fontFamily={theme.fonts.heading}
-                          fontSize="1rem"
-                          w="70%"
-                          my="0.5rem"
-                          ml="0.1rem"
+                          pb="0.5rem"
                         >
-                          By: {gameData.creator}
+                          {module.description}
                         </Text>
                       </Flex>
-
-                      {/* <Flex my="1rem">
-                    <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      backgroundColor={theme.colors.lightBlue}
-                      borderColor={theme.colors.lightBlue}
-                      border="2px solid"
-                      borderRadius="2px"
-                      color={theme.colors.background}
-                      w="100%"
-                      h="3rem"
-                      fontSize="0.75rem"
-                      fontWeight="700"
-                    >
-                      PURCHASE
-                    </Button>
-                  </Flex> */}
-
-                      <Text
-                        my="1rem"
-                        fontSize="0.85rem"
-                        fontFamily={theme.fonts.heading}
+                      <Flex
+                        flexDirection="column"
+                        h="100%"
+                        justifyContent="center"
+                        align="center"
                       >
-                        {gameData.description}
-                      </Text>
+                        {loggedIn &&
+                        ownedModuleIds.includes(module.moduleId) ? (
+                          <Button
+                            onClick={() => {}}
+                            variant="outline"
+                            backgroundColor={theme.colors.lightBlue}
+                            borderColor={theme.colors.lightBlue}
+                            borderWidth="2px"
+                            borderRadius="2px"
+                            color={theme.colors.background}
+                            h="2rem"
+                            fontSize="0.75rem"
+                            fontWeight="700"
+                          >
+                            PLAY
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => {}}
+                            variant="outline"
+                            backgroundColor={theme.colors.background}
+                            borderColor={theme.colors.lightBlue}
+                            borderWidth="2px"
+                            borderRadius="2px"
+                            color={theme.colors.lightBlue}
+                            h="2rem"
+                            fontSize="0.75rem"
+                            fontWeight="700"
+                          >
+                            PURCHASE
+                          </Button>
+                        )}
+                      </Flex>
                     </Flex>
-                  </Flex>
-                  <Flex direction="row" w="100%" mt="3rem">
-                    <VStack w="100%" gap="1.5rem">
-                      {gameModules.map((module) => (
-                        <Flex
-                          key={module.moduleId}
-                          w="100%"
-                          backgroundColor={theme.colors.background}
-                          borderColor={theme.colors.lightBlue}
-                          borderWidth="2px"
-                          borderRadius="2px"
-                          justifyContent="space-between"
-                          align="center"
-                          p="1rem"
-                        >
-                          <Flex
-                            flexDirection="column"
-                            h="100%"
-                            w="100%"
-                            justifyContent="start"
-                            align="start"
-                          >
-                            <Text
-                              fontSize="1rem"
-                              fontWeight="600"
-                              fontFamily={theme.fonts.heading}
-                              pb="0.25rem"
-                            >
-                              {module.name}
-                            </Text>
-                            <Text
-                              fontSize="0.75rem"
-                              fontWeight="600"
-                              fontFamily={theme.fonts.heading}
-                              pb="0.5rem"
-                            >
-                              {module.description}
-                            </Text>
-                          </Flex>
-                          <Flex
-                            flexDirection="column"
-                            h="100%"
-                            justifyContent="center"
-                            align="center"
-                          >
-                            {ownedModuleIds.includes(module.moduleId) ? (
-                              <Button
-                                onClick={() => {}}
-                                variant="outline"
-                                backgroundColor={theme.colors.lightBlue}
-                                borderColor={theme.colors.lightBlue}
-                                borderWidth="2px"
-                                borderRadius="2px"
-                                color={theme.colors.background}
-                                h="2rem"
-                                fontSize="0.75rem"
-                                fontWeight="700"
-                              >
-                                PLAY
-                              </Button>
-                            ) : (
-                              <Button
-                                onClick={() => {}}
-                                variant="outline"
-                                backgroundColor={theme.colors.background}
-                                borderColor={theme.colors.lightBlue}
-                                borderWidth="2px"
-                                borderRadius="2px"
-                                color={theme.colors.lightBlue}
-                                h="2rem"
-                                fontSize="0.75rem"
-                                fontWeight="700"
-                              >
-                                PURCHASE
-                              </Button>
-                            )}
-                          </Flex>
-                        </Flex>
-                      ))}
-                    </VStack>
-                  </Flex>
-                </Flex>
+                  ))}
+                </VStack>
               </Flex>
             </Flex>
           </Flex>
-        </Box>
-      ) : (
-        <Box minHeight="100vh">
-          <Navbar />
-          <Flex
-            h="93vh"
-            w="100vw"
-            bg={theme.colors.background}
-            color={theme.colors.lightBlue}
-            fontFamily="Montserrat"
-            justifyContent="center"
-            align="center"
-          >
-            <Grid>
-              <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
-            </Grid>
-          </Flex>
-        </Box>
-      )}
-    </>
+        </Flex>
+      </Flex>
+    </Box>
   );
 };
 

@@ -179,8 +179,7 @@ export function CreateGameModal() {
                 w="47%"
                 h="2.5rem"
                 fontSize="0.75rem"
-                fontWeight="700"
-                fontFamily={theme.fonts.heading}
+                fontWeight="600"
               >
                 CANCEL
               </Button>
@@ -195,8 +194,7 @@ export function CreateGameModal() {
                 w="47%"
                 h="2.5rem"
                 fontSize="0.75rem"
-                fontWeight="800"
-                fontFamily={theme.fonts.heading}
+                fontWeight="700"
                 _hover={{
                   color: theme.colors.background,
                   backgroundColor: theme.colors.lightBlue,

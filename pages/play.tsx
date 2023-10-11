@@ -94,13 +94,16 @@ function PlayPage() {
                     />
                     <Button
                       w="100%"
+                      h="2rem"
                       borderWidth="2px"
                       borderRadius="2px"
                       mt="1rem"
                       bg={theme.colors.lightBlue}
                       borderColor={theme.colors.lightBlue}
                       color={theme.colors.background}
-                      fontFamily={theme.fonts.heading}
+                      fontWeight="700"
+                      letterSpacing="1px"
+                      fontSize="0.75rem"
                       onClick={() => {
                         const gameId = "1234";
                         router.push(`/game/${gameId}`);

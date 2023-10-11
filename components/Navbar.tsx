@@ -288,7 +288,7 @@ export const Navbar: React.FC = () => {
         ) : (
           <>
             <Button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/login")}
               bg={theme.colors.background}
               py="0.5rem"
               h="2rem"
