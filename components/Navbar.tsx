@@ -146,7 +146,7 @@ export const Navbar: React.FC = () => {
               <Button
                 bg={theme.colors.background}
                 py="0.5rem"
-                h="2.5rem"
+                h="2rem"
                 px="2rem"
                 cursor="pointer"
                 borderColor={theme.colors.ligherBlue}

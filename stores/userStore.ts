@@ -1,3 +1,4 @@
+import OwnedGame from "@/types/types";
 import { create } from "zustand";
 
 type Store = {
@@ -6,14 +7,14 @@ type Store = {
   username: string;
   solana_wallet_address: string;
   userProfilePic: string;
-  ownedGames: [];
+  ownedGames: OwnedGame[];
   setLogin: (
     status: boolean,
     loginType: string,
     username: string,
     solana_wallet_address: string
   ) => void;
-  setOwnedGames: (ownedGames: []) => void;
+  setOwnedGames: (ownedGames: OwnedGame[]) => void;
 };
 
 export const userStore = create<Store>((set) => ({

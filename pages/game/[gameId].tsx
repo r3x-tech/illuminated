@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { gameData, gameModules } from "@/stores/sampleData";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
 import {
@@ -12,62 +13,31 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 import { MdArrowBack, MdShare, MdLanguage } from "react-icons/md";
 
 const GamePage = () => {
   const router = useRouter();
-  const { loggedIn } = userStore();
+  const { ownedGames } = userStore();
+  console.log("og: ", ownedGames);
 
   const { gameId } = router.query;
 
   //   const [gameData, setGameData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const gameData = {
-    gameId: gameId,
-    title: "Test Game",
-    creator: "REX TECH",
-    description:
-      "The best test game that was ever created to test liberte and all game networks world wide. It is truly increadible and amazing",
-    tags: ["MMO", "ADVENTURE", "ACTION"],
-    socials: {
-      website: "",
-      twitter: "",
-      discord: "",
-    },
-    modules: ["123456", "78910"],
-  };
-
-  const ownedGames = [
-    {
-      gameId: gameId,
-      gameModules: ["123456"],
-    },
-  ];
-
-  const gameModules = [
-    {
-      moduleId: "123456",
-      name: "Pong Module #1",
-      creator: "REX TECH",
-      description:
-        "The best test module that was ever created to test liberte and all modules world wide. It is truly increadible and amazing",
-      entryReqs: ["MMO", "ADVENTURE", "ACTION"],
-      links: {},
-    },
-    {
-      moduleId: "78910",
-      name: "Pong Module #2",
-      creator: "REX TECH",
-      description:
-        "The best test module that was ever created to test liberte and all modules world wide. It is truly increadible and amazing",
-      entryReqs: ["MMO", "ADVENTURE", "ACTION"],
-      links: {},
-    },
-  ];
+  useEffect(() => {
+    if (ownedGames && ownedGames.length > 0) {
+      setIsLoading(false);
+    }
+  }, [ownedGames]);
 
   const currentOwnedGame = ownedGames.find((game) => game.gameId === gameId);
+  console.log("currentOwnedGame: ", currentOwnedGame);
+
   const ownedModuleIds = currentOwnedGame ? currentOwnedGame.gameModules : [];
+  console.log("ownedModuleIds: ", ownedModuleIds);
 
   //   useEffect(() => {
   //     // Fetch game data based on gameId
@@ -83,6 +53,10 @@ const GamePage = () => {
   //         });
   //     }
   //   }, [gameId]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!gameData) {
     // Loading state or error handling can be added here
@@ -144,7 +118,7 @@ const GamePage = () => {
                         px="0.75rem"
                         py="0.25rem"
                         fontSize="0.75rem"
-                        fontWeight="800"
+                        fontWeight="700"
                         color={theme.colors.background}
                         borderColor={theme.colors.lightBlue}
                         bg={theme.colors.lightBlue}
@@ -157,7 +131,7 @@ const GamePage = () => {
                         px="0.75rem"
                         py="0.25rem"
                         fontSize="0.75rem"
-                        fontWeight="800"
+                        fontWeight="700"
                         color={theme.colors.background}
                         borderColor={theme.colors.lightBlue}
                         bg={theme.colors.lightBlue}
@@ -300,8 +274,7 @@ const GamePage = () => {
                         justifyContent="center"
                         align="center"
                       >
-                        {loggedIn &&
-                        ownedModuleIds.includes(module.moduleId) ? (
+                        {ownedModuleIds.includes(String(module.moduleId)) ? (
                           <Button
                             onClick={() => {}}
                             variant="outline"

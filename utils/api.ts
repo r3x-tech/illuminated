@@ -1,35 +1,12 @@
-export const createGame = async (game: []) => {
-  const response = await fetch("url", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ game }),
-    redirect: "follow",
-  });
+import { ownedGames as sampleOwnedGames } from "@/stores/sampleData";
+import userStore from "@/stores/userStore";
 
-  if (!response.ok) {
-    const errorMessage = await response.text();
-    console.error(`Failed to create game. Error: ${errorMessage}`);
+export const fetchOwnedGames = async () => {
+  const { loggedIn } = userStore.getState();
+
+  if (!loggedIn) {
+    console.error("User not logged in.");
   }
 
-  return await response.json();
-};
-
-export const createModule = async (module: []) => {
-  const response = await fetch("url", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ module }),
-    redirect: "follow",
-  });
-
-  if (!response.ok) {
-    const errorMessage = await response.text();
-    console.error(`Failed to create module. Error: ${errorMessage}`);
-  }
-
-  return await response.json();
+  return sampleOwnedGames; // This mimics an asynchronous fetch from '@/stores/sampleData'
 };

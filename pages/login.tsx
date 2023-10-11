@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { WalletMultiButton } from "@/components/auth/WalletMultiButton";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
+import useOwnedGames from "@/hooks/useOwnedGames";
 
 function LoginPage() {
   const router = useRouter();
@@ -29,14 +30,16 @@ function LoginPage() {
   const { connection } = useConnection();
   const { publicKey, signTransaction, signAllTransactions, connecting } =
     useWallet();
+  const { refetch: refetchOwnedGames } = useOwnedGames();
 
   const { username, loggedIn } = userStore();
 
   useEffect(() => {
     if (loggedIn) {
+      refetchOwnedGames();
       router.push("/play");
     }
-  }, [loggedIn, router]);
+  }, [loggedIn, refetchOwnedGames, router]);
 
   useEffect(() => {
     if (connection && publicKey && !loggedIn) {
@@ -53,6 +56,7 @@ function LoginPage() {
     connection,
     loggedIn,
     publicKey,
+    refetchOwnedGames,
     router,
     signAllTransactions,
     signTransaction,
