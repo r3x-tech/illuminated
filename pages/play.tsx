@@ -2,9 +2,11 @@ import { Navbar } from "@/components/Navbar";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
 import { Box, Image, Flex, Grid, Input, Text, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 function PlayPage() {
   const { loggedIn } = userStore();
+  const router = useRouter();
 
   return (
     <>
@@ -84,6 +86,11 @@ function PlayPage() {
                       borderRadius="2px"
                       h="10rem"
                       w="10rem"
+                      cursor="pointer"
+                      onClick={() => {
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                     />
                     <Button
                       w="100%"

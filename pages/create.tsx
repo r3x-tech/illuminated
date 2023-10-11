@@ -99,6 +99,11 @@ function CreatePage() {
                       borderRadius="2px"
                       h="10rem"
                       w="10rem"
+                      cursor="pointer"
+                      onClick={() => {
+                        const gameId = "1234";
+                        router.push(`/game/${gameId}`);
+                      }}
                     />
                     <Button
                       w="100%"
