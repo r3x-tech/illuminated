@@ -18,18 +18,24 @@ import { WalletMultiButton } from "@/components/auth/WalletMultiButton";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/router";
 import useOwnedGames from "@/hooks/useOwnedGames";
+import { ShdwDrive } from "@shadow-drive/sdk";
+import * as web3 from "@solana/web3.js";
 
 function LoginPage() {
   const router = useRouter();
-
   const { magic } = useMagic();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [isLoginInProgress, setLoginInProgress] = useState(false);
 
   const { connection } = useConnection();
-  const { publicKey, signTransaction, signAllTransactions, connecting } =
-    useWallet();
+  const {
+    wallet,
+    publicKey,
+    signTransaction,
+    signAllTransactions,
+    connecting,
+  } = useWallet();
   const { refetch: refetchOwnedGames } = useOwnedGames();
 
   const { username, loggedIn } = userStore();
@@ -49,6 +55,8 @@ function LoginPage() {
         loginType: "SOLANA",
         username: publicKey.toString(),
         solana_wallet_address: publicKey.toString(),
+        wallet: wallet,
+        solanaConnection: connection,
       });
       setLoginInProgress(false);
     }
@@ -76,6 +84,9 @@ function LoginPage() {
         try {
           setEmailError(false);
           console.log("magic: ", magic);
+          console.log("magic user: ", magic?.user);
+          console.log("magic rpc: ", magic?.rpcProvider);
+          console.log("magic wallet: ", magic?.wallet);
 
           const account = await magic?.auth.loginWithEmailOTP({
             email,
@@ -84,11 +95,17 @@ function LoginPage() {
 
           if (account) {
             const metadata = await magic?.user.getInfo();
+            console.log("metadata: ", magic?.user.getInfo());
+            // const magWallet = magic?.wallet
+            const solConnection = new web3.Connection(
+              process.env.NEXT_PUBLIC_RPC_URL!
+            );
             userStore.setState({
               loggedIn: true,
               loginType: "EMAIL",
               username: metadata?.email || "",
               solana_wallet_address: metadata?.publicAddress || "",
+              solanaConnection: solConnection,
             });
             setEmail("");
           } else {

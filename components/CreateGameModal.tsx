@@ -15,8 +15,11 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import ChakraReactSelect from "./ChakraReactSelect";
-import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+// import * as anchor from "@project-serum/anchor";
+import { ShdwDrive } from "@shadow-drive/sdk";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 
 type OptionType = {
   value: string;
@@ -45,13 +48,24 @@ export function CreateGameModal() {
   } = useDisclosure();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
+  const { connection } = useConnection();
+  const wallet = useWallet();
 
   const { handleSubmit, control, formState } = useForm<FormData>();
   const { errors } = formState;
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    //create account
   };
+
+  useEffect(() => {
+    (async () => {
+      if (wallet?.publicKey) {
+        const drive = await new ShdwDrive(connection, wallet).init();
+        console.log(drive);
+      }
+    })();
+  }, [wallet?.publicKey]);
 
   return (
     <>

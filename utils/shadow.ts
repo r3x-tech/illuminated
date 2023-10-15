@@ -1,3 +1,207 @@
+import { OwnedStorageAccount, StorageAccountResponse } from "@/types/types";
+import { apiRequest } from "./index";
+import {
+  ShdwDrive,
+  ShadowUploadResponse,
+  ShadowBatchUploadResponse,
+  ShadowFile,
+  ShadowEditResponse,
+} from "@shadow-drive/sdk";
+import { PublicKey } from "@solana/web3.js";
+import userStore from "@/stores/userStore";
+import { error } from "console";
+import * as anchor from "@project-serum/anchor";
+
+export const setShdwConnection = async (
+  connection: any,
+  wallet: any
+): Promise<any> => {
+  try {
+    const drive = await new ShdwDrive(connection, wallet).init();
+    if (drive) {
+      userStore.setState({ shadowDriveConnection: drive });
+    }
+    return drive;
+  } catch (error) {
+    console.error("Error while creating storage account:", error);
+    return null;
+  }
+};
+
+export const createStorageAccount = async (
+  connection: any,
+  wallet: any,
+  bucketName: string,
+  size: string
+): Promise<StorageAccountResponse | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const accountData = await drive.createStorageAccount(bucketName, size);
+      return accountData;
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while creating storage account:", error);
+    return null;
+  }
+};
+
+export const getOwnedStorageAccounts = async (
+  connection: any,
+  wallet: any
+): Promise<OwnedStorageAccount[] | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const accts = await drive.getStorageAccounts();
+
+      if (accts && accts.length > 0) {
+        let acctPubKey = new PublicKey(accts[0].publicKey);
+        console.log(acctPubKey.toBase58());
+      }
+      return accts;
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while getting owned storage accounts:", error);
+    return null;
+  }
+};
+
+export const getStorageAccount = async (
+  publicKey: string,
+  connection: any,
+  wallet: any
+): Promise<OwnedStorageAccount | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const acct = await drive.getStorageAccount(new PublicKey(publicKey));
+
+      if (acct) {
+        console.log(acct);
+        return acct;
+      } else {
+        throw Error("No account found with the given public key");
+      }
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while getting specific storage account:", error);
+    return null;
+  }
+};
+
+export type FileInput = File | FileList | Array<File>;
+
+export const uploadFiles = async (
+  connection: any,
+  wallet: any,
+  files: FileInput
+): Promise<ShadowUploadResponse | ShadowBatchUploadResponse[] | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const accts = await drive.getStorageAccounts();
+
+      if (accts && accts.length > 0) {
+        let acctPubKey = new PublicKey(accts[0].publicKey);
+
+        if (files instanceof File) {
+          const uploadResponse: ShadowUploadResponse = await drive.uploadFile(
+            acctPubKey,
+            files
+          );
+          return uploadResponse;
+        } else if (files instanceof FileList || Array.isArray(files)) {
+          const uploadResponses: ShadowBatchUploadResponse[] =
+            await Promise.all(
+              Array.from(files).map(async (file: File) => {
+                const response = await drive.uploadFile(acctPubKey, file);
+                return {
+                  fileName: file.name,
+                  status: response.message,
+                  location: response.finalized_locations[0],
+                };
+              })
+            );
+          return uploadResponses;
+        } else {
+          throw Error("Failed to upload file");
+        }
+      } else {
+        throw Error("No storage accounts found");
+      }
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while uploading files:", error);
+    return null;
+  }
+};
+
+export const deleteFile = async (
+  publicKey: string,
+  url: string
+): Promise<boolean> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const acctPubKey = new anchor.web3.PublicKey(publicKey);
+      await drive.deleteFile(acctPubKey, url);
+      return true;
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while deleting file:", error);
+    return false;
+  }
+};
+
+export const editFile = async (
+  publicKey: string,
+  url: string,
+  data: File | ShadowFile
+): Promise<ShadowEditResponse | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const acctPubKey = new anchor.web3.PublicKey(publicKey);
+      const response = await drive.editFile(acctPubKey, url, data);
+      return response;
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while editing (replacing) file:", error);
+    return null;
+  }
+};
+
+export const listStorageAccountFiles = async (
+  publicKey: string
+): Promise<string[] | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+    if (drive) {
+      const acctPubKey = new anchor.web3.PublicKey(publicKey);
+      const response = await drive.listObjects(acctPubKey);
+      return response.keys;
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while listing storage account files:", error);
+    return null;
+  }
+};
+
 // import bs58 from "bs58";
 // import nacl from "tweetnacl";
 // import crypto from "crypto";
