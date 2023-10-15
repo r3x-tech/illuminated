@@ -22,7 +22,8 @@ export const ownedGames = [
 
 export const gameModules = [
   {
-    moduleId: "1234",
+    moduleId: "123456",
+    gameId: "1234",
     name: "Pong Module #1",
     creator: "REX TECH",
     description:
@@ -32,6 +33,7 @@ export const gameModules = [
   },
   {
     moduleId: "78910",
+    gameId: "1234",
     name: "Pong Module #2",
     creator: "REX TECH",
     description:

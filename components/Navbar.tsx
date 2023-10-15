@@ -94,21 +94,22 @@ export const Navbar: React.FC = () => {
           fontSize="1rem"
           fontWeight="600"
           fontFamily={theme.fonts.heading}
-          color={getTextColor("/play")}
-          onClick={() => router.push("/play")}
+          color={getTextColor("/explore")}
+          onClick={() => router.push("/explore")}
         >
-          PLAY
+          EXPLORE
         </Text>
         <Text
           cursor="pointer"
           fontSize="1rem"
           fontWeight="600"
           fontFamily={theme.fonts.heading}
-          color={getTextColor("/explore")}
-          onClick={() => router.push("/explore")}
+          color={getTextColor("/play")}
+          onClick={() => router.push("/play")}
         >
-          EXPLORE
+          PLAY
         </Text>
+
         <Text
           cursor="pointer"
           fontSize="1rem"

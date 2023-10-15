@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import ChakraReactSelect from "./ChakraReactSelect";
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 
 type OptionType = {
   value: string;
@@ -28,6 +29,14 @@ const options: OptionType[] = [
   { value: "module3", label: "Module 3" },
 ];
 
+type FormData = {
+  gameName: string;
+  gameDescription: string;
+  gameCoverArt: string;
+  gameplayMedia: string;
+  modules: OptionType[];
+};
+
 export function CreateGameModal() {
   const {
     isOpen: isCreateGameModalOpen,
@@ -36,6 +45,13 @@ export function CreateGameModal() {
   } = useDisclosure();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
+
+  const { handleSubmit, control, formState } = useForm<FormData>();
+  const { errors } = formState;
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -69,7 +85,7 @@ export function CreateGameModal() {
             <Heading fontSize="1.5rem">CREATE GAME</Heading>
           </ModalHeader>
           <ModalBody>
-            <VStack gap="1rem">
+            <VStack as="form" gap="1rem" onSubmit={handleSubmit(onSubmit)}>
               <Flex flexDirection="column" w="100%" mt="0rem">
                 <Text
                   fontWeight="600"
@@ -79,22 +95,33 @@ export function CreateGameModal() {
                 >
                   Game Name
                 </Text>
-                <Input
-                  placeholder="Name your game"
-                  w="100%"
-                  h="2rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
+                <Controller
+                  name="gameName"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Name your game"
+                      w="100%"
+                      h="2rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _placeholder={{ color: theme.colors.evenLighterBlue }}
+                      _focus={{ boxShadow: "none" }}
+                    />
+                  )}
                 />
+
+                {errors.gameName && <span>Game name is required</span>}
               </Flex>
 
               <Flex flexDirection="column" w="100%" mt="0rem">
@@ -106,22 +133,34 @@ export function CreateGameModal() {
                 >
                   Game Description
                 </Text>
-                <Input
-                  placeholder="Describe your game"
-                  w="100%"
-                  h="2rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
+                <Controller
+                  name="gameDescription"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Describe your game"
+                      w="100%"
+                      h="2rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _placeholder={{ color: theme.colors.evenLighterBlue }}
+                      _focus={{ boxShadow: "none" }}
+                    />
+                  )}
                 />
+                {errors.gameDescription && (
+                  <span>Game description is required</span>
+                )}
               </Flex>
 
               <Flex flexDirection="column" w="100%" mt="0rem">
@@ -133,23 +172,75 @@ export function CreateGameModal() {
                 >
                   Game Cover Art
                 </Text>
-                <Input
-                  placeholder="Enter an image URL"
-                  w="100%"
-                  h="2rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
+                <Controller
+                  name="gameCoverArt"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Enter an image URL"
+                      w="100%"
+                      h="2rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _placeholder={{ color: theme.colors.evenLighterBlue }}
+                      _focus={{ boxShadow: "none" }}
+                    />
+                  )}
                 />
+                {errors.gameCoverArt && (
+                  <span>Game cover art URL is required</span>
+                )}
               </Flex>
+
+              <Flex flexDirection="column" w="100%" mt="0rem">
+                <Text
+                  fontWeight="600"
+                  fontFamily={theme.fonts.heading}
+                  fontSize="0.75rem"
+                  pb="0.25rem"
+                >
+                  Gameplay Media
+                </Text>
+                <Controller
+                  name="gameplayMedia"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Enter an image URL"
+                      w="100%"
+                      h="2rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _placeholder={{ color: theme.colors.evenLighterBlue }}
+                      _focus={{ boxShadow: "none" }}
+                    />
+                  )}
+                />
+                {errors.gameplayMedia && (
+                  <span>Gameplay media URL is required</span>
+                )}
+              </Flex>
+
               <Flex flexDirection="column" w="100%">
                 <Text
                   fontWeight="600"
@@ -159,14 +250,24 @@ export function CreateGameModal() {
                 >
                   Game Modules
                 </Text>
-                <ChakraReactSelect
-                  isMulti
-                  options={options}
-                  placeholder="Select modules"
+                <Controller
+                  name="modules"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <ChakraReactSelect
+                      {...field}
+                      isMulti
+                      options={options}
+                      placeholder="Select modules"
+                    />
+                  )}
                 />
+                {errors.modules && <span>At least one module is required</span>}
               </Flex>
             </VStack>
           </ModalBody>
+
           <ModalFooter>
             <Flex justifyContent="space-between" w="100%" py="0.75rem">
               <Button
@@ -184,7 +285,7 @@ export function CreateGameModal() {
                 CANCEL
               </Button>
               <Button
-                onClick={() => {}}
+                type="submit"
                 variant="outline"
                 borderColor={theme.colors.lightBlue}
                 backgroundColor={theme.colors.lightBlue}
