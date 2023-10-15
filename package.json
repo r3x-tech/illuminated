@@ -19,6 +19,7 @@
     "@metaplex-foundation/umi": "^0.8.9",
     "@metaplex-foundation/umi-bundle-defaults": "^0.8.9",
     "@project-serum/anchor": "^0.26.0",
+    "@pythnetwork/client": "^2.19.0",
     "@shadow-drive/sdk": "^5.0.0",
     "@solana-mobile/wallet-adapter-mobile": "^2.0.1",
     "@solana/wallet-adapter-base": "^0.9.23",

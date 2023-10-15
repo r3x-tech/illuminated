@@ -16,11 +16,11 @@ export const apiRequest = async <T>(
       response = await axios.post(path, paramsOrData);
     }
 
-    if (response?.status === 200) {
-      return response.data as T;
+    if (response) {
+      return response as T;
     } else {
-      console.error(`${response?.data?.message || errorMessage}:`, response);
-      throw new Error(response?.data?.message || errorMessage);
+      console.error(errorMessage, "response: ", response);
+      throw new Error(errorMessage);
     }
   } catch (error) {
     console.error(`${errorMessage}:`, error);

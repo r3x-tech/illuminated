@@ -25,3 +25,18 @@ export type OwnedStorageAccount = {
     identifier: string;
   };
 };
+
+export type ServiceCharge = {
+  receiver: string;
+  amount: number;
+  token?: string;
+};
+
+export type NFTResponse = {
+  success: boolean;
+  message: string;
+  result: {
+    encoded_transaction: string;
+    mint: string;
+  };
+};

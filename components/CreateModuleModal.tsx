@@ -15,6 +15,7 @@ import {
   Heading,
   Textarea,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 export function CreateModuleModal() {
   const {
@@ -22,6 +23,65 @@ export function CreateModuleModal() {
     onOpen: onCreateGameModalOpen,
     onClose: onCreateGameModalClose,
   } = useDisclosure();
+
+  const [selectedModuleImage, setSelectedModuleImage] = useState<File | null>(
+    null
+  );
+
+  function truncateFilename(filename: string, maxLength = 30) {
+    if (filename.length <= maxLength || !filename.includes("."))
+      return filename;
+
+    const lastDotIndex = filename.lastIndexOf(".");
+    const fileExtension = filename.slice(lastDotIndex);
+    const threeCharsBeforeDot = filename.slice(lastDotIndex - 5, lastDotIndex);
+    const mainPartLength =
+      maxLength - threeCharsBeforeDot.length - fileExtension.length - 3; // -3 for "..."
+    if (mainPartLength <= 0) return `...${threeCharsBeforeDot}${fileExtension}`;
+    return `${filename.slice(
+      0,
+      mainPartLength
+    )}...${threeCharsBeforeDot}${fileExtension}`;
+  }
+
+  const [selectedModuleJSON, setSelectedModuleJSON] = useState<File | null>(
+    null
+  );
+  const [selectedCapnp, setSelectedCapnp] = useState<File | null>(null);
+
+  const [moduleJSONContent, setModuleJSONContent] = useState<string | null>(
+    null
+  );
+  const [capnpContent, setCapnpContent] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadFileContent() {
+      if (selectedModuleJSON) {
+        const content = await readFileContent(selectedModuleJSON);
+        setModuleJSONContent(content);
+      } else {
+        setModuleJSONContent(null);
+      }
+
+      if (selectedCapnp) {
+        const content = await readFileContent(selectedCapnp);
+        setCapnpContent(content);
+      } else {
+        setCapnpContent(null);
+      }
+    }
+
+    loadFileContent();
+  }, [selectedModuleJSON, selectedCapnp]);
+
+  const readFileContent = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => resolve(event.target!.result as string);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  };
 
   return (
     <>
@@ -119,25 +179,105 @@ export function CreateModuleModal() {
                 >
                   Game Module Image
                 </Text>
-                <Input
-                  placeholder="Enter module image URL"
-                  w="100%"
-                  h="2rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
-                />
+                <Flex alignItems="end" marginBottom="0.5rem">
+                  {/* Image Preview or Placeholder for Game Module Image */}
+                  {selectedModuleImage ? (
+                    <Flex
+                      flexDirection="column"
+                      alignItems="center"
+                      marginRight="1rem"
+                    >
+                      <img
+                        src={URL.createObjectURL(selectedModuleImage)}
+                        alt="Selected game module image"
+                        style={{
+                          borderRadius: "4px",
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Flex>
+                  ) : (
+                    <Flex
+                      align="center"
+                      justifyContent="center"
+                      boxSize="100px"
+                      backgroundColor={theme.colors.input}
+                      borderRadius="4px"
+                      marginRight="1rem"
+                    >
+                      <Text
+                        textAlign="center"
+                        w="80%"
+                        color={theme.colors.lightBlue}
+                        fontSize="0.75rem"
+                      >
+                        No image selected
+                      </Text>
+                    </Flex>
+                  )}
+
+                  <Flex
+                    alignItems="start"
+                    justifyContent="center"
+                    borderRadius="4px"
+                    flexDirection="column"
+                    marginRight="1rem"
+                    gap={2}
+                  >
+                    {selectedModuleImage ? (
+                      <Text fontSize="0.75rem">
+                        {selectedModuleImage &&
+                          truncateFilename(selectedModuleImage.name)}
+                      </Text>
+                    ) : (
+                      <Text
+                        w="100%"
+                        h="100%"
+                        color={theme.colors.lightBlue}
+                        fontSize="0.75rem"
+                      ></Text>
+                    )}
+                    <label
+                      style={{
+                        display: "inline-block",
+                        width: "auto",
+                        padding: "0.5rem 1rem",
+                        fontSize: "0.75rem",
+                        backgroundColor: theme.colors.background,
+                        borderWidth: "2px",
+                        borderRadius: "2px",
+                        borderColor: theme.colors.lightBlue,
+                        fontWeight: "500",
+                        letterSpacing: "1px",
+                        color: theme.colors.lightBlue,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Select image
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            setSelectedModuleImage(e.target.files[0]);
+                          } else {
+                            setSelectedModuleImage(null);
+                          }
+                        }}
+                        style={{
+                          display: "none",
+                        }}
+                        value=""
+                      />
+                    </label>
+                  </Flex>
+                </Flex>
               </Flex>
 
-              <Flex flexDirection="column" w="100%" mt="0rem">
+              {/* File Input for module.json */}
+              <Flex flexDirection="column" w="100%" mt="1rem">
                 <Text
                   fontWeight="600"
                   fontFamily={theme.fonts.heading}
@@ -146,26 +286,74 @@ export function CreateModuleModal() {
                 >
                   module.json
                 </Text>
-                <Textarea
-                  placeholder="Enter your module.json"
-                  w="100%"
-                  minHeight="4rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
-                  resize="vertical"
-                />
+                <Flex alignItems="end" marginBottom="0.5rem">
+                  {/* Preview or Placeholder for module.json */}
+                  {selectedModuleJSON ? (
+                    <Textarea
+                      value={moduleJSONContent || "No module.json uploaded"}
+                      w="100%"
+                      minHeight="4rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _focus={{ boxShadow: "none" }}
+                      resize="vertical"
+                      readOnly
+                    />
+                  ) : (
+                    <Text
+                      w="100%"
+                      h="100%"
+                      color={theme.colors.lightBlue}
+                      fontSize="0.75rem"
+                      textAlign="start"
+                      paddingY="0.5rem"
+                    >
+                      No module.json uploaded
+                    </Text>
+                  )}
+                </Flex>
+                <label
+                  style={{
+                    display: "inline-block",
+                    width: "auto",
+                    textAlign: "center",
+                    padding: "0.5rem 1rem",
+                    fontSize: "0.75rem",
+                    backgroundColor: theme.colors.background,
+                    borderWidth: "2px",
+                    borderRadius: "2px",
+                    borderColor: theme.colors.lightBlue,
+                    fontWeight: "500",
+                    letterSpacing: "1px",
+                    color: theme.colors.lightBlue,
+                    cursor: "pointer",
+                  }}
+                >
+                  Upload File
+                  <Input
+                    type="file"
+                    accept=".json"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        setSelectedModuleJSON(e.target.files[0]);
+                      } else {
+                        setSelectedModuleJSON(null);
+                      }
+                    }}
+                    style={{ display: "none" }}
+                  />
+                </label>
               </Flex>
 
-              <Flex flexDirection="column" w="100%" mt="0rem">
+              {/* File Input for SaveTemplate.capnp */}
+              <Flex flexDirection="column" w="100%" mt="2rem">
                 <Text
                   fontWeight="600"
                   fontFamily={theme.fonts.heading}
@@ -174,28 +362,82 @@ export function CreateModuleModal() {
                 >
                   SaveTemplate.capnp
                 </Text>
-                <Textarea
-                  placeholder="Enter your SaveTemplate"
-                  w="100%"
-                  minHeight="4rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.lightBlue}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
-                  resize="vertical"
-                />
+
+                <Flex alignItems="end" marginBottom="0.5rem">
+                  {/* Preview or Placeholder for SaveTemplate.capnp */}
+                  {selectedCapnp ? (
+                    <Textarea
+                      value={capnpContent || "No save file uploaded"}
+                      w="100%"
+                      minHeight="4rem"
+                      fontSize="0.75rem"
+                      bg={theme.colors.input}
+                      borderWidth="2px"
+                      borderRadius="2px"
+                      borderColor={theme.colors.input}
+                      fontWeight="500"
+                      letterSpacing="1px"
+                      color={theme.colors.lightBlue}
+                      focusBorderColor={theme.colors.input}
+                      _focus={{ boxShadow: "none" }}
+                      resize="vertical"
+                      readOnly
+                    />
+                  ) : (
+                    <Text
+                      w="100%"
+                      h="100%"
+                      color={theme.colors.lightBlue}
+                      fontSize="0.75rem"
+                      textAlign="start"
+                      paddingY="0.5rem"
+                    >
+                      No save file uploaded
+                    </Text>
+                  )}
+                </Flex>
+                <label
+                  style={{
+                    display: "inline-block",
+                    width: "auto",
+                    padding: "0.5rem 1rem",
+                    fontSize: "0.75rem",
+                    textAlign: "center",
+
+                    backgroundColor: theme.colors.background,
+                    borderWidth: "2px",
+                    borderRadius: "2px",
+                    borderColor: theme.colors.lightBlue,
+                    fontWeight: "500",
+                    letterSpacing: "1px",
+                    color: theme.colors.lightBlue,
+                    cursor: "pointer",
+                  }}
+                >
+                  Upload File
+                  <Input
+                    type="file"
+                    accept=".capnp"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        setSelectedCapnp(e.target.files[0]);
+                      } else {
+                        setSelectedCapnp(null);
+                      }
+                    }}
+                    style={{ display: "none" }}
+                  />
+                </label>
               </Flex>
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Flex justifyContent="space-between" w="100%" py="0.75rem">
+            <Flex
+              justifyContent="space-between"
+              w="100%"
+              py="0.75rem"
+              mt="1rem"
+            >
               <Button
                 onClick={onCreateGameModalClose}
                 variant="outline"

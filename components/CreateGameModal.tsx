@@ -21,24 +21,39 @@ import React, { useEffect, useState } from "react";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 
-type OptionType = {
-  value: string;
-  label: string;
-};
+// type OptionType = {
+//   value: string;
+//   label: string;
+// };
 
-const options: OptionType[] = [
-  { value: "module1", label: "Module 1" },
-  { value: "module2", label: "Module 2" },
-  { value: "module3", label: "Module 3" },
-];
+// const options: OptionType[] = [
+//   { value: "module1", label: "Module 1" },
+//   { value: "module2", label: "Module 2" },
+//   { value: "module3", label: "Module 3" },
+// ];
 
 type FormData = {
   gameName: string;
   gameDescription: string;
   gameCoverArt: string;
-  gameplayMedia: string;
-  modules: OptionType[];
+  // gameplayMedia: string;
+  // modules: OptionType[];
 };
+
+function truncateFilename(filename: string, maxLength = 30) {
+  if (filename.length <= maxLength || !filename.includes(".")) return filename;
+
+  const lastDotIndex = filename.lastIndexOf(".");
+  const fileExtension = filename.slice(lastDotIndex);
+  const threeCharsBeforeDot = filename.slice(lastDotIndex - 5, lastDotIndex);
+  const mainPartLength =
+    maxLength - threeCharsBeforeDot.length - fileExtension.length - 3; // -3 for "..."
+  if (mainPartLength <= 0) return `...${threeCharsBeforeDot}${fileExtension}`;
+  return `${filename.slice(
+    0,
+    mainPartLength
+  )}...${threeCharsBeforeDot}${fileExtension}`;
+}
 
 export function CreateGameModal() {
   const {
@@ -46,16 +61,18 @@ export function CreateGameModal() {
     onOpen: onCreateGameModalOpen,
     onClose: onCreateGameModalClose,
   } = useDisclosure();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
   const { connection } = useConnection();
   const wallet = useWallet();
 
+  // const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { handleSubmit, control, formState } = useForm<FormData>();
   const { errors } = formState;
 
   const onSubmit = (data: FormData) => {
-    //create account
+    //create storage account
+    //upload metadata
+    //
   };
 
   useEffect(() => {
@@ -186,37 +203,113 @@ export function CreateGameModal() {
                 >
                   Game Cover Art
                 </Text>
-                <Controller
-                  name="gameCoverArt"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="Enter an image URL"
-                      w="100%"
-                      h="2rem"
-                      fontSize="0.75rem"
-                      bg={theme.colors.input}
-                      borderWidth="2px"
-                      borderRadius="2px"
-                      borderColor={theme.colors.input}
-                      fontWeight="500"
-                      letterSpacing="1px"
-                      color={theme.colors.lightBlue}
-                      focusBorderColor={theme.colors.input}
-                      _placeholder={{ color: theme.colors.evenLighterBlue }}
-                      _focus={{ boxShadow: "none" }}
-                    />
+                <Flex alignItems="end" marginBottom="0.5rem">
+                  {/* Image Preview or Placeholder */}
+                  {selectedFile ? (
+                    <Flex
+                      flexDirection="column"
+                      alignItems="center"
+                      marginRight="1rem"
+                    >
+                      <img
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Selected cover art"
+                        style={{
+                          borderRadius: "4px",
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Flex>
+                  ) : (
+                    <Flex
+                      align="center"
+                      justifyContent="center"
+                      boxSize="100px"
+                      backgroundColor={theme.colors.input}
+                      borderRadius="4px"
+                      marginRight="1rem"
+                    >
+                      <Text
+                        textAlign="center"
+                        w="80%"
+                        color={theme.colors.lightBlue}
+                        fontSize="0.75rem"
+                      >
+                        No image selected
+                      </Text>
+                    </Flex>
                   )}
-                />
-                {errors.gameCoverArt && (
-                  <span>Game cover art URL is required</span>
-                )}
-              </Flex>
 
-              <Flex flexDirection="column" w="100%" mt="0rem">
+                  <Flex
+                    alignItems="start"
+                    justifyContent="center"
+                    borderRadius="4px"
+                    flexDirection="column"
+                    marginRight="1rem"
+                    gap={2}
+                  >
+                    {selectedFile ? (
+                      <Text fontSize="0.75rem">
+                        {selectedFile && truncateFilename(selectedFile.name)}
+                      </Text>
+                    ) : (
+                      <Text
+                        w="100%"
+                        h="100%"
+                        color={theme.colors.lightBlue}
+                        fontSize="0.75rem"
+                      ></Text>
+                    )}
+                    <Controller
+                      name="gameCoverArt"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <label
+                          style={{
+                            display: "inline-block",
+                            width: "auto",
+                            padding: "0.5rem 1rem",
+                            fontSize: "0.75rem",
+                            backgroundColor: theme.colors.background,
+                            borderWidth: "2px",
+                            borderRadius: "2px",
+                            borderColor: theme.colors.lightBlue,
+                            fontWeight: "500",
+                            letterSpacing: "1px",
+                            color: theme.colors.lightBlue,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Select Image
+                          <Input
+                            {...field}
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files.length > 0) {
+                                setSelectedFile(e.target.files[0]);
+                                field.onChange(e.target.files[0].name);
+                              } else {
+                                setSelectedFile(null);
+                                field.onChange("");
+                              }
+                            }}
+                            style={{
+                              display: "none",
+                            }}
+                            value=""
+                          />
+                        </label>
+                      )}
+                    />
+                  </Flex>
+                </Flex>
+                {errors.gameCoverArt && <span>Game cover art is required</span>}
+              </Flex>
+              {/* <Flex flexDirection="column" w="100%" mt="0rem">
                 <Text
                   fontWeight="600"
                   fontFamily={theme.fonts.heading}
@@ -253,9 +346,8 @@ export function CreateGameModal() {
                 {errors.gameplayMedia && (
                   <span>Gameplay media URL is required</span>
                 )}
-              </Flex>
-
-              <Flex flexDirection="column" w="100%">
+              </Flex> */}
+              {/* <Flex flexDirection="column" w="100%">
                 <Text
                   fontWeight="600"
                   fontFamily={theme.fonts.heading}
@@ -278,7 +370,7 @@ export function CreateGameModal() {
                   )}
                 />
                 {errors.modules && <span>At least one module is required</span>}
-              </Flex>
+              </Flex> */}
             </VStack>
           </ModalBody>
 
