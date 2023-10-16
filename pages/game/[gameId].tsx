@@ -64,7 +64,44 @@ const GamePage = () => {
   // Render the game data on the page
   return (
     <>
-      {loggedIn ? (
+      {isLoading ? (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="93vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Grid>
+              <Spinner size="sm" />
+              <Text mt={3} fontSize="0.75rem" fontWeight="500">
+                LOADING
+              </Text>
+            </Grid>
+          </Flex>
+        </Box>
+      ) : !gameData ? (
+        <Box minHeight="100vh">
+          <Navbar />
+          <Flex
+            h="93vh"
+            w="100vw"
+            bg={theme.colors.background}
+            color={theme.colors.lightBlue}
+            fontFamily="Montserrat"
+            justifyContent="center"
+            align="center"
+          >
+            <Grid>
+              <Text>AW SHUCKS, WE COULDN'T FIND THAT GAME</Text>
+            </Grid>
+          </Flex>
+        </Box>
+      ) : (
         <Box minHeight="100vh">
           <Navbar />
           <Flex
@@ -360,60 +397,6 @@ const GamePage = () => {
                 </Flex>
               )}
             </Flex>
-          </Flex>
-        </Box>
-      ) : isLoading ? (
-        <Box minHeight="100vh">
-          <Navbar />
-          <Flex
-            h="93vh"
-            w="100vw"
-            bg={theme.colors.background}
-            color={theme.colors.lightBlue}
-            fontFamily="Montserrat"
-            justifyContent="center"
-            align="center"
-          >
-            <Grid>
-              <Spinner size="sm" />
-              <Text mt={3} fontSize="0.75rem" fontWeight="500">
-                LOADING
-              </Text>
-            </Grid>
-          </Flex>
-        </Box>
-      ) : !gameData ? (
-        <Box minHeight="100vh">
-          <Navbar />
-          <Flex
-            h="93vh"
-            w="100vw"
-            bg={theme.colors.background}
-            color={theme.colors.lightBlue}
-            fontFamily="Montserrat"
-            justifyContent="center"
-            align="center"
-          >
-            <Grid>
-              <Text>AW SHUCKS, WE COULDN'T FIND THAT GAME</Text>
-            </Grid>
-          </Flex>
-        </Box>
-      ) : (
-        <Box minHeight="100vh">
-          <Navbar />
-          <Flex
-            h="93vh"
-            w="100vw"
-            bg={theme.colors.background}
-            color={theme.colors.lightBlue}
-            fontFamily="Montserrat"
-            justifyContent="center"
-            align="center"
-          >
-            <Grid>
-              <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
-            </Grid>
           </Flex>
         </Box>
       )}
