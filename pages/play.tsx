@@ -121,7 +121,7 @@ function PlayPage() {
         <Box minHeight="100vh">
           <Navbar />
           <Flex
-            h="93vh"
+            h="92vh"
             w="100vw"
             bg={theme.colors.background}
             color={theme.colors.lightBlue}
