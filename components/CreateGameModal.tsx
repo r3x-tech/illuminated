@@ -31,6 +31,7 @@ import {
 } from "@/utils";
 import toast from "react-hot-toast";
 import { ServiceCharge } from "@/types/types";
+import { Keypair } from "@solana/web3.js";
 
 export function CreateGameModal() {
   const {
@@ -98,8 +99,6 @@ export function CreateGameModal() {
         const size = `${bucketSizeInMB}MB`;
 
         const storageAccountResponse = await createStorageAccount(
-          solanaConnection,
-          wallet,
           bucketName,
           size
         );

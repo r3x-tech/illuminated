@@ -35,8 +35,6 @@ export const setShdwConnection = async (
 };
 
 export const createStorageAccount = async (
-  connection: any,
-  wallet: any,
   bucketName: string,
   size: string
 ): Promise<StorageAccountResponse | null> => {

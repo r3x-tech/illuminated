@@ -7,18 +7,13 @@ const emptyStorageAccountResponse: StorageAccountResponse = {
   transaction_signature: "",
 };
 
-export const useCreateStorageAccount = (
-  connection: any,
-  wallet: any,
-  bucketName: string,
-  size: string
-) => {
+export const useCreateStorageAccount = (bucketName: string, size: string) => {
   // A default function that does nothing when bucketName and size are not provided.
   const defaultFunction = () => Promise.resolve(emptyStorageAccountResponse);
 
   const mutation = useMutation(
     bucketName && size
-      ? () => createStorageAccount(connection, wallet, bucketName, size)
+      ? () => createStorageAccount(bucketName, size)
       : defaultFunction,
     {
       // Handle the result of the mutation
