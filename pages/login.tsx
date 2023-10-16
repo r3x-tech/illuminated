@@ -20,6 +20,8 @@ import { useRouter } from "next/router";
 import useOwnedGames from "@/hooks/useOwnedGames";
 import { ShdwDrive } from "@shadow-drive/sdk";
 import * as web3 from "@solana/web3.js";
+import { setShdwConnection } from "@/utils";
+import { Keypair } from "@solana/web3.js";
 
 function LoginPage() {
   const router = useRouter();
@@ -28,7 +30,8 @@ function LoginPage() {
   const [emailError, setEmailError] = useState(false);
   const [isLoginInProgress, setLoginInProgress] = useState(false);
 
-  const { connection } = useConnection();
+  // const { connection } = useConnection();
+  const connection = new web3.Connection(process.env.NEXT_PUBLIC_RPC_URL!);
   const {
     wallet,
     publicKey,
@@ -48,18 +51,34 @@ function LoginPage() {
   }, [loggedIn, refetchOwnedGames, router]);
 
   useEffect(() => {
-    if (connection && publicKey && !loggedIn) {
-      setLoginInProgress(true);
-      userStore.setState({
-        loggedIn: true,
-        loginType: "SOLANA",
-        username: publicKey.toString(),
-        solana_wallet_address: publicKey.toString(),
-        wallet: wallet,
-        solanaConnection: connection,
-      });
-      setLoginInProgress(false);
-    }
+    const fetchData = async () => {
+      if (connection && publicKey && !loggedIn && wallet) {
+        setLoginInProgress(true);
+
+        // console.log("connection: ", connection);
+        // console.log("wallet: ", wallet);
+
+        let keypair = Keypair.generate();
+
+        let KEY: any = keypair;
+        KEY.payer = keypair;
+
+        const shadowConnection = await setShdwConnection(connection, KEY);
+        userStore.setState({
+          loggedIn: true,
+          loginType: "SOLANA",
+          username: publicKey.toString(),
+          solana_wallet_address: publicKey.toString(),
+          wallet: wallet,
+          solanaConnection: connection,
+          shadowDriveConnection: shadowConnection,
+        });
+
+        setLoginInProgress(false);
+      }
+    };
+
+    fetchData();
   }, [
     connection,
     loggedIn,
@@ -83,10 +102,10 @@ function LoginPage() {
       } else {
         try {
           setEmailError(false);
-          console.log("magic: ", magic);
-          console.log("magic user: ", magic?.user);
-          console.log("magic rpc: ", magic?.rpcProvider);
-          console.log("magic wallet: ", magic?.wallet);
+          // console.log("magic: ", magic);
+          // console.log("magic user: ", magic?.user);
+          // console.log("magic rpc: ", magic?.rpcProvider);
+          // console.log("magic wallet: ", magic?.wallet);
 
           const account = await magic?.auth.loginWithEmailOTP({
             email,
@@ -95,7 +114,7 @@ function LoginPage() {
 
           if (account) {
             const metadata = await magic?.user.getInfo();
-            console.log("metadata: ", magic?.user.getInfo());
+            // console.log("metadata: ", magic?.user.getInfo());
             // const magWallet = magic?.wallet
             const solConnection = new web3.Connection(
               process.env.NEXT_PUBLIC_RPC_URL!

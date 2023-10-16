@@ -19,13 +19,15 @@ import ChakraReactSelect from "./ChakraReactSelect";
 import { useForm, Controller } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 // import * as anchor from "@project-serum/anchor";
-import { ShdwDrive } from "@shadow-drive/sdk";
+import { ShadowUploadResponse, ShdwDrive } from "@shadow-drive/sdk";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import userStore from "@/stores/userStore";
 import {
   createNFTFromMetadata,
   createStorageAccount,
-  uploadFiles,
+  getOwnedStorageAccounts,
+  setShdwConnection,
+  uploadSingleFile,
 } from "@/utils";
 import toast from "react-hot-toast";
 import { ServiceCharge } from "@/types/types";
@@ -36,40 +38,99 @@ export function CreateGameModal() {
     onOpen: onCreateGameModalOpen,
     onClose: onCreateGameModalClose,
   } = useDisclosure();
-  const { connection } = useConnection();
-  const wallet = useWallet();
-  const { loggedIn, loginType, solana_wallet_address } = userStore();
+
+  const {
+    loggedIn,
+    loginType,
+    solana_wallet_address,
+    solanaConnection,
+    shadowDriveConnection,
+    wallet,
+  } = userStore();
 
   // const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
   const [creatingGame, setCreatingGame] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { handleSubmit, control, formState } = useForm<FormData>();
   const { errors } = formState;
+  // const { connection } = useConnection();
+  // const wallet = useWallet();
 
   const onSubmit = async (data: FormData) => {
     try {
       setCreatingGame(true);
 
+      if (!loggedIn) {
+        throw Error("Not logged in");
+      }
+
+      if (loginType === "EMAIL") {
+        toast.error("Only solana wallet users can create games");
+        throw Error("Only solana wallet users can use this feature");
+      }
+
+      if (!shadowDriveConnection) {
+        throw Error("Shadow not connected");
+      }
+
+      console.log("0");
+
+      const ownedStorageAccounts = await getOwnedStorageAccounts(
+        solanaConnection,
+        wallet
+      );
+
+      console.log("0.5");
+
+      if (!ownedStorageAccounts || ownedStorageAccounts.length === 0) {
+        const bucketName = data.gameName;
+
+        if (!selectedFile) {
+          throw new Error("No file selected");
+        }
+
+        // Get the size of the selectedFile (in bytes) and multiply by 3
+        const fileSizeInBytes = selectedFile.size;
+        const bucketSizeInBytes = fileSizeInBytes * 3;
+
+        // Convert the bucketSizeInBytes to MB or GB as required
+        const bucketSizeInMB = Math.ceil(bucketSizeInBytes / (1024 * 1024));
+        const size = `${bucketSizeInMB}MB`;
+
+        const storageAccountResponse = await createStorageAccount(
+          solanaConnection,
+          wallet,
+          bucketName,
+          size
+        );
+        if (!storageAccountResponse) {
+          throw new Error("Failed to create a storage account");
+        }
+      }
+
+      console.log("1");
       // 1. Upload game assets to shadow drive to get its URI.
       if (!selectedFile) {
         throw new Error("No file selected");
       }
-      const gameAssetUploadResponse = await uploadFiles(
-        connection,
+      const gameAssetUploadResponse = (await uploadSingleFile(
+        solanaConnection,
         wallet,
-        selectedFile
-      );
-      if (!gameAssetUploadResponse || "message" in gameAssetUploadResponse) {
+        selectedFile as File
+      )) as ShadowUploadResponse | null;
+
+      console.log("1 - gameAssetUploadResponse", gameAssetUploadResponse);
+
+      if (!gameAssetUploadResponse) {
         throw new Error("Failed to upload game asset");
       }
-
-      let gameAssetLocation;
-      if ("location" in gameAssetUploadResponse) {
-        gameAssetLocation = gameAssetUploadResponse.location;
-      } else {
-        // Assuming only uploading one file.
-        gameAssetLocation = gameAssetUploadResponse[0].location;
+      if (gameAssetUploadResponse.message) {
+        // Handle the presence of the message in the response if needed
       }
+      let gameAssetLocation = gameAssetUploadResponse.finalized_locations[0];
+      console.log("1 - gameAssetLocation", gameAssetLocation);
+
+      console.log("2");
 
       // 2. Construct the metadata object with the game asset's URI.
       const socialAttributes = [
@@ -100,47 +161,66 @@ export function CreateGameModal() {
               uri: gameAssetLocation,
             },
           ],
+          collection: {
+            name: data.gameName,
+            family: data.gameName,
+          },
+          creators: [
+            {
+              address: solana_wallet_address,
+              share: 100,
+            },
+          ],
         },
       };
+
+      console.log("3");
 
       // 3. Convert the metadata object to a JSON file.
       const metadataBlob = new Blob([JSON.stringify(collectionNFTMetadata)], {
         type: "application/json",
       });
-      const metadataFile = new File([metadataBlob], "metadata.json");
+      const metadataFile = new File(
+        [metadataBlob],
+        `${data.gameName}_Game.json`
+      );
+
+      console.log("4");
 
       // 4. Upload the JSON metadata file to shadow drive to get its URI.
-      const metadataUploadResponse = await uploadFiles(
-        connection,
+      const metadataUploadResponse = (await uploadSingleFile(
+        solanaConnection,
         wallet,
         metadataFile
-      );
-      if (!metadataUploadResponse || "message" in metadataUploadResponse) {
-        throw new Error("Failed to upload metadata");
-      }
+      )) as ShadowUploadResponse | null;
 
-      let metadataLocation = "";
-      if ("location" in metadataUploadResponse) {
-        metadataLocation = metadataUploadResponse.location as string;
-      } else {
-        // Assuming only one file.
-        metadataLocation = metadataUploadResponse[0].location as string;
+      if (!metadataUploadResponse) {
+        throw new Error("Failed to upload game metadata");
       }
+      if (metadataUploadResponse.message) {
+        // Handle the presence of the message in the response if needed
+      }
+      // We know the structure of ShadowUploadResponse contains finalized_locations
+      let metadataLocation = metadataUploadResponse?.finalized_locations[0];
+
+      console.log("5");
+      console.log("metadataLocation", metadataLocation);
 
       // 5. Mint the game NFT with the metadata URI from step 4.
-      const serviceChargeDetails: ServiceCharge = {
-        receiver: "CECAa82xYqTUa8hb7Xu3Y8RBM1ijWDnP3uV17Utua7iy",
-        amount: 0.001,
-      };
+      // const serviceChargeDetails: ServiceCharge = {
+      //   receiver: "CECAa82xYqTUa8hb7Xu3Y8RBM1ijWDnP3uV17Utua7iy",
+      //   amount: 0.001,
+      // };
 
       const mintAddress = await createNFTFromMetadata(
         metadataLocation,
-        undefined,
-        undefined,
+        1,
         solana_wallet_address,
-        solana_wallet_address,
-        serviceChargeDetails
+        solana_wallet_address
       );
+
+      console.log("6");
+
       if (!mintAddress) {
         console.error("Failed to mint NFT");
       } else {

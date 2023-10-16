@@ -6,11 +6,11 @@ import axios from "axios";
 
 export async function createNFTFromMetadata(
   metadataUri: string,
-  maxSupply?: number,
-  collectionAddress?: string,
-  receiver?: string,
-  feePayer?: string,
-  serviceCharge?: ServiceCharge
+  maxSupply: number,
+  receiver: string,
+  feePayer: string,
+  serviceCharge?: ServiceCharge,
+  collectionAddress?: string
 ): Promise<string | null> {
   const endpoint = "https://api.shyft.to/sol/v1/nft/create_from_metadata";
   const apiKey = process.env.NEXT_PUBLIC_S_KEY;
@@ -22,23 +22,31 @@ export async function createNFTFromMetadata(
   const requestBody = {
     network: "mainnet-beta",
     metadata_uri: metadataUri,
-    ...(maxSupply && { max_supply: maxSupply }),
+    max_supply: maxSupply,
     ...(collectionAddress && { collection_address: collectionAddress }),
-    ...(receiver && { receiver: receiver }),
-    ...(feePayer && { fee_payer: feePayer }),
+    receiver: receiver,
+    fee_payer: feePayer,
     ...(serviceCharge && { service_charge: serviceCharge }),
   };
 
   try {
+    console.log("5.0");
+
     const response = await axios.post(endpoint, requestBody, {
       headers: headers,
     });
     const responseData = response.data;
 
+    console.log("5.1 - responseData: ", responseData);
+
     if (responseData.success) {
       console.log(responseData);
+      console.log("5.2 - responseData: ", responseData);
+
       return responseData.result.mint;
     } else {
+      console.log("5.3 - responseData: ", responseData);
+
       console.error("Error creating NFT:", responseData.message);
       return null;
     }

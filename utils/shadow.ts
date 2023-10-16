@@ -7,23 +7,29 @@ import {
   ShadowFile,
   ShadowEditResponse,
 } from "@shadow-drive/sdk";
-import { PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { web3 } from "@coral-xyz/anchor";
+
 import userStore from "@/stores/userStore";
 import { error } from "console";
 import * as anchor from "@project-serum/anchor";
 
 export const setShdwConnection = async (
-  connection: any,
+  connection: Connection,
   wallet: any
 ): Promise<any> => {
+  console.log("connection: ", connection);
+  console.log("wallet: ", wallet);
+
   try {
     const drive = await new ShdwDrive(connection, wallet).init();
+    console.log("drive ", drive);
     if (drive) {
       userStore.setState({ shadowDriveConnection: drive });
     }
     return drive;
   } catch (error) {
-    console.error("Error while creating storage account:", error);
+    console.error("Error while connecting to shadow:", error);
     return null;
   }
 };
@@ -98,41 +104,24 @@ export const getStorageAccount = async (
 
 export type FileInput = File | FileList | Array<File>;
 
-export const uploadFiles = async (
+export const uploadSingleFile = async (
   connection: any,
   wallet: any,
-  files: FileInput
-): Promise<ShadowUploadResponse | ShadowBatchUploadResponse[] | null> => {
+  file: File
+): Promise<ShadowUploadResponse | null> => {
   try {
     const drive = userStore.getState().shadowDriveConnection;
+
     if (drive) {
       const accts = await drive.getStorageAccounts();
-
       if (accts && accts.length > 0) {
         let acctPubKey = new PublicKey(accts[0].publicKey);
 
-        if (files instanceof File) {
-          const uploadResponse: ShadowUploadResponse = await drive.uploadFile(
-            acctPubKey,
-            files
-          );
-          return uploadResponse;
-        } else if (files instanceof FileList || Array.isArray(files)) {
-          const uploadResponses: ShadowBatchUploadResponse[] =
-            await Promise.all(
-              Array.from(files).map(async (file: File) => {
-                const response = await drive.uploadFile(acctPubKey, file);
-                return {
-                  fileName: file.name,
-                  status: response.message,
-                  location: response.finalized_locations[0],
-                };
-              })
-            );
-          return uploadResponses;
-        } else {
-          throw Error("Failed to upload file");
-        }
+        const uploadResponse: ShadowUploadResponse = await drive.uploadFile(
+          acctPubKey,
+          file
+        );
+        return uploadResponse;
       } else {
         throw Error("No storage accounts found");
       }
@@ -140,7 +129,45 @@ export const uploadFiles = async (
       throw Error("Shadow Drive connection is null");
     }
   } catch (error) {
-    console.error("Error while uploading files:", error);
+    console.error("Error while uploading file:", error);
+    return null;
+  }
+};
+
+export const uploadMultipleFiles = async (
+  connection: any,
+  wallet: any,
+  files: FileList | File[]
+): Promise<ShadowBatchUploadResponse[] | null> => {
+  try {
+    const drive = userStore.getState().shadowDriveConnection;
+
+    if (drive) {
+      const accts = await drive.getStorageAccounts();
+
+      if (accts && accts.length > 0) {
+        let acctPubKey = new PublicKey(accts[0].publicKey);
+
+        const uploadResponses: ShadowBatchUploadResponse[] = await Promise.all(
+          Array.from(files).map(async (file: File) => {
+            const response = await drive.uploadFile(acctPubKey, file);
+            return {
+              fileName: file.name,
+              status: response.message,
+              location: response.finalized_locations[0],
+            };
+          })
+        );
+
+        return uploadResponses;
+      } else {
+        throw Error("No storage accounts found");
+      }
+    } else {
+      throw Error("Shadow Drive connection is null");
+    }
+  } catch (error) {
+    console.error("Error while uploading multiple files:", error);
     return null;
   }
 };
