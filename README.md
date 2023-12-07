@@ -1,2 +1,2 @@
-# liberte-dashboard
- A dashboard for interacting with the Liberté Game Network
+# ILLUMINATED
+An on-chain MMORPG mystery by REX
