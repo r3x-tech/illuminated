@@ -17,7 +17,7 @@ function PlayPage() {
             h="92vh"
             w="100vw"
             bg={theme.colors.background}
-            color={theme.colors.lightBlue}
+            color={theme.colors.red}
             fontFamily="Montserrat"
             justifyContent="spacebetween"
             align="center"
@@ -45,7 +45,7 @@ function PlayPage() {
                   borderColor={theme.colors.input}
                   fontWeight="500"
                   letterSpacing="1px"
-                  color={theme.colors.lightBlue}
+                  color={theme.colors.red}
                   focusBorderColor={theme.colors.input}
                   _placeholder={{ color: theme.colors.evenLighterBlue }}
                   _focus={{ boxShadow: "none" }}
@@ -74,7 +74,7 @@ function PlayPage() {
                   fontSize="1rem"
                   fontWeight="600"
                   fontFamily={theme.fonts.heading}
-                  color={theme.colors.lightBlue}
+                  color={theme.colors.red}
                 >
                   MY GAMES
                 </Text>
@@ -98,8 +98,8 @@ function PlayPage() {
                       borderWidth="2px"
                       borderRadius="2px"
                       mt="1rem"
-                      bg={theme.colors.lightBlue}
-                      borderColor={theme.colors.lightBlue}
+                      bg={theme.colors.red}
+                      borderColor={theme.colors.red}
                       color={theme.colors.background}
                       fontWeight="700"
                       letterSpacing="1px"
@@ -124,7 +124,7 @@ function PlayPage() {
             h="92vh"
             w="100vw"
             bg={theme.colors.background}
-            color={theme.colors.lightBlue}
+            color={theme.colors.red}
             fontFamily="Montserrat"
             justifyContent="center"
             align="center"

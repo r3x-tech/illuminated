@@ -1,20 +1,55 @@
 import theme from "@/styles/theme";
-import { Box } from "@chakra-ui/react";
+
+import { Box, Text, Flex, Image } from "@chakra-ui/react";
 
 export const Footer = () => (
-  <Box
-    textAlign="center"
-    bg={theme.colors.background}
-    color={theme.colors.lightBlue}
-    padding="1rem 0rem"
-    fontFamily="Montserrat"
-    fontSize="0.6rem"
-    fontWeight="500"
-    h="7vh"
-    display="flex"
-    justifyContent="center"
-    alignItems="flex-end"
-  >
-    2023 LIBERTÉ. All rights reserved.
-  </Box>
+  // <Flex w="100%" justifyContent="center" alignItems="center">
+  //   <Flex
+  //     w="360px"
+  //     justifyContent="flex-end"
+  //     alignItems="end"
+  //     color="white"
+  //     padding="0rem 0rem"
+  //     mt="-2rem"
+  //   >
+  //     <Image src="../assets/poweredby.svg" h="1.5rem" alt="POWERED BY REX" />
+  //   </Flex>
+  // </Flex>
+  <Flex w="100%" justifyContent="center">
+    <Flex w="360px" justifyContent="space-between">
+      <Box
+        textAlign="center"
+        color="white"
+        padding="0.5rem 0rem"
+        fontFamily="Montserrat"
+        fontSize="0.5rem"
+        fontWeight="500"
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            window.open("https://www.r3x.tech/", "_blank");
+          }
+        }}
+        cursor="pointer"
+      >
+            2023 ILLUMINATED. All rights reserved.
+      </Box>
+      <Text
+        textAlign="center"
+        color="white"
+        padding="0.5rem 0rem"
+        fontFamily="Montserrat"
+        fontSize="0.5rem"
+        fontWeight="800"
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            window.open("https://forms.gle/YXZSaH2PJNvkkucX7", "_blank");
+          }
+        }}
+        cursor="pointer"
+      >
+        REPORT AN ISSUE?
+      </Text>
+    </Flex>
+  </Flex>
 );
+

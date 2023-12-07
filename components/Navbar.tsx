@@ -18,19 +18,15 @@ import { useRouter } from "next/router";
 // import { useEffect } from "react";
 import userStore from "@/stores/userStore";
 import toast from "react-hot-toast";
-import { useMagic } from "../contexts/MagicProvider";
 // import { useState } from "react";
 import { FaCopy } from "react-icons/fa";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
 
 export const Navbar: React.FC = () => {
-  const { loggedIn, loginType, solana_wallet_address } = userStore();
+  const { loggedIn, loginType, wallet_address } = userStore();
   const router = useRouter();
   const { pathname } = useRouter();
   const theme = useTheme();
-  const { magic } = useMagic();
-  const { publicKey, disconnect } = useWallet();
   const [isLogoutInProgress, setLogoutInProgress] = useState(false);
 
   const getTextColor = (route: string) => {
@@ -42,7 +38,7 @@ export const Navbar: React.FC = () => {
 
   const handleCopyClick = async () => {
     try {
-      await navigator.clipboard.writeText(solana_wallet_address);
+      await navigator.clipboard.writeText(wallet_address);
       toast.success("Copied Address");
     } catch (err) {
       console.error("Failed to copy address: ", err);
@@ -62,7 +58,7 @@ export const Navbar: React.FC = () => {
       justifyContent="space-between"
       alignItems="center"
       bg={theme.colors.background}
-      color={theme.colors.lightBlue}
+      color={theme.colors.red}
       h="8vh"
       borderBottomWidth="2px"
       // borderTopWidth="2px"
@@ -76,7 +72,7 @@ export const Navbar: React.FC = () => {
         p="1rem"
       >
         <Heading fontSize="1.5rem" fontWeight="600" letterSpacing="4px">
-          LIBERTÉ
+          ILLUMINATED
         </Heading>
       </Flex>
 
@@ -159,18 +155,18 @@ export const Navbar: React.FC = () => {
                 fontWeight="600"
                 _hover={{
                   color: theme.colors.background,
-                  borderColor: theme.colors.lightBlue,
-                  bg: theme.colors.lightBlue,
+                  borderColor: theme.colors.red,
+                  bg: theme.colors.red,
                 }}
               >
-                {formatUsername(solana_wallet_address)}
+                {formatUsername(wallet_address)}
               </Button>
             </PopoverTrigger>
 
             <PopoverContent
               bg={theme.colors.background}
-              color={theme.colors.lightBlue}
-              borderColor={theme.colors.lightBlue}
+              color={theme.colors.red}
+              borderColor={theme.colors.red}
               borderRadius="2px"
               borderWidth="2px"
               minW="10rem"
@@ -206,8 +202,8 @@ export const Navbar: React.FC = () => {
                       aria-label="Address"
                       bg={theme.colors.black}
                     >
-                      <Text color={theme.colors.lightBlue}>
-                        {formatUsername(solana_wallet_address)}
+                      <Text color={theme.colors.red}>
+                        {formatUsername(wallet_address)}
                       </Text>
                     </Tooltip>
 
@@ -216,7 +212,7 @@ export const Navbar: React.FC = () => {
                       aria-label="Copy"
                       bg={theme.colors.black}
                     >
-                      <Flex color={theme.colors.lightBlue}>
+                      <Flex color={theme.colors.red}>
                         <FaCopy
                           style={{
                             marginLeft: "10px",
@@ -231,7 +227,7 @@ export const Navbar: React.FC = () => {
                   <Button
                     variant="outline"
                     borderWidth="2px"
-                    borderColor={theme.colors.lightBlue}
+                    borderColor={theme.colors.red}
                     bg={theme.colors.background}
                     borderRadius="2px"
                     fontWeight="600"
@@ -243,29 +239,23 @@ export const Navbar: React.FC = () => {
                     isLoading={isLogoutInProgress}
                     spinner={
                       <Flex flexDirection="row" align="center">
-                        <Spinner color={theme.colors.lightBlue} size="sm" />
+                        <Spinner color={theme.colors.red} size="sm" />
                       </Flex>
                     }
                     onClick={async () => {
                       setLogoutInProgress(true);
                       try {
-                        if (loggedIn && loginType == "SOLANA" && publicKey) {
-                          await disconnect();
-                          new Promise((resolve) => setTimeout(resolve, 1500));
-                        }
+
                         if (
                           loggedIn &&
-                          loginType == "EMAIL" &&
-                          (await magic?.user.isLoggedIn()) &&
-                          magic
+                          loginType == "EMAIL"
                         ) {
-                          await magic?.user.logout();
                         }
                         userStore.setState({
                           loggedIn: false,
                           loginType: "",
                           username: "",
-                          solana_wallet_address: "",
+                          wallet_address: "",
                         });
                         router.push("/");
                         toast.success("Logged out");
@@ -276,8 +266,8 @@ export const Navbar: React.FC = () => {
                     }}
                     _hover={{
                       color: theme.colors.background,
-                      borderColor: theme.colors.lightBlue,
-                      bg: theme.colors.lightBlue,
+                      borderColor: theme.colors.red,
+                      bg: theme.colors.red,
                     }}
                   >
                     LOGOUT
@@ -304,8 +294,8 @@ export const Navbar: React.FC = () => {
               fontWeight="600"
               _hover={{
                 color: theme.colors.background,
-                borderColor: theme.colors.lightBlue,
-                bg: theme.colors.lightBlue,
+                borderColor: theme.colors.red,
+                bg: theme.colors.red,
               }}
             >
               LOGIN

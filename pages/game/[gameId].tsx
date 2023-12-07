@@ -70,7 +70,7 @@ const GamePage = () => {
           h="92vh"
           w="100vw"
           bg={theme.colors.background}
-          color={theme.colors.lightBlue}
+          color={theme.colors.red}
           fontFamily="Montserrat"
           justifyContent="spacebetween"
           align="center"
@@ -81,7 +81,7 @@ const GamePage = () => {
                 h="100%"
                 w="100%"
                 bg={theme.colors.background}
-                color={theme.colors.lightBlue}
+                color={theme.colors.red}
                 fontFamily="Montserrat"
                 justifyContent="center"
                 align="center"
@@ -91,10 +91,10 @@ const GamePage = () => {
                   flexDirection="column"
                   align="center"
                   justifyContent="center"
-                  color={theme.colors.lightBlue}
+                  color={theme.colors.red}
                   my="4.58rem"
                 >
-                  <Spinner color={theme.colors.lightBlue} size="sm" />
+                  <Spinner color={theme.colors.red} size="sm" />
                   <Text mt={3} fontSize="0.75rem" fontWeight="500">
                     LOADING
                   </Text>
@@ -105,7 +105,7 @@ const GamePage = () => {
                 h="100%"
                 w="100%"
                 bg={theme.colors.background}
-                color={theme.colors.lightBlue}
+                color={theme.colors.red}
                 fontFamily="Montserrat"
                 justifyContent="center"
                 align="center"
@@ -158,8 +158,8 @@ const GamePage = () => {
                             fontSize="0.75rem"
                             fontWeight="700"
                             color={theme.colors.background}
-                            borderColor={theme.colors.lightBlue}
-                            bg={theme.colors.lightBlue}
+                            borderColor={theme.colors.red}
+                            bg={theme.colors.red}
                           >
                             {gameData.tags[0]}
                           </Card>
@@ -171,8 +171,8 @@ const GamePage = () => {
                             fontSize="0.75rem"
                             fontWeight="700"
                             color={theme.colors.background}
-                            borderColor={theme.colors.lightBlue}
-                            bg={theme.colors.lightBlue}
+                            borderColor={theme.colors.red}
+                            bg={theme.colors.red}
                           >
                             {gameData.tags[1]}
                           </Card>
@@ -195,7 +195,7 @@ const GamePage = () => {
                         >
                           <Icon
                             as={MdLanguage}
-                            color={theme.colors.lightBlue}
+                            color={theme.colors.red}
                             fontSize="1.25rem"
                             fontWeight="800"
                             cursor="pointer"
@@ -203,7 +203,7 @@ const GamePage = () => {
                           />
                           <Icon
                             as={FaTwitter}
-                            color={theme.colors.lightBlue}
+                            color={theme.colors.red}
                             fontSize="1.25rem"
                             fontWeight="800"
                             cursor="pointer"
@@ -211,7 +211,7 @@ const GamePage = () => {
                           />
                           <Icon
                             as={FaDiscord}
-                            color={theme.colors.lightBlue}
+                            color={theme.colors.red}
                             fontSize="1.25rem"
                             fontWeight="800"
                             cursor="pointer"
@@ -219,7 +219,7 @@ const GamePage = () => {
                           />
                           <Icon
                             as={MdShare}
-                            color={theme.colors.lightBlue}
+                            color={theme.colors.red}
                             fontSize="1.25rem"
                             fontWeight="800"
                             cursor="pointer"
@@ -245,8 +245,8 @@ const GamePage = () => {
               <Button
                 onClick={() => {}}
                 variant="outline"
-                backgroundColor={theme.colors.lightBlue}
-                borderColor={theme.colors.lightBlue}
+                backgroundColor={theme.colors.red}
+                borderColor={theme.colors.red}
                 border="2px solid"
                 borderRadius="2px"
                 color={theme.colors.background}
@@ -275,7 +275,7 @@ const GamePage = () => {
                           key={module.moduleId}
                           w="100%"
                           backgroundColor={theme.colors.background}
-                          borderColor={theme.colors.lightBlue}
+                          borderColor={theme.colors.red}
                           borderWidth="2px"
                           borderRadius="2px"
                           justifyContent="space-between"
@@ -326,8 +326,8 @@ const GamePage = () => {
                                   }
                                 }}
                                 variant="outline"
-                                backgroundColor={theme.colors.lightBlue}
-                                borderColor={theme.colors.lightBlue}
+                                backgroundColor={theme.colors.red}
+                                borderColor={theme.colors.red}
                                 borderWidth="2px"
                                 borderRadius="2px"
                                 color={theme.colors.background}
@@ -342,10 +342,10 @@ const GamePage = () => {
                                 onClick={() => {}}
                                 variant="outline"
                                 backgroundColor={theme.colors.background}
-                                borderColor={theme.colors.lightBlue}
+                                borderColor={theme.colors.red}
                                 borderWidth="2px"
                                 borderRadius="2px"
-                                color={theme.colors.lightBlue}
+                                color={theme.colors.red}
                                 h="2rem"
                                 fontSize="0.75rem"
                                 fontWeight="700"
