@@ -111,7 +111,7 @@ const GamePage = () => {
                 align="center"
               >
                 <Box>
-                  <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
+                  <Text>AW SHUCKS, PLEASE LOGIN TO USE ILLUMINATED!</Text>
                 </Box>
               </Flex>
             ) : (

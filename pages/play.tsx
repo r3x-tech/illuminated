@@ -130,7 +130,7 @@ function PlayPage() {
             align="center"
           >
             <Grid>
-              <Text>AW SHUCKS, PLEASE LOGIN TO USE LIBERTE!</Text>
+              <Text>AW SHUCKS, PLEASE LOGIN TO USE ILLUMINATED!</Text>
             </Grid>
           </Flex>
         </Box>

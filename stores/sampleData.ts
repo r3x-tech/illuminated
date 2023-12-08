@@ -3,7 +3,7 @@ export const gameData = {
   title: "Test Game",
   creator: "REX TECH",
   description:
-    "The best test game that was ever created to test liberte and all game networks world wide. It is truly increadible and amazing",
+    "The best test game that was ever created to test ILLUMINATED and all game networks world wide. It is truly increadible and amazing",
   tags: ["MMO", "ADVENTURE", "ACTION"],
   socials: {
     website: "",
@@ -27,7 +27,7 @@ export const gameModules = [
     name: "Pong Module #1",
     creator: "REX TECH",
     description:
-      "The best test module that was ever created to test liberte and all modules world wide. It is truly increadible and amazing",
+      "The best test module that was ever created to test ILLUMINATED and all modules world wide. It is truly increadible and amazing",
     entryReqs: ["MMO", "ADVENTURE", "ACTION"],
     links: {},
   },
@@ -37,7 +37,7 @@ export const gameModules = [
     name: "Pong Module #2",
     creator: "REX TECH",
     description:
-      "The best test module that was ever created to test liberte and all modules world wide. It is truly increadible and amazing",
+      "The best test module that was ever created to test ILLUMINATED and all modules world wide. It is truly increadible and amazing",
     entryReqs: ["MMO", "ADVENTURE", "ACTION"],
     links: {},
   },
