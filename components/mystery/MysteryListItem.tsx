@@ -1,5 +1,7 @@
 import { Box, Flex, Text, Button, Image, Stack } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
+import { IoMdShareAlt } from "react-icons/io";
+
 import theme from "@/styles/theme";
 import toast from "react-hot-toast";
 import userStore from "@/stores/userStore";
@@ -49,7 +51,6 @@ export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
       borderRadius="4px"
     >
       <Flex justifyContent="space-between">
-        {" "}
         <Flex mb="1.5rem">
           <Text
             fontSize="0.75rem"
@@ -63,14 +64,28 @@ export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
             {mystery.reward}XP
           </Text>
         </Flex>
-        <Text
-          fontSize="0.75rem"
-          color="white"
+        <Flex
+          h="100%"
+          alignItems="center"
           cursor="pointer"
-          onClick={() => handleCopyClick}
+          onClick={async () => {
+            let add = "play";
+            try {
+              await navigator.clipboard.writeText(
+                `https://illuminated.r3x.tech/${add}`
+              );
+              toast.success("Copied share link");
+            } catch (err) {
+              console.error("Failed to copy share link: ", err);
+              toast.error("Failed to copy share link");
+            }
+          }}
         >
-          SHARE LINK
-        </Text>
+          <Text fontSize="0.75rem" fontWeight="800" color="white" mr="0.25rem">
+            SHARE
+          </Text>
+          <IoMdShareAlt color="white" />
+        </Flex>
       </Flex>
       {/* Row for Image, Title and Description */}
       <Flex>
