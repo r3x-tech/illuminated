@@ -6,7 +6,7 @@ import theme from "@/styles/theme";
 import userStore from "@/stores/userStore";
 import toast from "react-hot-toast";
 import Web3 from "web3";
-
+import { ParticleNetwork } from "@particle-network/auth";
 import { useRouter } from "next/router";
 import { useParticle } from "@/contexts/ParticleContextProvider";
 
@@ -18,7 +18,7 @@ function LoginPage() {
 
   const { username, loggedIn } = userStore();
   const context = useParticle();
-
+  let userInfo = null;
   if (!context) {
     // Handle the case where context is not available
     return (
@@ -45,8 +45,9 @@ function LoginPage() {
       </Flex>
     );
   }
-
   const { particle, ethersProvider, ethersSigner } = context;
+
+  // Correct the parameters for the login function
 
   useEffect(() => {
     if (loggedIn) {
@@ -55,97 +56,60 @@ function LoginPage() {
     }
   }, [loggedIn, router]);
 
-    const handleLogin = async () => {
-      setLoginInProgress(true);
+  const handleLogin = async () => {
+    setLoginInProgress(true);
 
-  if (!particle.auth.isLogin()) {
-      // Request user login if needed, returns current user info
-      const userInfo = await particle.auth.login();
-  }
-
-  // optional: custom login params.
-  // support auth types: email,phone,facebook,google,apple,discord,github,twitch,microsoft,linkedin
-  const userInfo = particle.auth.login({
-      // when set social login auth type, will open thirdparty auth page directly.
-      preferredAuthType?: AuthType,
-      // when set email/phone account and preferredAuthType is email or phone,
-      // Particle Auth will enter directly input verification code page.
-      // when set JWT value and preferredAuthType is jwt, Particle Auth will auto login.
-      account?: string,
-      supportAuthTypes?: string, //need support social login types, split with ','. default value 'all'.
-      hideLoading?: boolean, //hide particle loading when use jwt authorization.
-      socialLoginPrompt?: string, //social login prompt.  none | consent | select_account
-      authorization: { // optional, login with authorize
-          message: '0x...', //hex sign message.
-          uniq: false, //optional, default false.
-      }
-    })
-
-      userStore.setState({
-        loggedIn: true,
-        loginType: "EMAIL",
-        username: "test",
-        wallet_address: "test",
+    if (!particle!.auth.isLogin()) {
+      userInfo = await particle!.auth.login({
+        // when set social login auth type, will open thirdparty auth page directly.
+        preferredAuthType: "phone",
+        // when set email/phone account and preferredAuthType is email or phone,
+        // Particle Auth will enter directly input verification code page.
+        // when set JWT value and preferredAuthType is jwt, Particle Auth will auto login.
       });
-      // if (!loggedIn) {
-      //   if (
-      //     !email.match(
-      //       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      //     )
-      //   ) {
-      //     console.log("email error");
-      //     setEmailError(true);
-      //   } else {
-      //     try {
-      //       setEmailError(false);
-      //       // console.log("magic: ", magic);
-      //       // console.log("magic user: ", magic?.user);
-      //       // console.log("magic rpc: ", magic?.rpcProvider);
-      //       // console.log("magic wallet: ", magic?.wallet);
 
-      //       const account = await magic?.auth.loginWithEmailOTP({
-      //         email,
-      //         showUI: true,
-      //       });
+      let email =
+        userInfo.apple_email ||
+        userInfo.discord_email ||
+        userInfo.facebook_email ||
+        userInfo.github_email ||
+        userInfo.google_email ||
+        userInfo.linkedin_email ||
+        userInfo.microsoft_email ||
+        userInfo.twitch_email ||
+        userInfo.twitter_email ||
+        "";
 
-      //       if (account) {
-      //         const metadata = await magic?.user.getInfo();
-      //         // console.log("metadata: ", magic?.user.getInfo());
-      //         // const magWallet = magic?.wallet
-      //         const solConnection = new web3.Connection(
-      //           process.env.NEXT_PUBLIC_RPC_URL!
-      //         );
-      //         userStore.setState({
-      //           loggedIn: true,
-      //           loginType: "EMAIL",
-      //           username: metadata?.email || "",
-      //           wallet_address: metadata?.publicAddress || "",
-      //           solanaConnection: solConnection,
-      //         });
-      //         setEmail("");
-      //       } else {
-      //         console.log("no account");
-      //       }
-      //     } catch (e) {
-      //       console.log("login error: " + JSON.stringify(e));
-      //       if (e instanceof RPCError) {
-      //         switch (e.code) {
-      //           case RPCErrorCode.MagicLinkFailedVerification:
-      //           case RPCErrorCode.MagicLinkExpired:
-      //           case RPCErrorCode.MagicLinkRateLimited:
-      //           case RPCErrorCode.UserAlreadyLoggedIn:
-      //             toast.error(`${e.message}`);
-      //             break;
-      //           default:
-      //             toast.error("Something went wrong. Please try again");
-      //         }
-      //       }
-      //     } finally {
-      //       setLoginInProgress(false);
-      //     }
-      //   }
-      // }
-    };
+      if (userInfo.phone) {
+        userStore.setState({
+          loggedIn: true,
+          loginType: "PHONE",
+          username: userInfo.phone,
+          wallet_address: userInfo.wallets[0].public_address,
+          user_info: userInfo,
+          particle: particle,
+          ethersProvider: ethersProvider,
+          ethersSigner: ethersSigner,
+        });
+      } else if (email) {
+        userStore.setState({
+          loggedIn: true,
+          loginType: "EMAIL",
+          username: email, // Use the email address as username
+          wallet_address: userInfo.wallets[0].public_address,
+          user_info: userInfo,
+          particle: particle,
+          ethersProvider: ethersProvider,
+          ethersSigner: ethersSigner,
+        });
+      } else {
+        console.log("No phone or email information available");
+        toast.error("Login failed");
+      }
+    } else {
+      userInfo = particle!.auth.getUserInfo();
+    }
+  };
 
   return (
     <Flex

@@ -21,9 +21,19 @@ import toast from "react-hot-toast";
 // import { useState } from "react";
 import { FaCopy } from "react-icons/fa";
 import { useState } from "react";
+import { useParticle } from "@/contexts/ParticleContextProvider";
 
 export const Navbar: React.FC = () => {
-  const { loggedIn, loginType, wallet_address } = userStore();
+  const {
+    loggedIn,
+    loginType,
+    username,
+    wallet_address,
+    user_info,
+    particle,
+    ethersProvider,
+    ethersSigner,
+  } = userStore();
   const router = useRouter();
   const { pathname } = useRouter();
   const theme = useTheme();
@@ -223,16 +233,27 @@ export const Navbar: React.FC = () => {
                     onClick={async () => {
                       setLogoutInProgress(true);
                       try {
-                        if (loggedIn && loginType == "EMAIL") {
+                        if (!particle) {
+                          console.error("Particle unavailable");
+                          throw Error("Particle unavailable");
                         }
-                        userStore.setState({
-                          loggedIn: false,
-                          loginType: "",
-                          username: "",
-                          wallet_address: "",
-                        });
-                        router.push("/");
-                        toast.success("Logged out");
+                        particle!.auth
+                          .logout()
+                          .catch((e) => {
+                            console.error(e);
+                            throw Error(e);
+                          })
+                          .then(() => {
+                            console.log("logout");
+                            userStore.setState({
+                              loggedIn: false,
+                              loginType: "",
+                              username: "",
+                              wallet_address: "",
+                            });
+                            router.push("/");
+                            toast.success("Logged out");
+                          });
                       } catch (e) {
                         toast.error("Failed to logout");
                       }
