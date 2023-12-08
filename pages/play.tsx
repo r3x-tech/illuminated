@@ -1,8 +1,13 @@
 import { Navbar } from "@/components/Navbar";
+import { MysteryListItem } from "@/components/mystery/MysteryListItem";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
-import { Box, Image, Flex, Grid, Input, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, Grid, Stack, Text, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { AiOutlineMenu, AiOutlineStar } from "react-icons/ai";
+import Image from "next/image";
+import { Mystery } from "@/types/types";
+import { mysteries } from "@/stores/sampleMysteries";
 
 function PlayPage() {
   const { loggedIn } = userStore();
@@ -16,104 +21,53 @@ function PlayPage() {
           <Flex
             h="92vh"
             w="100vw"
-            bg={theme.colors.background}
+            bgImage="url('/crimeboard.svg')"
+            backgroundSize="cover"
+            backgroundPosition="center"
             color={theme.colors.red}
             fontFamily="Montserrat"
-            justifyContent="spacebetween"
+            justifyContent="space-between"
             align="center"
           >
             <Flex
-              direction="column"
-              p="1rem"
-              h="100%"
-              w="17%"
-              borderRightWidth="2px"
+              h="83vh"
+              w="100vw"
+              alignItems="center"
+              justifyContent="center"
+              p={4}
+              bg="gray.800"
             >
-              <Flex
+              <Stack
                 direction="column"
-                justifyContent="space-between"
-                mt="0.75rem"
+                w="full"
+                maxW="lg"
+                spacing={4} // Replace spaceY with spacing
+                bg="blue.800"
+                rounded="2xl"
+                maxH="75vh"
+                overflowY="auto"
               >
-                <Input
-                  placeholder="SEARCH MY GAMES"
-                  w="100%"
-                  h="2rem"
-                  fontSize="0.75rem"
-                  bg={theme.colors.input}
-                  borderWidth="2px"
-                  borderRadius="2px"
-                  borderColor={theme.colors.input}
-                  fontWeight="500"
-                  letterSpacing="1px"
-                  color={theme.colors.red}
-                  focusBorderColor={theme.colors.input}
-                  _placeholder={{ color: theme.colors.evenLighterBlue }}
-                  _focus={{ boxShadow: "none" }}
-                />
-
-                {/* <Flex justifyContent="space-between" mt="1rem">
-                  <Text fontSize="0.75rem" cursor="pointer">
-                    FILTER
-                  </Text>
-                  <Text fontSize="0.75rem" cursor="pointer">
-                    SORT
-                  </Text>
-                </Flex> */}
-              </Flex>
-            </Flex>
-            <Flex
-              direction="column"
-              px="2rem"
-              py="1.5rem"
-              h="100%"
-              w="83%"
-              overflowY="auto"
-            >
-              <Flex direction="column">
-                <Text
-                  fontSize="1rem"
-                  fontWeight="600"
-                  fontFamily={theme.fonts.heading}
-                  color={theme.colors.red}
-                >
-                  MY GAMES
-                </Text>
-                <Grid templateColumns="repeat(6, 1fr)" gap={8} mt="1rem">
-                  <Box w="10rem" h="100%">
+                {/* Top Navigation */}
+                <Flex w="full" justifyContent="between" p={4} color="white">
+                  <Button variant="outline" size="lg" iconSpacing={0}>
+                    <AiOutlineMenu />
+                  </Button>
+                  <Box w={12} h={12} position="relative">
                     <Image
-                      src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
-                      alt="Game"
-                      borderRadius="2px"
-                      h="10rem"
-                      w="10rem"
-                      cursor="pointer"
-                      onClick={() => {
-                        const gameId = "1234";
-                        router.push(`/game/${gameId}`);
-                      }}
+                      src="/your-logo-path.png"
+                      alt="Logo"
+                      layout="fill"
+                      objectFit="contain"
                     />
-                    <Button
-                      w="100%"
-                      h="2rem"
-                      borderWidth="2px"
-                      borderRadius="2px"
-                      mt="1rem"
-                      bg={theme.colors.red}
-                      borderColor={theme.colors.red}
-                      color={theme.colors.background}
-                      fontWeight="700"
-                      letterSpacing="1px"
-                      fontSize="0.75rem"
-                      onClick={() => {
-                        const gameId = "1234";
-                        router.push(`/game/${gameId}`);
-                      }}
-                    >
-                      PLAY
-                    </Button>
                   </Box>
-                </Grid>
-              </Flex>
+                  <Button variant="outline" size="lg" iconSpacing={0}>
+                    <AiOutlineStar />
+                  </Button>
+                </Flex>
+                {mysteries.map((mystery: Mystery, index: number) => (
+                  <MysteryListItem key={index} mystery={mystery} />
+                ))}
+              </Stack>
             </Flex>
           </Flex>
         </Box>

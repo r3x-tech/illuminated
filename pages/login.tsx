@@ -9,6 +9,7 @@ import Web3 from "web3";
 import { ParticleNetwork } from "@particle-network/auth";
 import { useRouter } from "next/router";
 import { useParticle } from "@/contexts/ParticleContextProvider";
+import { transparentize } from "@chakra-ui/theme-tools";
 
 function LoginPage() {
   const router = useRouter();
@@ -63,6 +64,7 @@ function LoginPage() {
       userInfo = await particle!.auth.login({
         // when set social login auth type, will open thirdparty auth page directly.
         preferredAuthType: "phone",
+        supportAuthTypes: "phone,google",
         // when set email/phone account and preferredAuthType is email or phone,
         // Particle Auth will enter directly input verification code page.
         // when set JWT value and preferredAuthType is jwt, Particle Auth will auto login.
@@ -117,7 +119,6 @@ function LoginPage() {
       });
     } else if (email && email != "") {
       console.log("user info email: ", userInfo);
-
       userStore.setState({
         loggedIn: true,
         loginType: "EMAIL",
@@ -142,7 +143,9 @@ function LoginPage() {
       alignItems="center"
       h="100vh"
       w="100vw"
-      bg={theme.colors.background}
+      bgImage="url('/detectivehouse.png')" // Set background image
+      backgroundSize="cover" // Optional: Set how the background image is sized
+      backgroundPosition="center" // Optional: Set position of the background image
     >
       <Flex
         direction="column"
@@ -150,8 +153,9 @@ function LoginPage() {
         fontFamily="Montserrat"
         p="1rem"
         minWidth="22rem"
+        bg="transparent" // Ensure this Flex container has a transparent background
       >
-        <Flex justifyContent="center" mb="0rem">
+        <Flex justifyContent="center" mt="-10rem" mb="1rem">
           <Image
             src="/ilmlogocenter.svg"
             alt="Illuminated Logo"
@@ -186,11 +190,16 @@ function LoginPage() {
                   LOGIN
                 </Text>
               </Flex> */}
-              <Flex justifyContent="center" alignItems="center" w="100%">
+              <Flex
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                w="100%"
+              >
                 <Button
                   onClick={() => handleLogin()}
                   w="20rem"
-                  bg={theme.colors.background}
+                  bg="transparent"
                   py="0.5rem"
                   h="2.25rem"
                   px="2rem"
@@ -205,32 +214,34 @@ function LoginPage() {
                   _hover={{
                     color: theme.colors.green,
                     borderColor: theme.colors.green,
-                    bg: theme.colors.gray,
+                    bg: transparentize(theme.colors.white, 0.05),
                   }}
                 >
                   LOGIN
                 </Button>
-              </Flex>
-
-              <Flex flexDirection="column" mb="1rem"></Flex>
-              <Flex w="100%" justifyContent="center">
-                <Text
-                  fontWeight="600"
-                  fontSize="0.75rem"
-                  color={theme.colors.red}
-                  py="0"
-                >
-                  DON'T HAVE AN ACCOUNT?{" "}
-                </Text>
-                <Text
-                  fontWeight="800"
-                  fontSize="0.75rem"
-                  color={theme.colors.red}
-                  pl="5"
-                  onClick={() => {}}
-                >
-                  SIGN UP{" "}
-                </Text>
+                <Flex w="100%" justifyContent="center" mt="1.5rem">
+                  <Text
+                    fontWeight="400"
+                    fontSize="0.7rem"
+                    color={theme.colors.white}
+                    py="0"
+                  >
+                    DON'T HAVE AN ACCOUNT?{" "}
+                  </Text>
+                  <Text
+                    fontWeight="800"
+                    fontSize="0.7rem"
+                    color={theme.colors.red}
+                    pl="2"
+                    textDecoration="underline"
+                    onClick={() =>
+                      window.open("https://reload.r3x.tech/", "_blank")
+                    }
+                    cursor="pointer"
+                  >
+                    SIGN UP{" "}
+                  </Text>
+                </Flex>
               </Flex>
 
               {/* <WalletMultiButton /> */}
