@@ -66,7 +66,7 @@ function PlayPage() {
     if (name.length <= 6 || name == "") {
       return name;
     }
-    return `${name.substring(0, 2)}...${name.substring(name.length - 4)}`;
+    return `${name.substring(0, 2)}...${name.substring(name.length - 5)}`;
   };
 
   const [showLoginToast, setShowLoginToast] = useState(false);
@@ -244,216 +244,130 @@ function PlayPage() {
                                   </Flex>
                                 </Stack>
                               </Flex>
-                              <Flex>
-                                <Flex
-                                  align="center"
-                                  justifyContent="flex-start"
-                                  py="1.25rem"
+                              <Flex my="1rem" pt="0.5rem" w="100%">
+                                <Grid
+                                  templateColumns="repeat(2, 1fr)"
+                                  gap={5}
+                                  w="100%"
                                 >
-                                  <Tooltip
-                                    label="Address"
-                                    aria-label="Address"
-                                    bg={theme.colors.black}
-                                  >
+                                  <GridItem w="100%" h="5" p={0}>
                                     <Flex
-                                      align="center"
+                                      align="start"
                                       justifyContent="flex-start"
-                                      fontSize="0.75rem"
                                     >
-                                      <Text
-                                        color={theme.colors.white}
-                                        mr="0.5rem"
+                                      <Flex
+                                        align="start"
+                                        justifyContent="flex-start"
+                                        fontSize="0.75rem"
                                       >
-                                        USERNAME:
-                                      </Text>
-                                      <Text
-                                        color={theme.colors.white}
-                                        fontWeight="800"
+                                        <Text
+                                          color={theme.colors.white}
+                                          mr="0.5rem"
+                                        >
+                                          ADDRESS:
+                                        </Text>
+                                        <Text
+                                          color={theme.colors.white}
+                                          fontWeight="800"
+                                        >
+                                          {formatUsername(evm_wallet_address)}
+                                        </Text>
+                                      </Flex>
+                                      <Tooltip
+                                        label="Copy Address"
+                                        aria-label="Copy Address"
+                                        bg={theme.colors.black}
                                       >
-                                        {formatUsername(evm_wallet_address)}
-                                      </Text>
+                                        <Flex
+                                          color={theme.colors.white}
+                                          fontSize="1rem"
+                                        >
+                                          <FaCopy
+                                            style={{
+                                              marginLeft: "10px",
+                                              cursor: "pointer",
+                                              color: theme,
+                                            }}
+                                            onClick={handleCopyClick}
+                                          />
+                                        </Flex>
+                                      </Tooltip>
                                     </Flex>
-                                  </Tooltip>
-                                  <Tooltip
-                                    label="Copy Address"
-                                    aria-label="Copy Address"
-                                    bg={theme.colors.black}
-                                  >
+                                  </GridItem>
+                                  <GridItem w="100%" h="5" p={0}>
                                     <Flex
-                                      color={theme.colors.white}
-                                      fontSize="1rem"
+                                      align="start"
+                                      justifyContent="flex-end"
                                     >
-                                      <FaCopy
-                                        style={{
-                                          marginLeft: "10px",
-                                          cursor: "pointer",
-                                          color: theme,
-                                        }}
-                                        onClick={handleCopyClick}
-                                      />
+                                      <Flex
+                                        align="start"
+                                        justifyContent="flex-end"
+                                        fontSize="0.75rem"
+                                      >
+                                        <Text
+                                          color={theme.colors.white}
+                                          mr="0.5rem"
+                                        >
+                                          NETWORK:
+                                        </Text>
+                                        <Text
+                                          color={theme.colors.white}
+                                          fontWeight="800"
+                                        >
+                                          {formatUsername(evm_wallet_address)}
+                                        </Text>
+                                      </Flex>
                                     </Flex>
-                                  </Tooltip>
-                                </Flex>
+                                  </GridItem>
+                                  <GridItem w="100%" h="5" p={0}>
+                                    <Flex
+                                      align="start"
+                                      justifyContent="flex-start"
+                                    >
+                                      <Flex
+                                        align="start"
+                                        justifyContent="flex-start"
+                                        fontSize="0.75rem"
+                                      >
+                                        <Text
+                                          color={theme.colors.white}
+                                          mr="0.5rem"
+                                        >
+                                          DVISION:
+                                        </Text>
+                                        <Text
+                                          color={theme.colors.white}
+                                          fontWeight="800"
+                                        >
+                                          {formatUsername(evm_wallet_address)}
+                                        </Text>
+                                      </Flex>
+                                    </Flex>
+                                  </GridItem>
+                                  <GridItem w="100%" h="5" p={0}>
+                                    <Flex align="end" justifyContent="flex-end">
+                                      <Flex
+                                        align="end"
+                                        justifyContent="flex-end"
+                                        fontSize="0.75rem"
+                                      >
+                                        <Text
+                                          color={theme.colors.white}
+                                          mr="0.5rem"
+                                        >
+                                          PRECINCT:
+                                        </Text>
+                                        <Text
+                                          color={theme.colors.white}
+                                          fontWeight="800"
+                                        >
+                                          {formatUsername(evm_wallet_address)}
+                                        </Text>
+                                      </Flex>
+                                    </Flex>
+                                  </GridItem>
+                                </Grid>
                               </Flex>
-
-                              <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-                                <GridItem
-                                  w="100%"
-                                  h="10"
-                                  bg="blue.100"
-                                  p={4}
-                                  border="1px"
-                                  borderColor="gray.200"
-                                >
-                                  <Flex
-                                    direction="column"
-                                    align="flex-start"
-                                    justify="flex-start"
-                                    h="full"
-                                  >
-                                    <Tooltip
-                                      label="Account"
-                                      aria-label="Account"
-                                      bg="black"
-                                    >
-                                      <Image
-                                        src="/profilePic.png"
-                                        alt="User Profile Pic"
-                                        boxSize="50px"
-                                        objectFit="cover"
-                                        borderRadius="sm"
-                                      />
-                                    </Tooltip>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      mt={2}
-                                    >
-                                      {username}
-                                    </Text>
-                                    <Text fontSize="xs" mt={1}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Flex>
-                                </GridItem>
-                                <GridItem
-                                  w="100%"
-                                  h="10"
-                                  bg="blue.100"
-                                  p={4}
-                                  border="1px"
-                                  borderColor="gray.200"
-                                >
-                                  <Flex
-                                    direction="column"
-                                    align="flex-start"
-                                    justify="flex-start"
-                                    h="full"
-                                  >
-                                    <Tooltip
-                                      label="Account"
-                                      aria-label="Account"
-                                      bg="black"
-                                    >
-                                      <Image
-                                        src="/profilePic.png"
-                                        alt="User Profile Pic"
-                                        boxSize="50px"
-                                        objectFit="cover"
-                                        borderRadius="sm"
-                                      />
-                                    </Tooltip>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      mt={2}
-                                    >
-                                      {username}
-                                    </Text>
-                                    <Text fontSize="xs" mt={1}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Flex>
-                                </GridItem>
-                                <GridItem
-                                  w="100%"
-                                  h="10"
-                                  bg="blue.100"
-                                  p={4}
-                                  border="1px"
-                                  borderColor="gray.200"
-                                >
-                                  <Flex
-                                    direction="column"
-                                    align="flex-start"
-                                    justify="flex-start"
-                                    h="full"
-                                  >
-                                    <Tooltip
-                                      label="Account"
-                                      aria-label="Account"
-                                      bg="black"
-                                    >
-                                      <Image
-                                        src="/profilePic.png"
-                                        alt="User Profile Pic"
-                                        boxSize="50px"
-                                        objectFit="cover"
-                                        borderRadius="sm"
-                                      />
-                                    </Tooltip>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      mt={2}
-                                    >
-                                      {username}
-                                    </Text>
-                                    <Text fontSize="xs" mt={1}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Flex>
-                                </GridItem>
-                                <GridItem
-                                  w="100%"
-                                  h="10"
-                                  bg="blue.100"
-                                  p={4}
-                                  border="1px"
-                                  borderColor="gray.200"
-                                >
-                                  <Flex
-                                    direction="column"
-                                    align="flex-start"
-                                    justify="flex-start"
-                                    h="full"
-                                  >
-                                    <Tooltip
-                                      label="Account"
-                                      aria-label="Account"
-                                      bg="black"
-                                    >
-                                      <Image
-                                        src="/profilePic.png"
-                                        alt="User Profile Pic"
-                                        boxSize="50px"
-                                        objectFit="cover"
-                                        borderRadius="sm"
-                                      />
-                                    </Tooltip>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      mt={2}
-                                    >
-                                      {username}
-                                    </Text>
-                                    <Text fontSize="xs" mt={1}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Flex>
-                                </GridItem>
-                              </Grid>
 
                               <Stack
                                 direction="column"
