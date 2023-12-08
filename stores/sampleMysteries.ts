@@ -11,6 +11,7 @@ export const mysteries: Mystery[] = [
       { name: "The Silent Witness", status: "uncompleted" },
       { name: "Echoes of the Past", status: "uncompleted" },
     ],
+    reward: 100,
   },
   {
     title: "Secrets of the Sunken Ship",
@@ -22,6 +23,7 @@ export const mysteries: Mystery[] = [
       { name: "Nautical Chronicles", status: "uncompleted" },
       { name: "Mariner's Misfortune", status: "completed" },
     ],
+    reward: 250,
   },
   {
     title: "Enigma of the Forgotten Tomb",
@@ -33,5 +35,6 @@ export const mysteries: Mystery[] = [
       { name: "Sands of Time", status: "uncompleted" },
       { name: "Pharaoh's Curse", status: "uncompleted" },
     ],
+    reward: 400,
   },
 ];

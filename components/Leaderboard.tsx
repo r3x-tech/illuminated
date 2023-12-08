@@ -13,15 +13,16 @@ export function Leaderboard() {
   return (
     <>
       <Text
+        mt="0.25rem"
         color="white"
-        fontSize="21px"
+        fontSize="1rem"
         fontWeight="700"
         width="100%"
         textAlign="start"
       >
-        LEADERBOARDS
+        GLOBAL LEADERBOARD
       </Text>
-      <List mt="4rem" width="100%">
+      <List mt="1rem" width="100%">
         {topScores.length > 0 ? (
           topScores.map((score: Score, index: number) => (
             <Flex key={index} align="center" mb="12px" height="40px">

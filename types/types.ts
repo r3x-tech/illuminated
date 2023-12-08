@@ -13,4 +13,5 @@ export type Mystery = {
   description: string;
   imageSrc: string;
   puzzles: Puzzle[];
+  reward: number;
 };

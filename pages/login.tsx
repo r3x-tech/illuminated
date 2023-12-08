@@ -143,9 +143,9 @@ function LoginPage() {
       alignItems="center"
       h="100vh"
       w="100vw"
-      bgImage="url('/detectivehouse.png')" // Set background image
-      backgroundSize="cover" // Optional: Set how the background image is sized
-      backgroundPosition="center" // Optional: Set position of the background image
+      bgImage="url('/detectivehouse.png')"
+      backgroundSize="cover"
+      backgroundPosition="center"
     >
       <Flex
         direction="column"
@@ -153,7 +153,7 @@ function LoginPage() {
         fontFamily="Montserrat"
         p="1rem"
         minWidth="22rem"
-        bg="transparent" // Ensure this Flex container has a transparent background
+        bg="transparent"
       >
         <Flex justifyContent="center" mt="-10rem" mb="1rem">
           <Image
@@ -167,29 +167,10 @@ function LoginPage() {
           w="100%"
           flexDirection="column"
           alignItems="center"
-          justifyContent="center" // Center the content vertically in the Flex container
-
-          // borderColor={theme.colors.white}
-          // border="2px solid white"
-          // borderRadius="2px"
+          justifyContent="center"
         >
           {!isLoginInProgress ? (
             <Stack spacing={5} w="100%">
-              {/* <Flex
-                flexDirection="row"
-                w="100%"
-                mt="0rem"
-                justifyContent="start"
-              >
-                <Text
-                  fontWeight="600"
-                  fontSize="0.75rem"
-                  color={theme.colors.red}
-                  py="0"
-                >
-                  LOGIN
-                </Text>
-              </Flex> */}
               <Flex
                 flexDirection="column"
                 justifyContent="center"
@@ -206,7 +187,7 @@ function LoginPage() {
                   cursor="pointer"
                   borderColor={theme.colors.green}
                   borderWidth="2px"
-                  borderRadius="2px"
+                  borderRadius="1px"
                   color={theme.colors.green}
                   fontSize="0.75rem"
                   letterSpacing="1px"
@@ -252,8 +233,8 @@ function LoginPage() {
               flexDirection="column"
               align="center"
               justifyContent="center"
-              color={theme.colors.red}
-              my="4.58rem"
+              color={theme.colors.green}
+              mb="3rem"
             >
               <Spinner size="sm" />
               <Text mt={3} fontSize="0.75rem" fontWeight="500">

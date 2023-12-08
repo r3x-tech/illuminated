@@ -3,19 +3,20 @@ import { MdCheckCircle } from "react-icons/md";
 import theme from "@/styles/theme";
 import toast from "react-hot-toast";
 import userStore from "@/stores/userStore";
+import { Mystery, Puzzle } from "@/types/types";
 
 // Assuming you have these types defined somewhere
-type Puzzle = {
-  name: string;
-  status: "completed" | "uncompleted";
-};
+// type Puzzle = {
+//   name: string;
+//   status: "completed" | "uncompleted";
+// };
 
-type Mystery = {
-  title: string;
-  description: string;
-  imageSrc: string;
-  puzzles: Puzzle[];
-};
+// type Mystery = {
+//   title: string;
+//   description: string;
+//   imageSrc: string;
+//   puzzles: Puzzle[];
+// };
 
 export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
   const {
@@ -40,21 +41,35 @@ export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
   };
 
   return (
-    <Flex direction="column" justifyContent="space-between">
-      <Flex>
-        <Stack direction="column" ml={4} spacing={3}>
-          <Text fontSize="xl" fontWeight="bold" color={theme.colors.red}>
-            REWARD: {mystery.title}
-          </Text>
+    <Flex
+      direction="column"
+      bg={theme.colors.lightGray}
+      p="1.25rem"
+      borderRadius="4px"
+    >
+      <Flex justifyContent="space-between">
+        {" "}
+        <Flex mb="1.5rem">
           <Text
-            fontSize="sm"
-            color="white"
-            cursor="pointer"
-            onClick={() => handleCopyClick}
+            fontSize="0.75rem"
+            fontWeight="bold"
+            color={theme.colors.white}
+            mr="0.5rem"
           >
-            SHARE LINK
+            REWARD:
           </Text>
-        </Stack>
+          <Text fontSize="0.75rem" fontWeight="bold" color={theme.colors.green}>
+            {mystery.reward}XP
+          </Text>
+        </Flex>
+        <Text
+          fontSize="0.75rem"
+          color="white"
+          cursor="pointer"
+          onClick={() => handleCopyClick}
+        >
+          SHARE LINK
+        </Text>
       </Flex>
       {/* Row for Image, Title and Description */}
       <Flex>
@@ -67,26 +82,49 @@ export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
             borderRadius="sm"
           />
         </Box>
-        <Stack direction="column" ml={4} spacing={3}>
-          <Text fontSize="xl" fontWeight="bold" color={theme.colors.red}>
+        <Stack direction="column" ml="1.25rem" spacing={3}>
+          <Text fontSize="1rem" fontWeight="bold" color={theme.colors.red}>
             {mystery.title}
           </Text>
-          <Text fontSize="sm" color="white">
+          <Text fontSize="0.75rem" color="white">
             {mystery.description}
           </Text>
         </Stack>
       </Flex>
 
       {/* Row for Puzzles */}
-      <Stack direction="column" mt={4} spacing={3}>
+      <Stack direction="column" mt={4} spacing="1.25rem" mb="0.25rem">
         {mystery.puzzles.map((puzzle: Puzzle, index: number) => (
           <Button
+            borderRadius="1px"
+            borderWidth="2px"
+            borderColor={
+              puzzle.status === "completed"
+                ? theme.colors.evenLighterGray
+                : theme.colors.blue
+            }
+            fontSize="0.75rem"
             key={index}
             isDisabled={puzzle.status === "completed"}
             rightIcon={
               puzzle.status === "completed" ? (
-                <MdCheckCircle color="green.500" />
-              ) : undefined
+                <Flex justifyContent="center" align="center">
+                  <Text color={theme.colors.white} mr={2} fontSize="0.7rem">
+                    COMPLETED
+                  </Text>
+
+                  <MdCheckCircle color={theme.colors.green} fontSize="1rem" />
+                </Flex>
+              ) : (
+                <Text color={theme.colors.white} fontSize="0.7rem">
+                  START &gt;
+                </Text>
+              )
+            }
+            color={
+              puzzle.status === "completed"
+                ? theme.colors.white
+                : theme.colors.red
             }
             variant="ghost"
             justifyContent="space-between"

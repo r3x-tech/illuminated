@@ -13,13 +13,11 @@ export default function Home() {
   const { loggedIn, evm_wallet_address } = userStore();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!loggedIn || evm_wallet_address.trim() === "") {
-      router.push("/");
-    } else {
-      toast.success("Logged in");
-    }
-  }, [loggedIn, router, evm_wallet_address]);
+  // useEffect(() => {
+  //   if (!loggedIn || evm_wallet_address.trim() === "") {
+  //     router.push("/");
+  //   }
+  // }, [loggedIn, router, evm_wallet_address]);
 
   return (
     <Box>

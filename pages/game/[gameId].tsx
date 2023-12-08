@@ -133,7 +133,7 @@ const GamePage = () => {
                         src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-a0ffbc8c70fd33180b6f1bdb1dfd4eb2"
                         alt="Game"
                         h="40vh"
-                        borderRadius="2px"
+                        borderRadius="4px"
                       />
                     </Flex>
                     <Flex direction="column" w="50%" pl="3rem">
@@ -151,7 +151,7 @@ const GamePage = () => {
                           gap="1rem"
                         >
                           <Card
-                            borderRadius="2px"
+                            borderRadius="4px"
                             borderWidth="2px"
                             px="0.75rem"
                             py="0.25rem"
@@ -164,7 +164,7 @@ const GamePage = () => {
                             {gameData.tags[0]}
                           </Card>
                           <Card
-                            borderRadius="2px"
+                            borderRadius="4px"
                             borderWidth="2px"
                             px="0.75rem"
                             py="0.25rem"
@@ -248,7 +248,7 @@ const GamePage = () => {
                 backgroundColor={theme.colors.red}
                 borderColor={theme.colors.red}
                 border="2px solid"
-                borderRadius="2px"
+                borderRadius="4px"
                 color={theme.colors.background}
                 w="100%"
                 h="3rem"
@@ -277,7 +277,7 @@ const GamePage = () => {
                           backgroundColor={theme.colors.background}
                           borderColor={theme.colors.red}
                           borderWidth="2px"
-                          borderRadius="2px"
+                          borderRadius="4px"
                           justifyContent="space-between"
                           align="center"
                           p="1rem"
@@ -329,7 +329,7 @@ const GamePage = () => {
                                 backgroundColor={theme.colors.red}
                                 borderColor={theme.colors.red}
                                 borderWidth="2px"
-                                borderRadius="2px"
+                                borderRadius="4px"
                                 color={theme.colors.background}
                                 h="2rem"
                                 fontSize="0.75rem"
@@ -344,7 +344,7 @@ const GamePage = () => {
                                 backgroundColor={theme.colors.background}
                                 borderColor={theme.colors.red}
                                 borderWidth="2px"
-                                borderRadius="2px"
+                                borderRadius="4px"
                                 color={theme.colors.red}
                                 h="2rem"
                                 fontSize="0.75rem"
