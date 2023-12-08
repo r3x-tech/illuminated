@@ -10,16 +10,16 @@ import PlayPage from "./play";
 import LoginPage from "./login";
 
 export default function Home() {
-  const { loggedIn, wallet_address } = userStore();
+  const { loggedIn, evm_wallet_address } = userStore();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loggedIn || wallet_address.trim() === "") {
+    if (!loggedIn || evm_wallet_address.trim() === "") {
       router.push("/");
     } else {
       toast.success("Logged in");
     }
-  }, [loggedIn, router, wallet_address]);
+  }, [loggedIn, router, evm_wallet_address]);
 
   return (
     <Box>

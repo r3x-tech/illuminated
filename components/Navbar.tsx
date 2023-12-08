@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
     loggedIn,
     loginType,
     username,
-    wallet_address,
+    evm_wallet_address,
     user_info,
     particle,
     ethersProvider,
@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
 
   const handleCopyClick = async () => {
     try {
-      await navigator.clipboard.writeText(wallet_address);
+      await navigator.clipboard.writeText(evm_wallet_address);
       toast.success("Copied Address");
     } catch (err) {
       console.error("Failed to copy address: ", err);
@@ -147,7 +147,7 @@ export const Navbar: React.FC = () => {
                   bg: theme.colors.red,
                 }}
               >
-                {formatUsername(wallet_address)}
+                {formatUsername(evm_wallet_address)}
               </Button>
             </PopoverTrigger>
 
@@ -191,7 +191,7 @@ export const Navbar: React.FC = () => {
                       bg={theme.colors.black}
                     >
                       <Text color={theme.colors.red}>
-                        {formatUsername(wallet_address)}
+                        {formatUsername(evm_wallet_address)}
                       </Text>
                     </Tooltip>
 
@@ -248,7 +248,8 @@ export const Navbar: React.FC = () => {
                               loggedIn: false,
                               loginType: "",
                               username: "",
-                              wallet_address: "",
+                              evm_wallet_address: "",
+                              solana_wallet_address: "",
                             });
                             router.push("/");
                             toast.success("Logged out");

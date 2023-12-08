@@ -3,7 +3,7 @@ import userStore from "@/stores/userStore";
 import { supabase } from "../supabaseClient";
 
 export const saveHighScore = async (currentScore: number) => {
-  const walletAddress = userStore.getState().wallet_address;
+  const walletAddress = userStore.getState().evm_wallet_address;
 
   if (walletAddress && walletAddress.trim() !== "") {
     // Fetch the current scores for the user

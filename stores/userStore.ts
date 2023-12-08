@@ -8,7 +8,8 @@ type Store = {
   loggedIn: boolean;
   loginType: string;
   username: string;
-  wallet_address: string;
+  evm_wallet_address: string;
+  solana_wallet_address: string;
   user_info: UserInfo | null;
   userProfilePic: string;
   ownedGames: OwnedGame[];
@@ -19,7 +20,8 @@ type Store = {
     status: boolean,
     loginType: string,
     username: string,
-    wallet_address: string,
+    evm_wallet_address: string,
+    solana_wallet_address: string,
     user_info: UserInfo | null,
     particle: ParticleNetwork | null,
     ethersProvider: ethers.providers.Web3Provider | null,
@@ -32,7 +34,8 @@ export const userStore = create<Store>((set) => ({
   loggedIn: false,
   loginType: "",
   username: "",
-  wallet_address: "",
+  evm_wallet_address: "",
+  solana_wallet_address: "",
   userProfilePic:
     "https://gold-increasing-bonobo-965.mypinata.cloud/ipfs/QmWq2gkfWJuyQJb5jad3u34jdrS7XMD4fNFYbWE1pec4ff?_gl=1*19d17fu*_ga*MjA3NjQ1NTYyNC4xNjk0NTMzODE1*_ga_5RMPXG14TE*MTY5NTEzNzA1OS40LjAuMTY5NTEzNzA1OS42MC4wLjA.",
   ownedGames: [],
@@ -44,7 +47,8 @@ export const userStore = create<Store>((set) => ({
     status,
     loginType,
     username,
-    wallet_address,
+    evm_wallet_address,
+    solana_wallet_address,
     user_info,
     particle,
     ethersProvider,
@@ -54,7 +58,8 @@ export const userStore = create<Store>((set) => ({
       loggedIn: status,
       loginType: loginType,
       username: username,
-      wallet_address: wallet_address,
+      evm_wallet_address: evm_wallet_address,
+      solana_wallet_address: solana_wallet_address,
       user_info: user_info,
       particle: particle,
       ethersProvider: ethersProvider,

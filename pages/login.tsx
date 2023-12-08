@@ -18,7 +18,6 @@ function LoginPage() {
 
   const { username, loggedIn } = userStore();
   const context = useParticle();
-  let userInfo = null;
   if (!context) {
     // Handle the case where context is not available
     return (
@@ -58,6 +57,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     setLoginInProgress(true);
+    let userInfo = null;
 
     if (!particle!.auth.isLogin()) {
       userInfo = await particle!.auth.login({
@@ -67,51 +67,72 @@ function LoginPage() {
         // Particle Auth will enter directly input verification code page.
         // when set JWT value and preferredAuthType is jwt, Particle Auth will auto login.
       });
-
-      let email =
-        userInfo.apple_email ||
-        userInfo.discord_email ||
-        userInfo.facebook_email ||
-        userInfo.github_email ||
-        userInfo.google_email ||
-        userInfo.linkedin_email ||
-        userInfo.microsoft_email ||
-        userInfo.twitch_email ||
-        userInfo.twitter_email ||
-        "";
-
-      if (userInfo.phone) {
-        console.log("user info phone: ", userInfo);
-
-        userStore.setState({
-          loggedIn: true,
-          loginType: "PHONE",
-          username: userInfo.phone,
-          wallet_address: userInfo.wallets[0].public_address,
-          user_info: userInfo,
-          particle: particle,
-          ethersProvider: ethersProvider,
-          ethersSigner: ethersSigner,
-        });
-      } else if (email && email != "") {
-        console.log("user info email: ", userInfo);
-
-        userStore.setState({
-          loggedIn: true,
-          loginType: "EMAIL",
-          username: email, // Use the email address as username
-          wallet_address: userInfo.wallets[0].public_address,
-          user_info: userInfo,
-          particle: particle,
-          ethersProvider: ethersProvider,
-          ethersSigner: ethersSigner,
-        });
-      } else {
-        console.error("No phone or email information available");
-        toast.error("Login failed");
-      }
     } else {
       userInfo = particle!.auth.getUserInfo();
+    }
+
+    if (!userInfo) {
+      console.error("No user info");
+      toast.error("Login failed");
+      return;
+    }
+
+    let email =
+      userInfo.apple_email ||
+      userInfo.discord_email ||
+      userInfo.facebook_email ||
+      userInfo.github_email ||
+      userInfo.google_email ||
+      userInfo.linkedin_email ||
+      userInfo.microsoft_email ||
+      userInfo.twitch_email ||
+      userInfo.twitter_email ||
+      "";
+
+    let evmWalletAddress = "";
+    let solanaWalletAddress = "";
+
+    // Iterate through the wallets to find EVM and Solana wallets
+    userInfo.wallets.forEach((wallet) => {
+      if (wallet.chain_name === "evm_chain") {
+        evmWalletAddress = wallet.public_address;
+      } else if (wallet.chain_name === "solana") {
+        solanaWalletAddress = wallet.public_address;
+      }
+    });
+
+    if (userInfo.phone) {
+      console.log("user info phone: ", userInfo);
+
+      userStore.setState({
+        loggedIn: true,
+        loginType: "PHONE",
+        username: userInfo.phone,
+        evm_wallet_address: evmWalletAddress,
+        solana_wallet_address: solanaWalletAddress,
+        user_info: userInfo,
+        particle: particle,
+        ethersProvider: ethersProvider,
+        ethersSigner: ethersSigner,
+      });
+    } else if (email && email != "") {
+      console.log("user info email: ", userInfo);
+
+      userStore.setState({
+        loggedIn: true,
+        loginType: "EMAIL",
+        username: email,
+        evm_wallet_address: evmWalletAddress,
+        solana_wallet_address: solanaWalletAddress,
+        user_info: userInfo,
+        particle: particle,
+        ethersProvider: ethersProvider,
+        ethersSigner: ethersSigner,
+      });
+    } else {
+      console.error("No phone or email information available");
+      toast.error("Login failed");
+      return;
     }
   };
 

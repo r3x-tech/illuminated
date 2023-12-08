@@ -53,12 +53,33 @@ export const ParticleContextProvider = ({
       securityAccount: {
         //optional: particle security account config
         //prompt set payment password. 0: None, 1: Once(default), 2: Always
-        promptSettingWhenSign: 1,
+        promptSettingWhenSign: 2,
         //prompt set master password. 0: None(default), 1: Once, 2: Always
         promptMasterPasswordSettingWhenLogin: 1,
       },
     });
+
+    // let provider = Object.create(particleProvider);
+    //     const ParticleWallet = document.getElementById("ParticleWallet");
+    //     const MetaMaskWallet = document.getElementById("MetaMaskWallet");
+    //     ParticleWallet.onclick = async () => {
+    //       provider = Object.create(particleProvider);
+    //       ethersProvider = new ethers.providers.Web3Provider(provider, "any");
+    //     };
+    //     MetaMaskWallet.onclick = async () => {
+    //       if (window.ethereum) {
+    //         provider = Object.create(window.ethereum);
+    //       }
+    //       ethersProvider = new ethers.providers.Web3Provider(provider, "any");
+    //     };
+    //     const accounts = await provider.request({
+    //       method: "eth_requestAccounts",
+    //     });
     const particleProvider = new ParticleNetworkProvider(particle.auth);
+    if (typeof window !== "undefined") {
+      window.ethereum = particleProvider;
+    }
+
     const solanaWallet = new SolanaWallet(particle.auth);
     const ethersProvider = new ethers.providers.Web3Provider(
       particleProvider,
