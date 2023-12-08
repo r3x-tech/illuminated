@@ -4,7 +4,7 @@ const theme = extendTheme({
   colors: {
     blue: "#005EFF",
     red: "#FE502D",
-    green: "#FF4A1F",
+    green: "#71DD10",
     black: "#0B0B0B",
     white: "#E8E8E8",
     gray: "#121213",
@@ -25,12 +25,12 @@ const theme = extendTheme({
     600: "#151414",
     700: "#0D0D0D",
   },
-  green: {
-    700: "#00BF63",
-  },
-  red: {
-    700: "#FF3131",
-  },
+  // green: {
+  //   700: "#00BF63",
+  // },
+  // red: {
+  //   700: "#FF3131",
+  // },
 });
 
 export default theme;

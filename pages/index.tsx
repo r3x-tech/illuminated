@@ -13,8 +13,9 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (loggedIn && wallet_address.trim() != "") {
-      router.push("/play");
+    if (!loggedIn || wallet_address.trim() === "") {
+      router.push("/login");
+    } else {
       toast.success("Logged in");
     }
   }, [loggedIn, router, wallet_address]);
@@ -33,11 +34,11 @@ export default function Home() {
         color="white"
         fontFamily="Montserrat"
       >
-      {/* <div>
+        {/* <div>
         <h1>Hello from Next.js</h1>
         <HelloWorld />
       </div> */}
-      <PlayPage />
+        <PlayPage />
       </Box>
     </Box>
   );
