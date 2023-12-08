@@ -244,7 +244,6 @@ export const Navbar: React.FC = () => {
                             throw Error(e);
                           })
                           .then(() => {
-                            console.log("logout");
                             userStore.setState({
                               loggedIn: false,
                               loginType: "",
@@ -274,7 +273,7 @@ export const Navbar: React.FC = () => {
         ) : (
           <>
             <Button
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/")}
               bg={theme.colors.background}
               py="0.5rem"
               h="2rem"

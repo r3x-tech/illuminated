@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import HelloWorld from "@/components/HelloWorld";
 import PlayPage from "./play";
+import LoginPage from "./login";
 
 export default function Home() {
   const { loggedIn, wallet_address } = userStore();
@@ -14,7 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!loggedIn || wallet_address.trim() === "") {
-      router.push("/login");
+      router.push("/");
     } else {
       toast.success("Logged in");
     }
@@ -38,7 +39,7 @@ export default function Home() {
         <h1>Hello from Next.js</h1>
         <HelloWorld />
       </div> */}
-        <PlayPage />
+        <LoginPage />
       </Box>
     </Box>
   );

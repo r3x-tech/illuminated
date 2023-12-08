@@ -81,6 +81,8 @@ function LoginPage() {
         "";
 
       if (userInfo.phone) {
+        console.log("user info phone: ", userInfo);
+
         userStore.setState({
           loggedIn: true,
           loginType: "PHONE",
@@ -91,7 +93,9 @@ function LoginPage() {
           ethersProvider: ethersProvider,
           ethersSigner: ethersSigner,
         });
-      } else if (email) {
+      } else if (email && email != "") {
+        console.log("user info email: ", userInfo);
+
         userStore.setState({
           loggedIn: true,
           loginType: "EMAIL",
@@ -103,7 +107,7 @@ function LoginPage() {
           ethersSigner: ethersSigner,
         });
       } else {
-        console.log("No phone or email information available");
+        console.error("No phone or email information available");
         toast.error("Login failed");
       }
     } else {
