@@ -37,11 +37,11 @@ export const ParticleContextProvider = ({
 
   useEffect(() => {
     const particle = new ParticleNetwork({
-      projectId: "xx",
-      clientKey: "xx",
-      appId: "xx",
-      chainName: Ethereum.name, //optional: current chain name, default Ethereum.
-      chainId: Ethereum.id, //optional: current chain id, default 1.
+      projectId: "4e07e4f4-42e9-4d90-8119-1fb10acf85b4",
+      clientKey: "ckLbj6pn1lXicr3E0cBowzOBuJ16a49Ltmp9n3tB",
+      appId: "45ec9f2f-7634-49aa-8d6b-0f1d9799868c",
+      chainName: "polygon", //optional: current chain name, default Ethereum.
+      chainId: 80001, //optional: current chain id, default 1.
       wallet: {
         //optional: by default, the wallet entry is displayed in the bottom right corner of the webpage.
         displayWalletEntry: true, //show wallet entry when connect particle.
