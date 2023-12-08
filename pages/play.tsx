@@ -200,83 +200,89 @@ function PlayPage() {
                                     This is just filler text that can take its
                                     place simply for the tim being
                                   </Text>
+                                  <Flex mt="1rem">
+                                    <Flex
+                                      bg={theme.colors.black}
+                                      borderRadius="1px"
+                                      borderWidth="4px"
+                                      borderColor="black"
+                                      p="1rem"
+                                      w="70%"
+                                      h="2.5rem"
+                                      justifyContent="space-between"
+                                      align="center"
+                                      mr="1rem"
+                                    >
+                                      <Text
+                                        fontSize="0.75rem"
+                                        color={theme.colors.white}
+                                        fontWeight="700"
+                                      >
+                                        XP:
+                                      </Text>
+                                      <Text
+                                        fontSize="0.75rem"
+                                        color={theme.colors.green}
+                                        fontWeight="800"
+                                      >
+                                        10234
+                                      </Text>
+                                    </Flex>
+                                    <Button
+                                      w="40%"
+                                      borderRadius="1px"
+                                      borderWidth="2px"
+                                      borderColor={theme.colors.white}
+                                      fontSize="0.75rem"
+                                      isDisabled={true}
+                                      color={theme.colors.white}
+                                      variant="ghost"
+                                      textAlign="center"
+                                      onClick={() => {}}
+                                    >
+                                      REDEEM
+                                    </Button>
+                                  </Flex>
                                 </Stack>
                               </Flex>
-                              <Flex
-                                align="center"
-                                justifyContent="flex-start"
-                                py="1.25rem"
-                              >
+                              <Flex>
                                 <Flex
                                   align="center"
                                   justifyContent="flex-start"
-                                  pb="1.25rem"
+                                  py="1.25rem"
                                 >
                                   <Tooltip
                                     label="Address"
                                     aria-label="Address"
                                     bg={theme.colors.black}
                                   >
-                                    <Text color={theme.colors.red}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Tooltip>
-
-                                  <Tooltip
-                                    label="Copy"
-                                    aria-label="Copy"
-                                    bg={theme.colors.black}
-                                  >
-                                    <Flex color={theme.colors.red}>
-                                      <FaCopy
-                                        style={{
-                                          marginLeft: "10px",
-                                          cursor: "pointer",
-                                          color: theme,
-                                        }}
-                                        onClick={handleCopyClick}
-                                      />
-                                    </Flex>
-                                  </Tooltip>
-                                </Flex>
-                                <Flex
-                                  align="center"
-                                  justifyContent="flex-start"
-                                  pb="1.25rem"
-                                >
-                                  <Tooltip
-                                    label="Address"
-                                    aria-label="Address"
-                                    bg={theme.colors.black}
-                                  >
-                                    <Text color={theme.colors.red}>
-                                      {formatUsername(evm_wallet_address)}
-                                    </Text>
-                                  </Tooltip>
-
-                                  <Tooltip
-                                    label="Copy"
-                                    aria-label="Copy"
-                                    bg={theme.colors.black}
-                                  >
-                                    <Flex color={theme.colors.red}>
-                                      <FaCopy
-                                        style={{
-                                          marginLeft: "10px",
-                                          cursor: "pointer",
-                                          color: theme,
-                                        }}
-                                        onClick={handleCopyClick}
-                                      />
+                                    <Flex
+                                      align="center"
+                                      justifyContent="flex-start"
+                                      pb="1.25rem"
+                                      fontSize="0.75rem"
+                                    >
+                                      <Text
+                                        color={theme.colors.white}
+                                        mr="0.5rem"
+                                      >
+                                        USERNAME:
+                                      </Text>
+                                      <Text
+                                        color={theme.colors.white}
+                                        fontWeight="800"
+                                      >
+                                        {formatUsername(evm_wallet_address)}
+                                      </Text>
                                     </Flex>
                                   </Tooltip>
                                 </Flex>
                               </Flex>
+
                               <Stack
                                 direction="column"
-                                mt={4}
                                 spacing="1.25rem"
-                                mb="0.25rem"
+                                my="1rem"
                               >
                                 <Button
                                   borderRadius="1px"
@@ -287,6 +293,7 @@ function PlayPage() {
                                   color={theme.colors.white}
                                   variant="ghost"
                                   textAlign="center"
+                                  onClick={() => {}}
                                 >
                                   MY MYSTERIES
                                 </Button>
@@ -438,8 +445,10 @@ function PlayPage() {
                         height="600px"
                         py={3}
                         px={5}
-                        // Adjust the positioning as needed, the values here are just an example
                         style={{ marginLeft: "0", marginTop: "1rem" }}
+                        outline="none"
+                        zIndex={100}
+                        boxShadow="1px 1px 20px black"
                       >
                         <PopoverCloseButton
                           position="absolute"
