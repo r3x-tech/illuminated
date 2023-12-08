@@ -33,6 +33,7 @@ function PlayPage() {
     loggedIn,
     loginType,
     username,
+    userProfilePic,
     evm_wallet_address,
     user_info,
     particle,
@@ -132,28 +133,6 @@ function PlayPage() {
                     {loggedIn ? (
                       <Popover placement="bottom-start">
                         <PopoverTrigger>
-                          {/* <Button
-                            bg={theme.colors.background}
-                            py="0.5rem"
-                            h="2rem"
-                            px="2rem"
-                            cursor="pointer"
-                            borderColor={theme.colors.ligherBlue}
-                            borderWidth="2px"
-                            borderRadius="4px"
-                            color={theme.colors.ligherBlue}
-                            fontSize="0.75rem"
-                            letterSpacing="1px"
-                            fontWeight="600"
-                            _hover={{
-                              color: theme.colors.background,
-                              borderColor: theme.colors.red,
-                              bg: theme.colors.red,
-                            }}
-                          >
-                            {formatUsername(evm_wallet_address)}
-                          </Button> */}
-
                           <Button
                             color={theme.colors.blue}
                             fontSize="2rem"
@@ -177,12 +156,18 @@ function PlayPage() {
                         >
                           <VStack spacing={4} p="1rem" w="100%">
                             <Flex direction="column">
-                              <Flex
-                                align="center"
-                                justifyContent="flex-start"
-                                pb="1.25rem"
-                              >
-                                <Box>
+                              <Flex mb="1.5rem">
+                                <Text
+                                  fontSize="1rem"
+                                  fontWeight="800"
+                                  color="white"
+                                >
+                                  MENU
+                                </Text>
+                              </Flex>
+                              {/* Row for Image, Title and Description */}
+                              <Flex>
+                                <Box flexShrink={0}>
                                   <Tooltip
                                     label="Account"
                                     aria-label="Account"
@@ -191,103 +176,207 @@ function PlayPage() {
                                     <Image
                                       src="/profilePic.png"
                                       alt="User Profile Pic"
-                                      width="3rem" // Use width instead of boxSize
-                                      height="3rem" // Add height to maintain aspect ratio
-                                      ml="-0.25rem" // Use ml for margin-left
-                                      mr="1rem" // Use mr for margin-right
-                                      cursor="pointer"
-                                      onClick={() => {
-                                        // router.push("/account");
-                                      }}
+                                      boxSize="150px"
+                                      objectFit="cover"
+                                      borderRadius="sm"
+                                      ml="-0.25rem"
+                                      mr="1rem"
                                     />
                                   </Tooltip>
                                 </Box>
-                                <Tooltip
-                                  label="Address"
-                                  aria-label="Address"
-                                  bg={theme.colors.black}
+                                <Stack
+                                  direction="column"
+                                  ml="1.25rem"
+                                  spacing={3}
                                 >
-                                  <Text color={theme.colors.red}>
-                                    {formatUsername(evm_wallet_address)}
+                                  <Text
+                                    fontSize="1rem"
+                                    fontWeight="bold"
+                                    color={theme.colors.red}
+                                  >
+                                    {username}
                                   </Text>
-                                </Tooltip>
-
-                                <Tooltip
-                                  label="Copy"
-                                  aria-label="Copy"
-                                  bg={theme.colors.black}
-                                >
-                                  <Flex color={theme.colors.red}>
-                                    <FaCopy
-                                      style={{
-                                        marginLeft: "10px",
-                                        cursor: "pointer",
-                                        color: theme,
-                                      }}
-                                      onClick={handleCopyClick}
-                                    />
-                                  </Flex>
-                                </Tooltip>
+                                  <Text fontSize="0.75rem" color="white">
+                                    This is just filler text that can take its
+                                    place simply for the tim being
+                                  </Text>
+                                </Stack>
                               </Flex>
-                              <Button
-                                variant="outline"
-                                borderWidth="2px"
-                                borderColor={theme.colors.green}
-                                color={theme.colors.green}
-                                bg="transparent"
-                                borderRadius="2px"
-                                fontWeight="600"
-                                fontSize="0.75rem"
-                                w="100%"
-                                mb="0.5rem"
-                                h="2.5rem"
-                                isDisabled={isLogoutInProgress}
-                                isLoading={isLogoutInProgress}
-                                spinner={
-                                  <Flex flexDirection="row" align="center">
-                                    <Spinner
-                                      color={theme.colors.green}
-                                      size="sm"
-                                    />
-                                  </Flex>
-                                }
-                                onClick={async () => {
-                                  setLogoutInProgress(true);
-                                  try {
-                                    if (!particle) {
-                                      console.error("Particle unavailable");
-                                      throw Error("Particle unavailable");
-                                    }
-                                    particle!.auth
-                                      .logout()
-                                      .catch((e) => {
-                                        console.error(e);
-                                        throw Error(e);
-                                      })
-                                      .then(() => {
-                                        userStore.setState({
-                                          loggedIn: false,
-                                          loginType: "",
-                                          username: "",
-                                          evm_wallet_address: "",
-                                          solana_wallet_address: "",
-                                        });
-                                        router.push("/");
-                                        toast.success("Logged out");
-                                      });
-                                  } catch (e) {
-                                    toast.error("Failed to logout");
-                                  }
-                                  setLogoutInProgress(false);
-                                }}
-                                _hover={{
-                                  color: theme.colors.green,
-                                  borderColor: theme.colors.green,
-                                  bg: transparentize(theme.colors.white, 0.05),
-                                }}
+                              <Flex
+                                align="center"
+                                justifyContent="flex-start"
+                                py="1.25rem"
                               >
-                                LOGOUT
-                              </Button>
+                                <Flex
+                                  align="center"
+                                  justifyContent="flex-start"
+                                  pb="1.25rem"
+                                >
+                                  <Tooltip
+                                    label="Address"
+                                    aria-label="Address"
+                                    bg={theme.colors.black}
+                                  >
+                                    <Text color={theme.colors.red}>
+                                      {formatUsername(evm_wallet_address)}
+                                    </Text>
+                                  </Tooltip>
+
+                                  <Tooltip
+                                    label="Copy"
+                                    aria-label="Copy"
+                                    bg={theme.colors.black}
+                                  >
+                                    <Flex color={theme.colors.red}>
+                                      <FaCopy
+                                        style={{
+                                          marginLeft: "10px",
+                                          cursor: "pointer",
+                                          color: theme,
+                                        }}
+                                        onClick={handleCopyClick}
+                                      />
+                                    </Flex>
+                                  </Tooltip>
+                                </Flex>
+                                <Flex
+                                  align="center"
+                                  justifyContent="flex-start"
+                                  pb="1.25rem"
+                                >
+                                  <Tooltip
+                                    label="Address"
+                                    aria-label="Address"
+                                    bg={theme.colors.black}
+                                  >
+                                    <Text color={theme.colors.red}>
+                                      {formatUsername(evm_wallet_address)}
+                                    </Text>
+                                  </Tooltip>
+
+                                  <Tooltip
+                                    label="Copy"
+                                    aria-label="Copy"
+                                    bg={theme.colors.black}
+                                  >
+                                    <Flex color={theme.colors.red}>
+                                      <FaCopy
+                                        style={{
+                                          marginLeft: "10px",
+                                          cursor: "pointer",
+                                          color: theme,
+                                        }}
+                                        onClick={handleCopyClick}
+                                      />
+                                    </Flex>
+                                  </Tooltip>
+                                </Flex>
+                              </Flex>
+                              <Stack
+                                direction="column"
+                                mt={4}
+                                spacing="1.25rem"
+                                mb="0.25rem"
+                              >
+                                <Button
+                                  borderRadius="1px"
+                                  borderWidth="2px"
+                                  borderColor={theme.colors.blue}
+                                  fontSize="0.75rem"
+                                  isDisabled={false}
+                                  color={theme.colors.white}
+                                  variant="ghost"
+                                  textAlign="center"
+                                >
+                                  MY MYSTERIES
+                                </Button>
+                                <Button
+                                  borderRadius="1px"
+                                  borderWidth="2px"
+                                  borderColor={theme.colors.blue}
+                                  fontSize="0.75rem"
+                                  isDisabled={false}
+                                  color={theme.colors.white}
+                                  variant="ghost"
+                                  textAlign="center"
+                                >
+                                  HOW TO PLAY?
+                                </Button>
+                                <Button
+                                  borderRadius="1px"
+                                  borderWidth="2px"
+                                  borderColor={theme.colors.blue}
+                                  fontSize="0.75rem"
+                                  isDisabled={false}
+                                  color={theme.colors.white}
+                                  variant="ghost"
+                                  textAlign="center"
+                                >
+                                  NEED HELP?
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  borderWidth="2px"
+                                  borderColor={theme.colors.red}
+                                  color={theme.colors.red}
+                                  bg="transparent"
+                                  borderRadius="2px"
+                                  fontWeight="600"
+                                  fontSize="0.75rem"
+                                  w="100%"
+                                  mb="0.5rem"
+                                  h="2.5rem"
+                                  isDisabled={isLogoutInProgress}
+                                  isLoading={isLogoutInProgress}
+                                  spinner={
+                                    <Flex flexDirection="row" align="center">
+                                      <Spinner
+                                        color={theme.colors.red}
+                                        size="sm"
+                                      />
+                                    </Flex>
+                                  }
+                                  onClick={async () => {
+                                    setLogoutInProgress(true);
+                                    try {
+                                      if (!particle) {
+                                        console.error("Particle unavailable");
+                                        throw Error("Particle unavailable");
+                                      }
+                                      particle!.auth
+                                        .logout()
+                                        .catch((e) => {
+                                          console.error(e);
+                                          throw Error(e);
+                                        })
+                                        .then(() => {
+                                          userStore.setState({
+                                            loggedIn: false,
+                                            loginType: "",
+                                            username: "",
+                                            evm_wallet_address: "",
+                                            solana_wallet_address: "",
+                                          });
+                                          router.push("/");
+                                          toast.success("Logged out");
+                                        });
+                                    } catch (e) {
+                                      toast.error("Failed to logout");
+                                    }
+                                    setLogoutInProgress(false);
+                                  }}
+                                  _hover={{
+                                    color: theme.colors.red,
+                                    borderColor: theme.colors.red,
+                                    bg: transparentize(
+                                      theme.colors.white,
+                                      0.05
+                                    ),
+                                  }}
+                                >
+                                  LOGOUT
+                                </Button>
+                              </Stack>
                             </Flex>
                           </VStack>
                         </PopoverContent>
