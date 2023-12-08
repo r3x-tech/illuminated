@@ -27,7 +27,7 @@ interface ParticleContextProviderProps {
   children: ReactNode;
 }
 
-export const ParticleProvider = ({
+export const ParticleContextProvider = ({
   children,
 }: ParticleContextProviderProps) => {
   const [particle, setParticle] = useState<ParticleNetwork | null>(null);
