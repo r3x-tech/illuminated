@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 import { FaCopy } from "react-icons/fa";
 import { Leaderboard } from "@/components/Leaderboard";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { providers } from "ethers";
 
 function PlayPage() {
   const {
@@ -313,8 +314,9 @@ function PlayPage() {
                                         <Text
                                           color={theme.colors.white}
                                           fontWeight="800"
+                                          textTransform="uppercase"
                                         >
-                                          {formatUsername(evm_wallet_address)}
+                                          {particle?.getChain()?.name}
                                         </Text>
                                       </Flex>
                                     </Flex>
