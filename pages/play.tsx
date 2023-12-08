@@ -376,7 +376,7 @@ function PlayPage() {
                                 spacing="1.25rem"
                                 my="1rem"
                               >
-                                <Button
+                                {/* <Button
                                   borderRadius="1px"
                                   borderWidth="2px"
                                   borderColor={theme.colors.blue}
@@ -385,10 +385,18 @@ function PlayPage() {
                                   color={theme.colors.white}
                                   variant="ghost"
                                   textAlign="center"
+                                  _hover={{
+                                    color: theme.colors.white,
+                                    borderColor: theme.colors.blue,
+                                    bg: transparentize(
+                                      theme.colors.white,
+                                      0.05
+                                    ),
+                                  }}
                                   onClick={() => {}}
                                 >
-                                  MY MYSTERIES
-                                </Button>
+                                  MY SOLVED MYSTERIES
+                                </Button> */}
                                 <Button
                                   borderRadius="1px"
                                   borderWidth="2px"
@@ -398,6 +406,15 @@ function PlayPage() {
                                   color={theme.colors.white}
                                   variant="ghost"
                                   textAlign="center"
+                                  _hover={{
+                                    color: theme.colors.white,
+                                    borderColor: theme.colors.blue,
+                                    bg: transparentize(
+                                      theme.colors.white,
+                                      0.05
+                                    ),
+                                  }}
+                                  onClick={() => {}}
                                 >
                                   HOW TO PLAY?
                                 </Button>
@@ -410,9 +427,24 @@ function PlayPage() {
                                   color={theme.colors.white}
                                   variant="ghost"
                                   textAlign="center"
+                                  _hover={{
+                                    color: theme.colors.white,
+                                    borderColor: theme.colors.blue,
+                                    bg: transparentize(
+                                      theme.colors.white,
+                                      0.05
+                                    ),
+                                  }}
+                                  onClick={() =>
+                                    window.open(
+                                      "https://www.r3x.tech/contact",
+                                      "_blank"
+                                    )
+                                  }
                                 >
                                   NEED HELP?
                                 </Button>
+
                                 <Button
                                   variant="outline"
                                   borderWidth="2px"
