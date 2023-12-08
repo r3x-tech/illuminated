@@ -28,7 +28,4 @@ export const apiRequest = async <T>(
   }
 };
 
-export * from "./magic";
-export * from "./shadow";
-export * from "./solana";
 export * from "./api";
