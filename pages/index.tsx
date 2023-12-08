@@ -6,7 +6,7 @@ import theme from "@/styles/theme";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import HelloWorld from "@/components/HelloWorld";
-import PlayPage from "./play";
+import PlayPage from "./PlayPage";
 import LoginPage from "./login";
 
 export default function Home() {

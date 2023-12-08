@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/Navbar";
 import { MysteryListItem } from "@/components/mystery/MysteryListItem";
 import userStore from "@/stores/userStore";
 import theme from "@/styles/theme";
@@ -16,7 +17,6 @@ import {
   Spinner,
   Image,
   PopoverCloseButton,
-  GridItem,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { MdMenu, MdLeaderboard } from "react-icons/md";
@@ -24,11 +24,10 @@ import { Mystery } from "@/types/types";
 import { mysteries } from "@/stores/sampleMysteries";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaCopy } from "react-icons/fa";
 import { Leaderboard } from "@/components/Leaderboard";
 import { transparentize } from "@chakra-ui/theme-tools";
 
-function PlayPage() {
+export function PlayPage() {
   const {
     loggedIn,
     loginType,
@@ -90,6 +89,7 @@ function PlayPage() {
     <>
       {loggedIn ? (
         <Box minHeight="100vh">
+          {/* <Navbar /> */}
           <Flex
             h="100vh"
             w="100vw"
@@ -280,6 +280,7 @@ function PlayPage() {
 
                               <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                                 <GridItem
+                                  key={index}
                                   w="100%"
                                   h="10"
                                   bg="blue.100"
@@ -319,6 +320,7 @@ function PlayPage() {
                                   </Flex>
                                 </GridItem>
                                 <GridItem
+                                  key={index}
                                   w="100%"
                                   h="10"
                                   bg="blue.100"
@@ -358,6 +360,7 @@ function PlayPage() {
                                   </Flex>
                                 </GridItem>
                                 <GridItem
+                                  key={index}
                                   w="100%"
                                   h="10"
                                   bg="blue.100"
@@ -397,6 +400,7 @@ function PlayPage() {
                                   </Flex>
                                 </GridItem>
                                 <GridItem
+                                  key={index}
                                   w="100%"
                                   h="10"
                                   bg="blue.100"
@@ -628,8 +632,9 @@ function PlayPage() {
         </Box>
       ) : (
         <Box minHeight="100vh">
+          <Navbar />
           <Flex
-            h="100vh"
+            h="92vh"
             w="100vw"
             bg={theme.colors.background}
             color={theme.colors.red}
@@ -646,5 +651,3 @@ function PlayPage() {
     </>
   );
 }
-
-export default PlayPage;
