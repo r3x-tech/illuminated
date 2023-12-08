@@ -4,6 +4,7 @@ import theme from "@/styles/theme";
 import toast from "react-hot-toast";
 import userStore from "@/stores/userStore";
 import { Mystery, Puzzle } from "@/types/types";
+import { transparentize } from "@chakra-ui/theme-tools";
 
 // Assuming you have these types defined somewhere
 // type Puzzle = {
@@ -128,6 +129,19 @@ export const MysteryListItem = ({ mystery }: { mystery: Mystery }) => {
             }
             variant="ghost"
             justifyContent="space-between"
+            _hover={
+              puzzle.status === "completed"
+                ? {
+                    color: theme.colors.white,
+                    borderColor: theme.colors.evenLighterGray,
+                  }
+                : {
+                    color: theme.colors.red,
+                    borderColor: theme.colors.blue,
+                    bg: transparentize(theme.colors.white, 0.05),
+                  }
+            }
+            onClick={() => {}}
           >
             {puzzle.name}
           </Button>
