@@ -47,9 +47,9 @@ function PlayPage() {
 
   const getTextColor = (route: string) => {
     if (pathname.includes(route)) {
-      return theme.colors.lighterBlue;
+      return theme.colors.green;
     }
-    return theme.colors.evenLighterBlue;
+    return theme.colors.evengreen;
   };
 
   const handleCopyClick = async () => {
@@ -258,7 +258,6 @@ function PlayPage() {
                                     <Flex
                                       align="center"
                                       justifyContent="flex-start"
-                                      pb="1.25rem"
                                       fontSize="0.75rem"
                                     >
                                       <Text
@@ -273,6 +272,25 @@ function PlayPage() {
                                       >
                                         {formatUsername(evm_wallet_address)}
                                       </Text>
+                                    </Flex>
+                                  </Tooltip>
+                                  <Tooltip
+                                    label="Copy Address"
+                                    aria-label="Copy Address"
+                                    bg={theme.colors.black}
+                                  >
+                                    <Flex
+                                      color={theme.colors.white}
+                                      fontSize="1rem"
+                                    >
+                                      <FaCopy
+                                        style={{
+                                          marginLeft: "10px",
+                                          cursor: "pointer",
+                                          color: theme,
+                                        }}
+                                        onClick={handleCopyClick}
+                                      />
                                     </Flex>
                                   </Tooltip>
                                 </Flex>
@@ -555,10 +573,10 @@ function PlayPage() {
                           h="2rem"
                           px="2rem"
                           cursor="pointer"
-                          borderColor={theme.colors.ligherBlue}
+                          borderColor={theme.colors.green}
                           borderWidth="2px"
                           borderRadius="4px"
-                          color={theme.colors.ligherBlue}
+                          color={theme.colors.green}
                           fontSize="0.75rem"
                           letterSpacing="1px"
                           fontWeight="600"
@@ -637,9 +655,31 @@ function PlayPage() {
             justifyContent="center"
             align="center"
           >
-            <Grid>
-              <Text>AW SHUCKS, PLEASE LOGIN TO USE ILLUMINATED!</Text>
-            </Grid>
+            <Flex flexDirection="column" justifyContent="center" align="center">
+              <Button
+                onClick={() => router.push("/")}
+                bg={theme.colors.background}
+                py="0.5rem"
+                h="2rem"
+                px="2rem"
+                cursor="pointer"
+                borderColor={theme.colors.green}
+                borderWidth="2px"
+                borderRadius="4px"
+                color={theme.colors.green}
+                fontSize="0.75rem"
+                letterSpacing="1px"
+                fontWeight="600"
+                _hover={{
+                  color: theme.colors.background,
+                  borderColor: theme.colors.red,
+                  bg: theme.colors.red,
+                }}
+              >
+                LOGIN
+              </Button>
+              <Text>AW SHUCKS ANON, PLEASE LOGIN TO USE ILLUMINATED!</Text>
+            </Flex>
           </Flex>
         </Box>
       )}
